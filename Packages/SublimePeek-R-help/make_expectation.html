@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Make an equality test.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for make_expectation"><tr><td>make_expectation</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Make an equality test.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This a convenience function to make a expectation that
+ checks that input stays the same.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   make_expectation(x, expectation = "equals")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a vector of values</p>
+ </td></tr>
+ <tr valign="top"><td><code>expectation</code></td>
+ <td>
+ <p>the type of equality you want to test
+ for (<code>equals</code>, <code>is_equivalent_to</code>,
+ <code>is_identical_to</code>)</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ x &lt;- 1:10
+ make_expectation(x)
+ 
+ make_expectation(mtcars$mpg)
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Utility functions and numeric summary of Views of numerics</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Views-utils"><tr><td>Views-utils</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Utility functions and numeric summary of Views of numerics</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The <code>slice</code> function creates a Views object that contains
+ the indices where the data are within the specified bounds.
+ </p>
+ <p>The <code>viewMins</code>, <code>viewMaxs</code>, <code>viewSums</code>, <code>viewMeans</code>
+ functions calculate the minima, maxima, sums, and means on views respectively.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ viewApply(X, FUN, ..., simplify = TRUE)
+ 
+ slice(x, lower=-Inf, upper=Inf, ...)
+ ## S4 method for signature 'Rle'
+ slice(x, lower=-Inf, upper=Inf,
+                       includeLower=TRUE, includeUpper=TRUE,
+                       rangesOnly = FALSE)
+ 
+ viewMins(x, na.rm=FALSE)
+ ## S4 method for signature 'Views'
+ min(x, ..., na.rm = FALSE)
+ viewMaxs(x, na.rm=FALSE)
+ ## S4 method for signature 'Views'
+ max(x, ..., na.rm = FALSE)
+ viewSums(x, na.rm=FALSE)
+ ## S4 method for signature 'Views'
+ sum(x, ..., na.rm = FALSE)
+ viewMeans(x, na.rm=FALSE)
+ ## S4 method for signature 'Views'
+ mean(x, ...)
+ 
+ viewWhichMins(x, na.rm=FALSE)
+ ## S4 method for signature 'Views'
+ which.min(x)
+ viewWhichMaxs(x, na.rm=FALSE)
+ ## S4 method for signature 'Views'
+ which.max(x)
+ 
+ viewRangeMins(x, na.rm=FALSE)
+ viewRangeMaxs(x, na.rm=FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>X</code></td>
+ <td>
+ 
+ <p>A Views object.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>FUN</code></td>
+ <td>
+ 
+ <p>The function to be applied to each view in <code>X</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Additional arguments to be passed on.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>simplify</code></td>
+ <td>
+ 
+ <p>A logical value specifying whether or not the result should be simplified
+ to a vector or matrix if possible.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>An Rle, RleList, XInteger object
+ or an integer vector for <code>slice</code>.
+ </p>
+ <p>An RleViews, RleViewsList,
+ XIntegerViews or XDoubleViews object
+ for <code>viewMins</code>, <code>viewMaxs</code>, <code>viewSums</code>, and <code>viewMeans</code>.
+ </p>
+ <p>An Rle, RleViewsList,
+ XIntegerViews or XDoubleViews object
+ for <code>viewWhichMins</code> and <code>viewWhichMaxs</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>lower, upper</code></td>
+ <td>
+ 
+ <p>The lower and upper bounds for the slice.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>includeLower, includeUpper</code></td>
+ <td>
+ 
+ <p>Logical indicating whether or not the specified boundary is open or closed.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>rangesOnly</code></td>
+ <td>
+ 
+ <p>For Rle and RleList objects, a logical
+ indicating whether or not to drop the original data from the output.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>na.rm</code></td>
+ <td>
+ 
+ <p>Logical indicating whether or not to include missing values in the results.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The <code>slice</code> function is useful for finding areas of absolute maxima
+ (peaks), absolute minima (troughs), or fluctuations within specified limits.
+ </p>
+ <p>The <code>viewMins</code>, <code>viewMaxs</code>, <code>viewSums</code>, and <code>viewMeans</code>
+ functions provide efficient methods for calculating the specified numeric
+ summary by performing the looping in compiled code.
+ </p>
+ <p>The <code>viewWhichMins</code>, <code>viewWhichMaxs</code>, <code>viewRangeMins</code>, and
+ <code>viewRangeMaxs</code> functions provide efficient methods for finding the
+ locations of the minima and maxima.
+ </p>
+ <p>For convenience, methods for <code>min</code>, <code>max</code>, <code>sum</code>,
+ <code>mean</code>, <code>which.min</code> and <code>which.max</code> are provided as
+ wrappers around the corresponding <code>view*</code> functions (which might
+ be deprecated at some point).
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An RleViews object for Rle or an
+ RleViewsList for RleList containing the
+ views when using <code>slice</code> with <code>rangesOnly = FALSE</code>.
+ An IRanges object for Rle or a
+ CompressedIRangesList for RleList containing
+ the ranges when using <code>slice</code> with <code>rangesOnly = TRUE</code>.
+ An XIntegerViews for an XInteger object
+ when using <code>slice</code>.
+ An XDoubleViews for an XDouble object
+ when using <code>slice</code>.
+ </p>
+ <p>A vector of <code>length(x)</code> for RleViews,
+ XIntegerViews and XDoubleViews objects,
+ or a SimpleList object of <code>length(x)</code> for
+ RleViewsList objects containing the numeric summaries
+ for the views for <code>viewMins</code>, <code>viewMaxs</code>,
+ <code>viewSums</code>, <code>viewMeans</code>, <code>viewWhichMins</code>, and
+ <code>viewWhichMaxs</code>.
+ </p>
+ <p>An IRanges object for RleViews objects or a
+ SimpleIRangesList for RleViewsList objects
+ containing the location ranges for <code>viewRangeMins</code> and
+ <code>viewRangeMaxs</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>P. Aboyoun</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>RleViews-class, RleViewsList-class, XIntegerViews-class,
+ <code>which.min</code>, <code>colSums</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   ## Views derived from vector
+   vec &lt;- as.integer(c(19, 5, 0, 8, 5))
+   slice(vec, lower=5, upper=8)
+ 
+   set.seed(0)
+   vec &lt;- sample(24)
+   vecViews &lt;- slice(vec, lower=4, upper=16)
+   vecViews
+   viewApply(vecViews, function(x) diff(as.integer(x)))
+   viewMins(vecViews)
+   viewMaxs(vecViews)
+   viewSums(vecViews)
+   viewMeans(vecViews)
+   viewWhichMins(vecViews)
+   viewWhichMaxs(vecViews)
+ 
+   ## Views derived from coverage
+   x &lt;- IRanges(start=c(1L, 9L, 4L, 1L, 5L, 10L),
+                width=c(5L, 6L, 3L, 4L, 3L,  3L))
+   slice(coverage(x), lower=2)
+   slice(coverage(x), lower=2, rangesOnly = TRUE)
+ </pre>
+ 
+ 
+ </body></html>

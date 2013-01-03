@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Summary methods for Quantile Regression</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for summary.rq"><tr><td>summary.rq</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Summary methods for Quantile Regression
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Returns a summary list for a quantile regression fit.  A null value
+ will be returned if printing is invoked.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ## S3 method for class 'rq'
+ summary(object, se = NULL, covariance=FALSE, hs = TRUE,  ...)
+ ## S3 method for class 'rqs'
+ summary(object, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ 
+ <p>This is an object of class <code>"rq"</code> or <code>"rqs"</code> produced by 
+ a call to <code>rq()</code>, depending on whether one or more taus are
+ specified.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>se</code></td>
+ <td>
+ 
+ <p>specifies the method used to compute standard standard errors.  There
+ are currently five available methods:  
+ </p>
+ 
+ <ol>
+ <li> <p><code>"rank"</code> which produces confidence intervals for the
+ estimated parameters by inverting a rank test as described in
+ Koenker (1994).  The default option assumes that the errors are
+ iid, while the option iid = FALSE implements the proposal of Koenker
+ Machado (1999).  
+ See the documentation for <code>rq.fit.br</code> for additional arguments.
+ </p>
+ </li>
+ <li> <p><code>"iid"</code> which presumes that the errors are iid and computes
+ an estimate of the asymptotic covariance matrix as in KB(1978).
+ </p>
+ </li>
+ <li> <p><code>"nid"</code> which presumes local (in <code>tau</code>)
+ linearity (in <code>x</code>) of the
+ the conditional quantile functions and computes a Huber
+ sandwich estimate using a local estimate of the sparsity.
+ </p>
+ </li>
+ <li> <p><code>"ker"</code> which uses a kernel estimate of the sandwich
+ as proposed by Powell(1990).
+ </p>
+ </li>
+ <li> <p><code>"boot"</code> which implements one of several possible bootstrapping
+ alternatives for estimating standard errors.
+ </p>
+ </li></ol>
+ 
+ <p>If <code>se = NULL</code> (the default)  and <code>covariance = FALSE</code>
+ then the &quot;rank&quot; method is used, otherwise the &quot;nid&quot; method is used.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>covariance</code></td>
+ <td>
+ 
+ <p>logical flag to indicate whether the full covariance matrix of the 
+ estimated parameters should be returned. 
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>hs</code></td>
+ <td>
+ 
+ <p>Use Hall Sheather bandwidth for sparsity estimation
+ If false revert to Bofinger bandwidth.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Optional arguments to summary, e.g. bsmethod to use bootstrapping.
+ see <code>boot.rq</code>
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>When the default summary method is used, it tries to estimate a sandwich
+ form of the asymptotic covariance matrix and this involves estimating
+ the conditional density at each of the sample observations, negative
+ estimates can occur if there is crossing of the neighboring quantile
+ surfaces used to compute the difference quotient estimate.  
+ A warning message is issued when such negative estimates exist indicating
+ the number of occurrences &ndash; if this number constitutes a large proportion
+ of the sample size, then it would be prudent to consider an alternative 
+ inference method like the bootstrap.
+ If the number of these is large relative to the sample size it is sometimes
+ an indication that some additional nonlinearity in the covariates
+ would be helpful, for instance quadratic effects.
+ Note that the default <code>se</code> method is rank, unless the sample size exceeds
+ 1001, in which case the <code>rank</code> method is used.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a list is returned with the following components, when <code>object</code>
+ is of class <code>"rqs"</code> then there is a list of such lists.
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>coefficients</code></td>
+ <td>
+ 
+ <p>a p by 4 matrix consisting of the coefficients, their estimated standard
+ errors, their t-statistics, and their associated p-values.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>cov</code></td>
+ <td>
+ 
+ <p>the estimated covariance matrix for the coefficients in the model,
+ provided that <code>cov=TRUE</code> in the called sequence.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>Hinv</code></td>
+ <td>
+ 
+ <p>inverse of the estimated Hessian matrix returned if <code>cov=TRUE</code> and
+ <code>se %in% c("nid","ker") </code>, note that for <code>se = "boot"</code> there
+ is no way to split the estimated covariance matrix into its sandwich
+ constituent parts.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>J</code></td>
+ <td>
+ 
+ <p>Unscaled Outer product of gradient matrix returned if <code>cov=TRUE</code> and <code>se
+     != "iid"</code>. The Huber sandwich is <code>cov = tau (1-tau) Hinv %*% J %*% Hinv</code>.
+ as for the <code>Hinv</code> component, there is no <code>J</code> component when
+ <code>se == "boot"</code>.  (Note that to make the Huber sandwich you need to add the 
+ tau (1-tau) mayonnaise yourself.)
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Koenker, R. (2004) <EM>Quantile Regression</EM>.
+ </p>
+ <p>Bilias, Y. Chen, S. and Z. Ying, Simple resampling methods for censored
+ quantile regression, <EM>J. of Econometrics</EM>, 99, 373-386.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>rq</code>
+ <code>bandwidth.rq</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ data(stackloss)
+ y &lt;- stack.loss
+ x &lt;- stack.x
+ summary(rq(y ~ x, method="fn")) # Compute se's for fit using "nid" method.
+ summary(rq(y ~ x, ci=FALSE),se="ker")
+ # default "br" alg, and compute kernel method se's
+ </pre>
+ 
+ 
+ </body></html>

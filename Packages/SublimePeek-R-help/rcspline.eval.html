@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Restricted Cubic Spline Design Matrix</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for rcspline.eval"><tr><td>rcspline.eval</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Restricted Cubic Spline Design Matrix
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Computes matrix that expands a single variable into the terms needed
+ to fit a restricted cubic spline (natural spline) function using the
+ truncated power basis. Two normalization options are given for
+ somewhat reducing problems of ill-conditioning.  The antiderivative
+ function can be optionally created. If knot locations are not given,
+ they will be estimated from the marginal distribution of <code>x</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ rcspline.eval(x, knots, nk=5, inclx=FALSE, knots.only=FALSE, 
+               type="ordinary", norm=2, rpm=NULL, pc=FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>a vector representing a predictor variable
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>knots</code></td>
+ <td>
+ 
+ <p>knot locations. If not given, knots will be estimated using default
+ quantiles of <code>x</code>. For 3 knots, the outer quantiles used are 0.10
+ and 0.90. For 4-6 knots, the outer quantiles used are 0.05 and
+ 0.95. For <i>\code{nk}&gt;6</i>, the outer quantiles are 0.025 and 0.975. The
+ knots are equally spaced between these on the quantile scale. For
+ fewer than 100 non-missing values of <code>x</code>, the outer knots are
+ the 5th smallest and largest <code>x</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>nk</code></td>
+ <td>
+ 
+ <p>number of knots. Default is 5. The minimum value is 3.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>inclx</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to add <code>x</code> as the first column of the
+ returned matrix
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>knots.only</code></td>
+ <td>
+ 
+ <p>return the estimated knot locations but not the expanded matrix
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ 
+ <p><span class="samp">"ordinary"</span> to fit the function, <span class="samp">"integral"</span> to fit its
+ anti-derivative.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>norm</code></td>
+ <td>
+ 
+ <p><span class="samp">0</span> to use the terms as originally given by <CITE>Devlin and
+ Weeks (1986)</CITE>, <span class="samp">1</span> to normalize non-linear terms by the cube
+ of the spacing between the last two knots, <span class="samp">2</span> to normalize by
+ the square of the spacing between the first and last knots (the
+ default). <code>norm=2</code> has the advantage of making all nonlinear
+ terms beon the x-scale.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>rpm</code></td>
+ <td>
+ 
+ <p>If given, any <code>NA</code>s in <code>x</code> will be replaced with the value
+ <code>rpm</code> after estimating any knot locations.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>pc</code></td>
+ <td>
+ 
+ <p>Set to <code>TRUE</code> to replace the design matrix with orthogonal
+ (uncorrelated) principal components computed on the scaled, centered
+ design matrix
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>If <code>knots.only=TRUE</code>, returns a vector of knot
+ locations. Otherwise returns a matrix with <code>x</code> (if
+ <code>inclx=TRUE</code>) followed by <i>\code{nk}-2</i> nonlinear terms. The
+ matrix has an attribute <code>knots</code> which is the vector of knots
+ used.  When <code>pc</code> is <code>TRUE</code>, an additional attribute is
+ stored: <code>pcparms</code>, which contains the <code>center</code> and
+ <code>scale</code> vectors and the <code>rotation</code> matrix.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Devlin TF and Weeks BJ (1986): Spline functions for logistic regression
+ modeling. Proc 11th Annual SAS Users Group Intnl Conf, p. 646&ndash;651.
+ Cary NC: SAS Institute, Inc.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>ns</code>, <code>rcspline.restate</code>,
+ <code>rcs</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ x &lt;- 1:100
+ rcspline.eval(x, nk=4, inclx=TRUE)
+ #lrm.fit(rcspline.eval(age,nk=4,inclx=TRUE), death)
+ </pre>
+ 
+ 
+ </body></html>

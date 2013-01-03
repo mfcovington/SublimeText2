@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Moment Estimation of Scaled F-Distribution</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for fitFDist"><tr><td>fitFDist</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Moment Estimation of Scaled F-Distribution</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Moment estimation of the parameters of a scaled F-distribution given one of the degrees of freedom.
+ This function is called internally by <code>ebayes</code> and is not usually called directly by a user.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ fitFDist(x, df1, covariate=NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>numeric vector or array of positive values representing a sample from an F-distribution.</p>
+ </td></tr>
+ <tr valign="top"><td><code>df1</code></td>
+ <td>
+ <p>the first degrees of freedom of the F-distribution. May be an integer or a vector of the same length as <code>x</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>covariate</code></td>
+ <td>
+ <p>if non-<code>NULL</code>, the estimated scale value will depend on this numeric covariate.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The function estimates <code>scale</code> and <code>df2</code> under the assumption that <code>x</code> is distributed as <code>scale</code> times an F-distributed random variable on <code>df1</code> and <code>df2</code> degrees of freedom.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A list containing the components
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>scale</code></td>
+ <td>
+ <p>scale factor for F-distribution. A vector if <code>covariate</code> is non-<code>NULL</code>, otherwise a scalar.</p>
+ </td></tr>
+ <tr valign="top"><td><code>df2</code></td>
+ <td>
+ <p>the second degrees of freedom of the F-distribution.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>ebayes</code>, <code>trigammaInverse</code>
+ </p>
+ 
+ 
+ </body></html>

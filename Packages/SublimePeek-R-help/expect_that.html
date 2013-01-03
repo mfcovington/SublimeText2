@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Expect that a condition holds.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for expect_that"><tr><td>expect_that</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Expect that a condition holds.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>An expectation checks whether a single condition holds
+ true. <span class="pkg">testthat</span> currently provides the following
+ expectations.  See their documentation for more details
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   expect_that(object, condition, info = NULL, label = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>object to test</p>
+ </td></tr>
+ <tr valign="top"><td><code>condition,</code></td>
+ <td>
+ <p>a function that returns whether or not
+ the condition is met, and if not, an error message to
+ display.</p>
+ </td></tr>
+ <tr valign="top"><td><code>label</code></td>
+ <td>
+ <p>object label. When <code>NULL</code>, computed
+ from deparsed object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>info</code></td>
+ <td>
+ <p>extra information to be included in the
+ message (useful when writing tests in loops).</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+  <ul>
+ <li> <p><code>is_true</code>: truth </p>
+ </li>
+ <li>
+ <p><code>is_false</code>: falsehood </p>
+ </li>
+ <li>
+ <p><code>is_a</code>: inheritance </p>
+ </li>
+ <li>
+ <p><code>equals</code>: equality with numerical tolerance
+ </p>
+ </li>
+ <li> <p><code>is_equivalent_to</code>: equality ignoring
+ attributes </p>
+ </li>
+ <li> <p><code>is_identical_to</code>: exact
+ identity </p>
+ </li>
+ <li> <p><code>matches</code>: string matching
+ </p>
+ </li>
+ <li> <p><code>prints_text</code>: output matching </p>
+ </li>
+ <li>
+ <p><code>throws_error</code>: error matching </p>
+ </li>
+ <li>
+ <p><code>gives_warning</code>: warning matching </p>
+ </li>
+ <li>
+ <p><code>shows_message</code>: message matching </p>
+ </li>
+ <li>
+ <p><code>takes_less_than</code>: performance </p>
+ </li></ul>
+ 
+ <p>Expectations are arranged into tests with
+ <code>test_that</code> and tests are arranged into
+ contexts with <code>context</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ expect_that(5 * 2, equals(10))
+ expect_that(sqrt(2) ^ 2, equals(2))
+ ## Not run: 
+ expect_that(sqrt(2) ^ 2, is_identical_to(2))
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

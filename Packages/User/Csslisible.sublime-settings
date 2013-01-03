@@ -1,0 +1,49 @@
+{
+  // See the readme here https://github.com/thierrylemoulec/Sublime-Csslisible
+  // for all the settings offered by the API
+
+  // 'distance_selecteurs' : (0,/1/,2) : Number of lines separating multiple selectors.
+  "distance_selecteurs": "1",
+
+  // 'type_indentation' : (0,1,2,/3/,4,5,6) : Chosen type of indentation.
+  // 0 : 1 space
+  // 1 : 2 spaces
+  // 2 : 3 spaces
+  // 3 : 4 spaces ( default )
+  // 4 : 1 tab
+  // 5 : 2 tabs
+  // 6 : no indent.
+  "type_indentation": "3",
+
+  // 'type_separateur' : (0,1,/2/,3) : Type of separator between properties and value.
+  // 0 : ':'
+  // 1 : ' :'
+  // 2 : ': '
+  // 3 : ' : '
+  "type_separateur": "2",
+
+  // 'selecteurs_multiples_separes' : (0,/1/) : Adding a carriage return after each part of a multiple selector. (Boolean)
+  "selecteurs_multiples_separes": "1",
+
+  // 'valeurs_multiples_separees' : (0,/1/) : Adding a carriage return after each comma in a multiple value. (Boolean)
+  "valeurs_multiples_separees": "0",
+
+  // 'hex_colors_format' : (/0/,1,2) : Formatting colors (# fff to # FFF, and vice versa).
+  // 0 : 'Unchanged'
+  // 1 : 'lower' ( #FFF -> #fff )
+  // 2 : 'upper' ( #fff -> #FFF )
+  "hex_colors_format": "0",
+
+  // 'colors_format' : (/0/,1,2,3) : Advanced formatting of colors.
+  // 0 : 'Unchanged'
+  // 1 : 'Name' ( #000 / rgb(0,0,0) -> white [if possible])
+  // 2 : 'Hex' : ( rgb(0,0,0) / black -> #000 )
+  // 3 : 'RGB' : ( #000 / black -> rgb(0,0,0) )
+  "colors_format": "0",
+
+  // 'raccourcir_valeurs' : (/0/,1) : Using CSS shortcuts on values with 4 numericals parameters. (Boolean)
+  "raccourcir_valeurs": "0",
+
+  // Select a different url for the csslisible API
+  "csslisible_URL": "http://csslisible.com/"
+}

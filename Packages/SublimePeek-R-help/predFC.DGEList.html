@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Predictive log fold changes for RNASeq data</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for predFC"><tr><td>predFC</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Predictive log fold changes for RNASeq data</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>Estimates the predictive log fold changes for a given prior weight using generalised linear models.</p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ## S3 method for class 'DGEList'
+ predFC(y, design, prior.count.total=0.5, offset=NULL, dispersion=NULL)
+ ## Default S3 method:
+ predFC(y, design, prior.count.total=0.5, offset=log(colSums(y)), dispersion=0)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+  
+ <table summary="R argblock">
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>a <code>DGEList</code> object</p>
+ </td></tr> 
+ <tr valign="top"><td><code>design</code></td>
+ <td>
+ <p>the design matrix for the experiment</p>
+ </td></tr>
+ <tr valign="top"><td><code>prior.count.total</code></td>
+ <td>
+ <p>the total number of counts to be augmented to the data</p>
+ </td></tr>
+ <tr valign="top"><td><code>offset</code></td>
+ <td>
+ <p>numeric vector or matrix giving the offset in the log-linear model predictor. Usually equal to log library sizes</p>
+ </td></tr>
+ <tr valign="top"><td><code>dispersion</code></td>
+ <td>
+ <p>the dispersion estimate for the count data</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ <p>This function estimates the predictive or posterior log-fold-changes for RNASeq or any count-based data. A small count is added to each library in proportion to the library sizes. If there are 2 groups in the experiment, n=2 for each group, the total prior count is 1, and the library sizes are equal, then in effect 0.5 of a count is added to each group, or 0.25 to each library. This prior count is the same for all genes or tags in the data, with the result that genes with low counts will be dampened more severely and genes with a large number of counts in each library will hardly be affected by the addition of a small count to each group. 
+ </p>
+ <p>In order to get the predictive log-fold-changes, a generalised linear model is fitted to the augmented data, and the coefficients outputted in the form of a matrix. 
+ </p>
+ <p>If <code>offset=NULL</code>, the offset used in the glm will be the log of the library sizes.
+ </p>
+ <p>If <code>dispersion=NULL</code>, the dispersion used for the glm will be dependent on what is in the DGEList object; it is prioritised in the following manner: tagwise, trended, common and finally if no dispersion estimate is found it will set the dispersion to 0.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Numeric matrix of log-fold-changes (natural log).  Each column corresponds to the relevant column of the design matrix.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Belinda Phipson, Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>glmFit</code>, <code>glmLRT</code> for generalised linear model fitting
+ </p>
+ <p><code>estimateGLMCommonDisp</code>, <code>estimateGLMTrendedDisp</code>, <code>estimateGLMTagwiseDisp</code> for estimating dispersions in the context of generalised linear models
+ </p>
+ <p><code>estimateCommonDisp</code>, <code>estimateTagwiseDisp</code> for estimating dispersions when the design of the experiment is a simple one-way layout.
+ </p>
+ <p><code>calcNormFactors</code> for TMM normalisation
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ # generate counts from a negative binomial distribution for a two group experiment with n=2 in each group
+ y&lt;-matrix(rnbinom(400,size=1,mu=10),nrow=100)
+ y&lt;-DGEList(y,group=c(1,1,2,2))
+ design&lt;-model.matrix(~y$samples$group)
+ 
+ # apply TMM normalisation
+ y&lt;-calcNormFactors(y)
+ 
+ # estimate the common dispersion 
+ y &lt;- estimateGLMCommonDisp(y,design)
+ 
+ # fit a glm to find differentially expressed genes
+ glm&lt;-glmFit(y,design)
+ results&lt;-glmLRT(y,glm,coef=2)
+ 
+ #estimate the predictive log fold changes
+ pfc&lt;-predFC(y,design)
+ 
+ #plot predFC's vs logFC's
+ plot(pfc[,2],results$table$logFC,xlab="Predictive log fold changes",ylab="Raw log fold changes",pch=16,cex=0.8)
+ abline(a=0,b=1)
+ 
+ </pre>
+ 
+ 
+ </body></html>

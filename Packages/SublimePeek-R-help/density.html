@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Kernel density estimation</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for density"><tr><td>density</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Kernel density estimation</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The generic function <code>density</code> computes kernel density
+ estimates.
+ </p>
+ <p>NOTE: This man page is for the <code>density</code> S4 generic function
+ defined in the BiocGenerics package.
+ See <code>?stats::density</code> for the default method
+ (defined in the stats package).
+ Bioconductor packages can define specific methods for objects
+ not supported by the default method.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ density(x, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x, ...</code></td>
+ <td>
+ 
+ <p>See <code>?stats::density</code>.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>See <code>?stats::density</code> for the value returned by the
+ default method.
+ </p>
+ <p>Specific methods defined in other Bioconductor packages should
+ behave as consistently as possible with the default method.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>stats::density</code> for the default <code>density</code>
+ method.
+ </p>
+ <p><code>showMethods</code> for displaying a summary of the
+ methods defined for a given generic function.
+ </p>
+ <p><code>selectMethod</code> for getting the definition of
+ a specific method.
+ </p>
+ <p>density,flowClust-method in the flowClust package
+ for the method defined for flowClust objects.
+ </p>
+ <p>BiocGenerics for a summary of all the generics defined
+ in the BiocGenerics package.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ density
+ showMethods("density")
+ selectMethod("density", "ANY")  # the default method
+ </pre>
+ 
+ 
+ </body></html>

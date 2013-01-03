@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Convert Gene Alias to Official Gene Symbols</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for alias2Symbol"><tr><td>alias2Symbol</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Convert Gene Alias to Official Gene Symbols</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Maps gene alias names to official gene symbols.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ alias2Symbol(alias, species = "Hs", expand.symbols = FALSE)
+ alias2SymbolTable(alias, species = "Hs")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>alias</code></td>
+ <td>
+ <p>character vector of gene aliases</p>
+ </td></tr>
+ <tr valign="top"><td><code>species</code></td>
+ <td>
+ <p>character string specifying the species.
+ Possible values are <code>"Dm"</code>, <code>"Hs"</code>, <code>"Mm"</code> or <code>"Rn"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>expand.symbols</code></td>
+ <td>
+ <p>logical, should those elements of <code>alias</code> which are already official symbols be expanded if they are aliases for other symbols.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Aliases are mapped via NCBI Entrez Gene identity numbers using Bioconductor organism packages.
+ Species are <code>"Dm"</code> for fly, <code>"Hs"</code> for human, <code>"Mm"</code> for mouse and <code>"Rn"</code> for rat.
+ The user needs to have the appropriate Bioconductor organism package installed.
+ </p>
+ <p><code>alias2Symbol</code> maps a set of aliases to a set of symbols, without necessarily preserving order.
+ The output vector may be longer or shorter than the original vector, because some aliases might not be found and some aliases may map to more than one symbol.
+ <code>alias2SymbolTable</code> maps each alias to a gene symbol and returns a table with one row for each alias.
+ If an alias maps to more than one symbol, then the first one found will be returned.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Character vector of gene symbols.
+ </p>
+ <p><code>alias2SymbolTable</code> returns a vector of the same length and order as <code>alias</code>, including <code>NA</code> values where no gene symbol was found.
+ <code>alias2Symbol</code> returns an unordered vector which may be longer or shorter than <code>alias</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth and Yifang Hu</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>This function is often used to assist gene set testing, see
+ 08.Tests.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ if(require("org.Hs.eg.db")) alias2Symbol(c("PUMA","NOXA","BIM"))
+ </pre>
+ 
+ 
+ </body></html>

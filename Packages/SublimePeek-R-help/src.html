@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Source a File from the Current Working Directory</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for src"><tr><td>src</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Source a File from the Current Working Directory</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>src</code> concatenates <code>".s"</code> to its argument, quotes the result,
+ and <code>source</code>s in the file.  It sets <code>options(last.source)</code> to
+ this file name so that <code>src()</code> can be issued to re-<code>source</code>
+ the file when it is edited.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ src(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>an unquoted file name aside from <code>".s"</code>.  This base file
+ name must be a legal S name.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Side Effects</h3>
+ 
+ 
+ <p>Sets system option <code>last.source</code>
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Frank Harrell</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>source</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ src(myfile)   # source("myfile.s")
+ src()         # re-source myfile.s
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

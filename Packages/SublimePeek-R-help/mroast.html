@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Rotation Gene Set Tests</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for roast"><tr><td>roast</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Rotation Gene Set Tests</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Rotation gene set testing for linear models.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ roast(iset=NULL, y, design, contrast=ncol(design), set.statistic="mean",
+      gene.weights=NULL, array.weights=NULL, block=NULL, correlation,
+      var.prior=NULL, df.prior=NULL, trend.var=FALSE, nrot=999)
+ mroast(iset=NULL, y, design, contrast=ncol(design), set.statistic="mean",
+      gene.weights=NULL, array.weights=NULL, block=NULL, correlation,
+      var.prior=NULL, df.prior=NULL, trend.var=FALSE, nrot=999, adjust.method="BH", midp=TRUE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>iset</code></td>
+ <td>
+ <p>index vector specifying which rows (probes) of <code>y</code> are in the test set.  This can be a vector of indices, or a logical vector of the same length as <code>statistics</code>, or any vector such as <code>y[iset,]</code> contains the values for the gene set to be tested.
+ For <code>mroast</code>, <code>iset</code> is a list of index vectors.</p>
+ </td></tr>
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>numeric matrix giving log-expression or log-ratio values for a series of microarrays, or any object that can coerced to a matrix including <code>ExpressionSet</code>, <code>MAList</code>, <code>EList</code> or <code>PLMSet</code> objects.
+ Rows correspond to probes and columns to samples.
+ If either <code>var.prior</code> or <code>df.prior</code> are null, then <code>y</code> should contain values for all genes on the arrays. If both prior parameters are given, then only <code>y</code> values for the test set are required.</p>
+ </td></tr>
+ <tr valign="top"><td><code>design</code></td>
+ <td>
+ <p>design matrix</p>
+ </td></tr>
+ <tr valign="top"><td><code>contrast</code></td>
+ <td>
+ <p>contrast for which the test is required. Can be an integer specifying a column of <code>design</code>, or else a contrast vector of length equal to the number of columns of <code>design</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>set.statistic</code></td>
+ <td>
+ <p>summary set statistic. Possibilities are <code>"mean"</code>,<code>"floormean"</code>,<code>"mean50"</code> or <code>"msq"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>gene.weights</code></td>
+ <td>
+ <p>optional numeric vector of weights for genes in the set. Can be positive or negative.  For <code>mroast</code> this vector must have length equal to <code>nrow(y)</code>.  For <code>roast</code>, can be of length <code>nrow(y)</code> or of length equal to the number of genes in the test set.</p>
+ </td></tr> 
+ <tr valign="top"><td><code>array.weights</code></td>
+ <td>
+ <p>optional numeric vector of array weights.</p>
+ </td></tr> 
+ <tr valign="top"><td><code>block</code></td>
+ <td>
+ <p>optional vector of blocks.</p>
+ </td></tr>
+ <tr valign="top"><td><code>correlation</code></td>
+ <td>
+ <p>correlation between blocks.</p>
+ </td></tr>
+ <tr valign="top"><td><code>var.prior</code></td>
+ <td>
+ <p>prior value for residual variances. If not provided, this is estimated from all the data using <code>squeezeVar</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>df.prior</code></td>
+ <td>
+ <p>prior degrees of freedom for residual variances. If not provided, this is estimated using <code>squeezeVar</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>trend.var</code></td>
+ <td>
+ <p>logical, should a trend be estimated for <code>var.prior</code>?  See <code>eBayes</code> for details.  Only used if <code>var.prior</code> or <code>df.prior</code> are <code>NULL</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>nrot</code></td>
+ <td>
+ <p>number of rotations used to estimate the p-values.</p>
+ </td></tr>
+ <tr valign="top"><td><code>adjust.method</code></td>
+ <td>
+ <p>method used to adjust the p-values for multiple testing. See <code>p.adjust</code> for possible values.</p>
+ </td></tr>
+ <tr valign="top"><td><code>midp</code></td>
+ <td>
+ <p>logical, should mid-p-values be used in instead of ordinary p-values when adjusting for multiple testing?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function implements the ROAST gene set test from Wu et al (2010).
+ It tests whether any of the genes in the set are differentially expressed.
+ The function can be used for any microarray experiment which can be represented by a linear model.
+ The design matrix for the experiment is specified as for the <code>lmFit</code> function, and the contrast of interest is specified as for the <code>contrasts.fit</code> function.
+ This allows users to focus on differential expression for any coefficient or contrast in a linear model.
+ If <code>contrast</code> is not specified, the last coefficient in the linear model will be tested.
+ The arguments <code>array.weights</code>, <code>block</code> and <code>correlation</code> have the same meaning as they for for the <code>lmFit</code> function.
+ </p>
+ <p>The arguments <code>df.prior</code> and <code>var.prior</code> have the same meaning as in the output of the <code>eBayes</code> function.
+ If these arguments are not supplied, they are estimated exactly as is done by <code>eBayes</code>.
+ </p>
+ <p>The argument <code>gene.weights</code> allows directions or weights to be set for individual genes in the set.
+ </p>
+ <p>The gene set statistics <code>"mean"</code>, <code>"floormean"</code>, <code>"mean50"</code> and <code>msq</code> are defined by Wu et al (2010).
+ The different gene set statistics have different sensitivities to small number of genes.
+ If <code>set.statistic="mean"</code> then the set will be statistically significantly only when the majority of the genes are differentially expressed.
+ <code>"floormean"</code> and <code>"mean50"</code> will detect as few as 25% differentially expressed.
+ <code>"msq"</code> is sensitive to even smaller proportions of differentially expressed genes, if the effects are reasonably large.
+ </p>
+ <p>The output gives p-values three possible alternative hypotheses, 
+ <code>"Up"</code> to test whether the genes in the set tend to be up-regulated, with positive t-statistics,
+ <code>"Down"</code> to test whether the genes in the set tend to be down-regulated, with negative t-statistics,
+ and <code>"Mixed"</code> to test whether the genes in the set tend to be differentially expressed, without regard for direction.
+ </p>
+ <p><code>roast</code> estimates p-values by simulation, specifically by random rotations of the orthogonalized residuals (Langsrud, 2005), so p-values will vary slightly from run to run.
+ To get more precise p-values, increase the number of rotations <code>nrot</code>.
+ The p-value is computed as <code>(b+1)/(nrot+1)</code> where <code>b</code> is the number of rotations giving a more extreme statistic than that observed (Phipson and Smyth, 2010).
+ This means that the smallest possible p-value is <code>1/(nrot+1)</code>.
+ </p>
+ <p><code>mroast</code> does roast tests for multiple sets, including adjustment for multiple testing.
+ By default, <code>mroast</code> reports ordinary p-values but uses mid-p-values at the multiple testing stage.
+ Mid-p-values are probably a good choice when using false discovery rates (<code>adjust.method="BH"</code>) but not when controlling the family-wise type I error rate (<code>adjust.method="holm"</code>).
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>roast</code> produces an object of class <code>"Roast"</code>.
+ This consists of a list with the following components:
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>p.value</code></td>
+ <td>
+ <p>data.frame with columns <code>Active.Prop</code> and <code>P.Value</code>, giving the proportion of genes in the set contributing meaningfully to significance and estimated p-values, respectively.
+ Rows correspond to the alternative hypotheses mixed, up or down.</p>
+ </td></tr>
+ <tr valign="top"><td><code>var.prior</code></td>
+ <td>
+ <p>prior value for residual variances.</p>
+ </td></tr>
+ <tr valign="top"><td><code>df.prior</code></td>
+ <td>
+ <p>prior degrees of freedom for residual variances.</p>
+ </td></tr>
+ </table>
+ <p><code>mroast</code> produces a list of three matrices, each with a row for each set:
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>P.Value</code></td>
+ <td>
+ <p>unadjusted p-values for the mixed, up and down alternative hypotheses</p>
+ </td></tr>
+ <tr valign="top"><td><code>Adj.P.Value</code></td>
+ <td>
+ <p>adjusted p-values for each set and each hypothesis</p>
+ </td></tr>
+ <tr valign="top"><td><code>Active.Proportion</code></td>
+ <td>
+ <p>proportion of active genes for each set and each hypothesis</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>The default setting for the set statistic was changed in limma 3.5.9 (3 June 2010) from <code>"msq"</code> to <code>"mean"</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth and Di Wu</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Goeman, JJ, and Buhlmann, P (2007).
+ Analyzing gene expression data in terms of gene sets: methodological issues.
+ <EM>Bioinformatics</EM> 23, 980-987. 
+ </p>
+ <p>Langsrud, O (2005).
+ Rotation tests.
+ <EM>Statistics and Computing</EM> 15, 53-60.
+ </p>
+ <p>Phipson B, and Smyth GK (2010).
+ Permutation P-values should never be zero: calculating exact P-values when permutations are randomly drawn.
+ <EM>Statistical Applications in Genetics and Molecular Biology</EM>, Volume 9, Article 39.
+ </p>
+ <p>Routledge, RD (1994).
+ Practicing safe statistics with the mid-p.
+ <EM>Canadian Journal of Statistics</EM> 22, 103-110.
+ </p>
+ <p>Wu, D, Lim, E, Francois Vaillant, F, Asselin-Labat, M-L, Visvader, JE, and Smyth, GK (2010). ROAST: rotation gene set tests for complex microarray experiments.
+ <EM>Bioinformatics</EM> 26, 2176-2182.
+ <a href="http://bioinformatics.oxfordjournals.org/cgi/content/abstract/btq401?">http://bioinformatics.oxfordjournals.org/cgi/content/abstract/btq401?</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>roast</code> performs a <EM>self-contained</EM> test in the sense defined by Goeman and Buhlmann (2007).
+ For a <EM>competitive</EM> gene set test, see <code>wilcoxGST</code>.
+ For a competitive gene set enrichment analysis using a database of gene sets, see <code>romer.
+ </code>
+ </p>
+ <p>An overview of tests in limma is given in 08.Tests.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ y &lt;- matrix(rnorm(100*4),100,4)
+ design &lt;- cbind(Intercept=1,Group=c(0,0,1,1))
+ 
+ # First set of 5 genes contains 3 that are genuinely differentially expressed
+ iset1 &lt;- 1:5
+ y[iset1,3:4] &lt;- y[iset1,3:4]+3
+ 
+ # Second set of 5 genes contains none that are DE
+ iset2 &lt;- 6:10
+ 
+ roast(iset1,y,design,contrast=2)
+ mroast(list(set1=iset1,set2=iset2),y,design,contrast=2)
+ </pre>
+ 
+ 
+ </body></html>

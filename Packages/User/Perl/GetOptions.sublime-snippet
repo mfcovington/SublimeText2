@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[
+my \$options = GetOptions (
+    "${1:option1}=${2:s}" => \\\$${1:option1},
+    "${3:option2}=${4:s}" => \\\$${3:option2},
+    "${5:option3}=${6:s}" => \\\$${5:option3},${7}
+);
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>getopt</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <!-- <scope>source.python</scope> -->
+</snippet>

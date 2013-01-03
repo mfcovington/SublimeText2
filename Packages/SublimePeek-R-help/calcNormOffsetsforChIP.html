@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Normalize ChIP-Seq Read Counts to Input and Test for...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for normalizeChIPtoInput"><tr><td>normalizeChIPtoInput</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Normalize ChIP-Seq Read Counts to Input and Test for Enrichment</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Normalize ChIP-Seq read counts to input control values, then test for significant enrichment relative to the control. 
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ normalizeChIPtoInput(input, response, dispersion=0.01, niter=6, loss="p", plot=FALSE, verbose=FALSE, ...)
+ calcNormOffsetsforChIP(input, response, dispersion=0.01, niter=6, loss="p", plot=FALSE, verbose=FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>input</code></td>
+ <td>
+ <p>numeric vector of non-negative input values, not necessarily integer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>response</code></td>
+ <td>
+ <p>vector of non-negative integer counts of some ChIP-Seq mark for each gene or other genomic feature.</p>
+ </td></tr>
+ <tr valign="top"><td><code>dispersion</code></td>
+ <td>
+ <p>negative binomial dispersion, must be positive.</p>
+ </td></tr>
+ <tr valign="top"><td><code>niter</code></td>
+ <td>
+ <p>number of iterations.</p>
+ </td></tr>
+ <tr valign="top"><td><code>loss</code></td>
+ <td>
+ <p>loss function to be used when fitting the response counts to the input: <code>"p"</code> for cumulative probabilities or <code>"z"</code> for z-value.</p>
+ </td></tr>
+ <tr valign="top"><td><code>plot</code></td>
+ <td>
+ <p>if <code>TRUE</code>, a plot of the fit is produced.</p>
+ </td></tr>
+ <tr valign="top"><td><code>verbose</code></td>
+ <td>
+ <p>if <code>TRUE</code>, working estimates from each iteration are output.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments are passed to the <code>plot</code> function.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>normalizeChIPtoInput</code> identifies significant enrichment for a ChIP-Seq mark relative to input values.
+ The ChIP-Seq mark might be for example transcriptional factor binding or an epigenetic mark.
+ The function works on the data from one sample.
+ Replicate libraries are not explicitly accounted for, and would normally be pooled before using this function.
+ </p>
+ <p>ChIP-Seq counts are assumed to be summarized by gene or similar genomic feature of interest.
+ </p>
+ <p>This function makes the assumption that a non-negligible proportion of the genes, say 25% or more, are not truly marked by the ChIP-Seq feature of interest.
+ Unmarked genes are further assumed to have counts at a background level proportional to the input.
+ The function aligns the counts to the input so that the counts for the unmarked genes behave like a random sample.
+ The function estimates the proportion of marked genes, and removes marked genes from the fitting process.
+ For this purpose, marked genes are those with a Holm-adjusted mid-p-value less than 0.5.
+ </p>
+ <p>The read counts are treated as negative binomial.
+ The dispersion parameter is not estimated from the data; instead a reasonable value is assumed to be given.
+ </p>
+ <p><code>calcNormOffsetsforChIP</code> returns a numeric matrix of offsets, ready for linear modelling.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>normalizeChIPtoInput</code> returns a list with components
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>p.value</code></td>
+ <td>
+ <p>numeric vector of p-values for enrichment.</p>
+ </td></tr>
+ <tr valign="top"><td><code>scaling.factor</code></td>
+ <td>
+ <p>factor by which input is scaled to align with response counts for unmarked genes.</p>
+ </td></tr>
+ <tr valign="top"><td><code>prop.enriched</code></td>
+ <td>
+ <p>proportion of marked genes, as internally estimated</p>
+ </td></tr>
+ </table>
+ <p><code>calcNormOffsetsforChIP</code> returns a numeric matrix of offsets.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ </body></html>

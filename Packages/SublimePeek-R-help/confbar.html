@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Miscellaneous Functions</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Misc"><tr><td>Misc</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Miscellaneous Functions</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This documents miscellaneous small functions in Hmisc that may be of
+ interest to users.
+ </p>
+ <p><code>clowess</code> runs <code>lowess</code> but if the <code>iter</code> argument
+ exceeds zero, sometimes wild values can result, in which case
+ <code>lowess</code> is re-run with <code>iter=0</code>.
+ </p>
+ <p><code>confbar</code> draws multi-level confidence bars using small rectangles
+ that may be of different colors.
+ </p>
+ <p><code>getLatestSource</code> fetches and <code>source</code>s the most recent
+ source code for functions in packages in the Vanderbilty University
+ CVS repository.
+ </p>
+ <p><code>inverseFunction</code> generates a function to find all inverses of a
+ monotonic or nonmonotonic function that is tabulated at vectors (x,y),
+ typically 1000 points.  If the original function is monotonic, simple linear
+ interpolation is used and the result is a vector, otherwise linear
+ interpolation is used within each interval in which the function is
+ monotonic and the result is a matrix with number of columns equal to the
+ number of monotonic intervals.  If a requested y is not within any
+ interval, the extreme x that pertains to the nearest extreme y is
+ returned. Specifying what='sample' to the returned function will cause a
+ vector to be returned instead of a matrix, with elements taken as a
+ random choice of the possible inverses.
+ </p>
+ <p><code>james.stein</code> computes James-Stein shrunken estimates of cell
+ means given a response variable (which may be binary) and a grouping
+ indicator.
+ </p>
+ <p><code>km.quick</code> provides a fast way to invoke <code>survfitKM</code> in the
+ <code>survival</code> package to get Kaplan-Meier estimates for a
+ single stratum for a vector of time points (if <code>times</code> is given) or to
+ get a vector of survival time quantiles (if <code>q</code> is given).
+ </p>
+ <p><code>lm.fit.qr.bare</code> is a fast stripped-down function for computing
+ regression coefficients, residuals, <i>R^2</i>, and fitted values.  It
+ uses the Fortran routines <code>dqrls</code>. 
+ </p>
+ <p><code>matxv</code> multiplies a matrix by a vector, handling automatic
+ addition of intercepts if the matrix does not have a column of ones.
+ If the first argument is not a matrix, it will be converted to one.
+ </p>
+ <p><code>makeSteps</code> is a copy of the dostep function inside the
+ <code>survival</code> package's <code>plot.survfit</code> function.  It expands a
+ series of points to include all the segments needed to plot step
+ functions.  This is useful for drawing polygons to shade confidence
+ bands for step functions.
+ </p>
+ <p><code>nomiss</code> returns a data frame (if its argument is one) with rows
+ corresponding to <code>NA</code>s removed, or it returns a matrix with rows
+ with any element missing removed.
+ </p>
+ <p><code>outerText</code> uses <code>text()</code> to put test strings in left or
+ right margins. It temporarily sets <code>par(xpd=NA)</code> if using <font face="Courier New,Courier" color="#666666"><b>R</b></font>.
+ </p>
+ <p><code>sepUnitsTrans</code> converts character vectors containing values such
+ as <code>c("3 days","3day","4month","2 years","2weeks","7")</code> to
+ numeric vectors 
+ (here <code>c(3,3,122,730,14,7)</code>) in a flexible fashion.  The user can
+ specify a 
+ vector of units of measurements and conversion factors.  The units
+ with a conversion factor of <code>1</code> are taken as the target units,
+ and if those units are present in the character strings they are
+ ignored.  The target units are added to the resulting vector as the
+ <code>"units"</code> attribute.
+ </p>
+ <p><code>strgraphwrap</code> is like <code>strwrap</code> but is for the current
+ graphics environment.
+ </p>
+ <p><code>trap.rule</code> computes the area under a curve using the trapezoidal
+ rule, assuming <code>x</code> is sorted.
+ </p>
+ <p><code>trellis.strip.blank</code> sets up Trellis or Lattice graphs to have a
+ clear background on the strips for panel labels.
+ </p>
+ <p><code>under.unix</code> is a scalar logical value that is <code>TRUE</code> if you
+ are running Linux or Unix.
+ </p>
+ <p><code>.R.</code> is a logical value set to <code>TRUE</code> if running <font face="Courier New,Courier" color="#666666"><b>R</b></font>,
+ <code>FALSE</code> for S-Plus.
+ </p>
+ <p><code>.SV4.</code> is a logical value set to <code>TRUE</code> if running version
+ 4 of the S language under S-Plus, <code>FALSE</code> otherwise.
+ </p>
+ <p><code>unPaste</code> provides a version of the S-Plus <code>unpaste</code> that
+ works for <font face="Courier New,Courier" color="#666666"><b>R</b></font> and S-Plus.
+ </p>
+ <p><code>whichClosePW</code> is a very fast function using weighted multinomial
+ sampling to determine which element of a vector is &quot;closest&quot; to each
+ element of another vector.  <code>whichClosest</code> quickly finds the closest
+ element without any randomness.
+ </p>
+ <p><code>xless</code> is a function for Linux/Unix users to invoke the system
+ <code>xless</code> command to pop up a window to display the result of
+ <code>print</code>ing an object.  For Windows, <code>xless</code> uses the builtin
+ <code>page</code> function but with better defaults.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ confbar(at, est, se, width, q = c(0.7, 0.8, 0.9, 0.95, 0.99), 
+         col = if (.R.) gray(c(0, 0.25, 0.5, 0.75, 1)) else
+               if (under.unix) c(1, 0.8, 0.5, 0.2, 0.065) else
+               c(1, 4, 3, 2, 5),
+         type = c("v", "h"), labels = TRUE, ticks = FALSE,
+         cex = 0.5, side = "l", lwd = 5, clip = c(-1e+30, 1e+30),
+         fun = function(x) x,
+         qfun = function(x) ifelse(x == 0.5, qnorm(x),
+                             ifelse(x &lt; 0.5, qnorm(x/2),
+                             qnorm((1 +  x)/2))))
+ getLatestSource(x=NULL, package='Hmisc', recent=NULL, avail=FALSE,
+                 type=c('svn','cvs'))
+ 
+ inverseFunction(x, y)
+ james.stein(y, group)
+ km.quick(S, times, q)
+ lm.fit.qr.bare(x, y, tolerance, intercept=TRUE, xpxi=FALSE)
+ matxv(a, b, kint=1)
+ nomiss(x)
+ outerText(string, y, setAside=string[1], side=4, space=1,
+           adj=1, cex=par('cex'))
+ sepUnitsTrans(x, conversion=c(day=1, month=365.25/12, year=365.25, week=7),
+               round=FALSE, digits=0)
+ strgraphwrap(x, width = 0.9 * getOption("width"),
+              indent = 0, exdent = 0,
+              prefix = "", simplify = TRUE, units='user', cex=NULL)
+ trap.rule(x, y)
+ trellis.strip.blank()
+ unPaste(str, sep="/")
+ whichClosest(x, w)
+ whichClosePW(x, w, f=0.2)
+ xless(x, ..., title)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>a</code></td>
+ <td>
+ <p>a numeric matrix or vector</p>
+ </td></tr>
+ <tr valign="top"><td><code>adj</code></td>
+ <td>
+ <p>0 for left justification, 0.5 for centered, 1 for right</p>
+ </td></tr>
+ <tr valign="top"><td><code>at</code></td>
+ <td>
+ <p>x-coordinate for vertical confidence intervals, y-coordinate
+ for horizontal</p>
+ </td></tr>
+ <tr valign="top"><td><code>avail</code></td>
+ <td>
+ <p>set to <code>TRUE</code> to have <code>getLatestSource</code> return
+ a data frame of available files and latest versions instead of
+ fetching any</p>
+ </td></tr>
+ <tr valign="top"><td><code>b</code></td>
+ <td>
+ <p>a numeric vector</p>
+ </td></tr>
+ <tr valign="top"><td><code>cex</code></td>
+ <td>
+ <p>character expansion factor</p>
+ </td></tr>
+ <tr valign="top"><td><code>clip</code></td>
+ <td>
+ <p>interval to truncate limits</p>
+ </td></tr>
+ <tr valign="top"><td><code>col</code></td>
+ <td>
+ <p>vector of colors</p>
+ </td></tr>
+ <tr valign="top"><td><code>conversion</code></td>
+ <td>
+ <p>a named numeric vector</p>
+ </td></tr>
+ <tr valign="top"><td><code>digits</code></td>
+ <td>
+ <p>number of digits used for <code>round</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>est</code></td>
+ <td>
+ <p>vector of point estimates for confidence limits</p>
+ </td></tr>
+ <tr valign="top"><td><code>f</code></td>
+ <td>
+ <p>a scaling constant</p>
+ </td></tr>
+ <tr valign="top"><td><code>fun</code></td>
+ <td>
+ <p>function to transform scale</p>
+ </td></tr>
+ <tr valign="top"><td><code>group</code></td>
+ <td>
+ <p>a categorical grouping variable</p>
+ </td></tr>
+ <tr valign="top"><td><code>intercept</code></td>
+ <td>
+ <p>set to <code>FALSE</code> to not automatically add a column
+ of ones to the <code>x</code> matrix</p>
+ </td></tr>
+ <tr valign="top"><td><code>kint</code></td>
+ <td>
+ <p>which element of <code>b</code> to add to the result if <code>a</code>
+ does not contain a column for intercepts</p>
+ </td></tr>
+ <tr valign="top"><td><code>labels</code></td>
+ <td>
+ <p>set to <code>FALSE</code> to omit drawing confidence
+ coefficients</p>
+ </td></tr>
+ <tr valign="top"><td><code>lwd</code></td>
+ <td>
+ <p>line widths</p>
+ </td></tr>
+ <tr valign="top"><td><code>package</code></td>
+ <td>
+ <p>name of package for <code>getLatestSource</code>, default is
+ <code>'Hmisc'</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>q</code></td>
+ <td>
+ <p>vector of confidence coefficients or quantiles</p>
+ </td></tr>
+ <tr valign="top"><td><code>qfun</code></td>
+ <td>
+ <p>quantiles on transformed scale</p>
+ </td></tr>
+ <tr valign="top"><td><code>recent</code></td>
+ <td>
+ <p>an integer telling <code>getLatestSource</code> to get the
+ <code>recent</code> most recently modified files from the package</p>
+ </td></tr>
+ <tr valign="top"><td><code>round</code></td>
+ <td>
+ <p>set to <code>TRUE</code> to round converted values</p>
+ </td></tr>
+ <tr valign="top"><td><code>S</code></td>
+ <td>
+ <p>a <code>Surv</code> object</p>
+ </td></tr>
+ <tr valign="top"><td><code>se</code></td>
+ <td>
+ <p>vector of standard errors</p>
+ </td></tr>
+ <tr valign="top"><td><code>sep</code></td>
+ <td>
+ <p>a single character string specifying the delimiter</p>
+ </td></tr>
+ <tr valign="top"><td><code>setAside</code></td>
+ <td>
+ <p>for <code>adj=1 side=4</code>, is a character string used to
+ determine the space to set aside for all strings.</p>
+ </td></tr>
+ <tr valign="top"><td><code>side</code></td>
+ <td>
+ <p>for <code>confbar</code> is <code>"b","l","t","r"</code> for bottom,
+ left, top, right.  For <code>outText</code> is the using integers 1-4
+ corresponding to these.</p>
+ </td></tr>
+ <tr valign="top"><td><code>space</code></td>
+ <td>
+ <p>the number of extra characters to leave to the left of
+ the string(s) (<code>adj=0</code>) or to the right (<code>adj=1</code>)</p>
+ </td></tr>
+ <tr valign="top"><td><code>str</code></td>
+ <td>
+ <p>a character string vector</p>
+ </td></tr>
+ <tr valign="top"><td><code>string</code></td>
+ <td>
+ <p>a character string vector</p>
+ </td></tr>
+ <tr valign="top"><td><code>ticks</code></td>
+ <td>
+ <p>set to <code>TRUE</code> to draw lines between rectangles</p>
+ </td></tr>
+ <tr valign="top"><td><code>times</code></td>
+ <td>
+ <p>a numeric vector of times</p>
+ </td></tr>
+ <tr valign="top"><td><code>title</code></td>
+ <td>
+ <p>a character string to title a window or plot</p>
+ </td></tr>
+ <tr valign="top"><td><code>tolerance</code></td>
+ <td>
+ <p>tolerance for judging singularity in matrix</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p><code>"v"</code> for vertical, <code>"h"</code> for horizontal.  For
+ <code>getLatestSource</code> this specifies the type of source code
+ repository, <code>'svn'</code> (the default) or 
+ <code>'cvs'</code>, which is now outdated as Subversion has replaced CVS
+ in the Vanderbilt Biostatistics server.</p>
+ </td></tr>
+ <tr valign="top"><td><code>w</code></td>
+ <td>
+ <p>a numeric vector</p>
+ </td></tr>
+ <tr valign="top"><td><code>width</code></td>
+ <td>
+ <p>width of confidence rectanges in user units, or see
+ <code>strwrap</code></p>
+ </td></tr> 
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a numeric vector (matrix for <code>lm.fit.qr.bare</code>) or data
+ frame.  For <code>xless</code> may be any object that is sensible to
+ <code>print</code>.  For <code>sepUnitsTrans</code> is a character or factor
+ variable.  For <code>getLatestSource</code> is a character string or
+ vector of character strings containing base file names to retrieve
+ from CVS.  Set <code>x='all'</code> to retrieve all source files.  For
+ <code>clowess</code>, <code>x</code> may also be a list with x and y
+ components.  For <code>inverseFunction</code>, <code>x</code> and <code>y</code>
+ contain evaluations of the function whose inverse is needed.
+ <code>x</code> is typically an equally-spaced grid of 1000 points.  For
+ <code>strgraphwrap</code> is a character vector.</p>
+ </td></tr>
+ <tr valign="top"><td><code>xpxi</code></td>
+ <td>
+ <p>set to <code>TRUE</code> to add an element to the result
+ containing the inverse of <i>X'X</i></p>
+ </td></tr>
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>a numeric vector.  For <code>inverseFunction</code> <code>y</code> is the
+ evaluated function values at <code>x</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>indent, exdent, prefix</code></td>
+ <td>
+ <p>see <code>strwrap</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>simplify</code></td>
+ <td>
+ <p>see <code>sapply</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>units</code></td>
+ <td>
+ <p>see <code>par</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>arguments passed through to another function</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Frank Harrell and Charles Dupont</p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ 
+ trap.rule(1:100,1:100)
+ 
+ unPaste(c('a;b or c','ab;d','qr;s'), ';')
+ 
+ sepUnitsTrans(c('3 days','4 months','2 years','7'))
+ 
+ set.seed(1)
+ whichClosest(1:100, 3:5)
+ whichClosest(1:100, rep(3,20))
+ 
+ whichClosePW(1:100, rep(3,20))
+ whichClosePW(1:100, rep(3,20), f=.05)
+ whichClosePW(1:100, rep(3,20), f=1e-10)
+ 
+ x &lt;- seq(-1, 1, by=.01)
+ y &lt;- x^2
+ h &lt;- inverseFunction(x,y)
+ formals(h)$turns   # vertex
+ a &lt;- seq(0, 1, by=.01)
+ plot(0, 0, type='n', xlim=c(-.5,1.5))
+ lines(a, h(a)[,1])            ## first inverse
+ lines(a, h(a)[,2], col='red') ## second inverse
+ a &lt;- c(-.1, 1.01, 1.1, 1.2)
+ points(a, h(a)[,1])
+ 
+ ## Not run: 
+ getLatestSource(recent=5)  # source() most recent 5 revised files in Hmisc
+ getLatestSource('cut2')    # fetch and source latest cut2.s
+ getLatestSource('all')     # get everything
+ getLatestSource(avail=TRUE) # list available files and latest versions
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

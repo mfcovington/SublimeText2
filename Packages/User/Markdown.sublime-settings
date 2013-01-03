@@ -1,0 +1,13 @@
+{
+    "trim_trailing_white_space_on_save": true,
+    "font_face": "Mensch",
+    "font_size": 12,
+    "wrap_width": 80,
+    "draw_centered": false,
+    "auto_match_enabled": true,
+    "line_padding_top": 0,
+    "caret_style": "wide",
+    "highlight_line": true,
+    // add trailing #'s to headlines
+    "match_header_hashes": false
+}

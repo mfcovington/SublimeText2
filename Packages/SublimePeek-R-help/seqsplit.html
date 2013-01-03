@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Apply function and cast to Vector</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for seqapply"><tr><td>seqapply</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Apply function and cast to Vector
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The <code>seqapply</code> family of functions behaves much like the existing
+ <code>lapply</code> family, except the return value is cast to a
+ Vector subclass. This facilitates constraining
+ computation to the <code>Vector</code> framework across iteration and
+ (for <code>seqsplit</code>) splitting.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ seqapply(X, FUN, ...)
+ mseqapply(FUN, ..., MoreArgs = NULL, USE.NAMES = TRUE)
+ tseqapply(X, INDEX, FUN = NULL, ...)
+ seqsplit(x, f, drop = FALSE)
+ seqby(data, INDICES, FUN, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>X</code></td>
+ <td>
+ 
+ <p>The object over which to iterate, usually a vector or <code>Vector</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>Like <code>X</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ 
+ <p>Like <code>X</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>FUN</code></td>
+ <td>
+ 
+ <p>The function that is applied to each element of <code>X</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>MoreArgs</code></td>
+ <td>
+ 
+ <p>Additional arguments to <code>FUN</code> that are treated like scalars
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>USE.NAMES</code></td>
+ <td>
+ 
+ <p>Whether the return values should inherit names from one of the arguments
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>INDEX</code></td>
+ <td>
+ 
+ <p>A <code>list</code> of factors to split <code>X</code> into subsets, each of
+ which is passed in a separate invocation of <code>FUN</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>INDICES</code></td>
+ <td>
+ 
+ <p>Like <code>INDEX</code>, except a single factor need not be in a
+ <code>list</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>f</code></td>
+ <td>
+ 
+ <p>A <code>factor</code> or <code>list</code> of factors
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>drop</code></td>
+ <td>
+ 
+ <p>Whether to drop empty elements from the returned list
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Extra arguments to pass to <code>FUN</code>
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>These functions should be used just like their base equivalent:
+ </p>
+ 
+ <dl>
+ <dt><code>seqapply</code></dt><dd><p>=&gt; <code>lapply</code></p>
+ </dd>
+ <dt><code>mseqapply</code></dt><dd><p>=&gt; <code>mapply</code></p>
+ </dd>
+ <dt><code>tseqapply</code></dt><dd><p>=&gt; <code>tapply</code></p>
+ </dd>
+ <dt><code>seqsplit</code></dt><dd><p>=&gt; <code>split</code></p>
+ </dd>
+ <dt><code>seqby</code></dt><dd><p>=&gt; <code>by</code></p>
+ </dd>
+ </dl>
+ 
+ <p>The only difference is that the result is cast to a <code>Vector</code>
+ object. The casting logic simply looks for a common class from which
+ all returned values inherit. It then checks for the existence of a
+ function of the form <code>ClassList</code> where <code>Class</code> is the name
+ of the class. If such a function is not found, the search proceeds up
+ the hierarchy of classes. An error is thrown when hierarchy is
+ exhausted. If <code>ClassList</code> is found, it is called with the list of
+ return values as its only argument, under the assumption that
+ a <code>Vector</code>-derived instance will be constructed.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A <code>Vector</code> object
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Michael Lawrence
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ starts &lt;- IntegerList(c(1, 5), c(2, 8))
+ ends &lt;- IntegerList(c(3, 8), c(5, 9))
+ rangesList &lt;- mseqapply(IRanges, starts, ends)
+ rangeDataFrame &lt;- stack(rangesList, "space", "ranges")
+ dataFrameList &lt;- seqsplit(rangeDataFrame, rangeDataFrame$space)
+ starts &lt;- seqapply(dataFrameList[,"ranges"], start)
+ </pre>
+ 
+ 
+ </body></html>

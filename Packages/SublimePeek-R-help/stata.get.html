@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Enhanced Importing of STATA Files</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for stata.get"><tr><td>stata.get</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Enhanced Importing of STATA Files</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Reads a file in Stata version 5-11 binary format format into a
+ data frame.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ stata.get(file, lowernames = FALSE, convert.dates = TRUE,
+           convert.factors = TRUE, missing.type = FALSE,
+           convert.underscore = TRUE, warn.missing.labels = TRUE,
+           force.single = TRUE, allow=NULL, charfactor=FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p>input <acronym><span class="acronym">SPSS</span></acronym> save file.  May be a file on the <acronym><span class="acronym">WWW</span></acronym>, indicated
+ by <code>file</code> starting with <span class="samp">'http://'</span>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>lowernames</code></td>
+ <td>
+ <p>set to <code>TRUE</code> to convert variable names to
+ lower case</p>
+ </td></tr>
+ <tr valign="top"><td><code>convert.dates</code></td>
+ <td>
+ <p>see <code>read.dta</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>convert.factors</code></td>
+ <td>
+ <p>see <code>read.dta</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>missing.type</code></td>
+ <td>
+ <p>see <code>read.dta</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>convert.underscore</code></td>
+ <td>
+ <p>see <code>read.dta</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>warn.missing.labels</code></td>
+ <td>
+ <p>see <code>read.dta</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>force.single</code></td>
+ <td>
+ <p>set to <code>FALSE</code> to prevent integer-valued
+ variables from being converted from storage mode <code>double</code> to
+ <code>integer</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>allow</code></td>
+ <td>
+ <p>a vector of characters allowed by <font face="Courier New,Courier" color="#666666"><b>R</b></font> that should not be
+ converted to periods in variable names.  By default, underscores in
+ variable names are converted to periods as with <font face="Courier New,Courier" color="#666666"><b>R</b></font> before version 1.9.</p>
+ </td></tr>
+ <tr valign="top"><td><code>charfactor</code></td>
+ <td>
+ <p>set to <code>TRUE</code> to change character variables to
+ factors if they have fewer than n/2 unique values.  Blanks and null
+ strings are converted to <code>NA</code>s.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>arguments passed to <code>read.dta</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>stata.get</code> invokes the <code>read.dta</code> function in the
+ <span class="pkg">foreign</span> package to read an STATA file, with a default output
+ format of <code>data.frame</code>.  The <code>label</code> function is used to
+ attach labels to individual variables instead of to the data frame as
+ done by <code>read.dta</code>.  By default, integer-valued variables are
+ converted to a storage mode of integer unless
+ <code>force.single=FALSE</code>.  Date variables are converted to <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ <code>Date</code> variables.  By default, underscores in names are converted to periods.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ <p>A data frame</p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Charles Dupont</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>read.dta</code>,<code>cleanup.import</code>,<code>label</code>,<code>data.frame</code>,<code>Date</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ w &lt;- stata.get('/tmp/my.dta')
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

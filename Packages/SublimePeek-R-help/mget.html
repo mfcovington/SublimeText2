@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Return the value of a named object</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for get"><tr><td>get</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Return the value of a named object</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Search for an R object with a given name and return it.
+ </p>
+ <p>NOTE: This man page is for the <code>get</code> and <code>mget</code> S4 generic
+ functions defined in the BiocGenerics package.
+ See <code>?base::get</code> for the default methods
+ (defined in the base package).
+ Bioconductor packages can define specific methods for objects
+ (list-like or environment-like) not supported by the default methods.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ get(x, pos=-1, envir=as.environment(pos), mode="any", inherits=TRUE)
+ mget(x, envir, mode="any",
+      ifnotfound=list(function(x)
+                      stop(paste0("value for '", x, "' not found"),
+                           call.=FALSE)),
+      inherits=FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>For <code>get</code>: A variable name (or, more generally speaking,
+ a <EM>key</EM>), given as a single string.
+ </p>
+ <p>For <code>mget</code>: A vector of variable names (or <EM>keys</EM>).
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>envir</code></td>
+ <td>
+ 
+ <p>Where to look for the key(s). Typically a list-like or environment-like
+ object.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>pos, mode, inherits, ifnotfound</code></td>
+ <td>
+ 
+ <p>See <code>?base::get</code> for a description of
+ these arguments.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>See <code>?base::get</code> for details about the default methods.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>For <code>get</code>: The value corresponding to the specified key.
+ </p>
+ <p>For <code>mget</code>: The list of values corresponding to the specified keys.
+ The returned list must have one element per key, and in the same order
+ as in <code>x</code>.
+ </p>
+ <p>See <code>?base::get</code> for the value returned by the
+ default methods.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>base::get</code> for the default <code>get</code> and <code>mget</code>
+ methods.
+ </p>
+ <p><code>showMethods</code> for displaying a summary of the
+ methods defined for a given generic function.
+ </p>
+ <p><code>selectMethod</code> for getting the definition of
+ a specific method.
+ </p>
+ <p>get,ANY,AnnDbBimap,missing-method in the
+ AnnotationDbi package for the <code>get</code> method defined for
+ AnnDbBimap objects.
+ </p>
+ <p>BiocGenerics for a summary of all the generics defined
+ in the BiocGenerics package.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ get  # note the dispatch on the 'x', 'pos' and 'envir' args only
+ showMethods("get")
+ selectMethod("get", c("ANY", "ANY", "ANY"))  # the default method
+ 
+ mget  # note the dispatch on the 'x' and 'envir' args only
+ showMethods("mget")
+ selectMethod("mget", c("ANY", "ANY"))  # the default method
+ </pre>
+ 
+ 
+ </body></html>

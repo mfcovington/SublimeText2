@@ -1,0 +1,1021 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Rle objects</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Rle-class"><tr><td>Rle-class</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Rle objects</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The Rle class is a general container for storing an atomic vector
+ that is stored in a run-length encoding format. It is based on the
+ <code>rle</code> function from the base package.
+ </p>
+ 
+ 
+ <h3>Constructors</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>Rle(values)</code>:
+ This constructor creates an Rle instances out of an atomic
+ vector <code>values</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>Rle(values, lengths)</code>:
+ This constructor creates an Rle instances out of an atomic
+ vector or factor object <code>values</code> and an integer or numeric vector
+ <code>lengths</code> with all positive elements that represent how many times
+ each value is repeated. The length of these two vectors must be the same.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "Rle")</code>:
+ This constructor creates an Rle instances out of an atomic
+ vector <code>from</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Accessors</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is an Rle object:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>runLength(x)</code>:
+ Returns the run lengths for <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>runValue(x)</code>:
+ Returns the run values for <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>nrun(x)</code>:
+ Returns the number of runs in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>start(x)</code>:
+ Returns the starts of the runs for <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>end(x)</code>:
+ Returns the ends of the runs for <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>width(x)</code>:
+ Same as <code>runLength(x)</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Replacers</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is an Rle object:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>runLength(x) &lt;- value</code>:
+ Replaces <code>x</code> with a new Rle object using run values
+ <code>runValue(x)</code> and run lengths <code>value</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>runValue(x) &lt;- value</code>:
+ Replaces <code>x</code> with a new Rle object using run values
+ <code>value</code> and run lengths <code>runLength(x)</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> and <code>from</code> are Rle objects:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>as.vector(x, mode = "any")</code>, <code>as(from, "vector")</code>:
+ Creates an atomic vector based on the values contained in
+ <code>x</code>. The vector will be coerced to the requested <code>mode</code>,
+ unless <code>mode</code> is &quot;any&quot;, in which case the most appropriate
+ type is chosen.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.vectorORfactor(x)</code>: Creates an atomic vector or factor,
+ based on the type of values contained in <code>x</code>. This is the
+ most general way to decompress the Rle to a native R data
+ structure.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.logical(x)</code>, <code>as(from, "logical")</code>: Creates a logical
+ vector based on the values contained in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.integer(x)</code>, <code>as(from, "integer")</code>: Creates an integer
+ vector based on the values contained in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.numeric(x)</code>, <code>as(from, "numeric")</code>: Creates a numeric
+ vector based on the values contained in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.complex(x)</code>, <code>as(from, "complex")</code>: Creates a complex
+ vector based on the values contained in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.character(x)</code>, <code>as(from, "character")</code>: Creates a character
+ vector based on the values contained in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.raw(x)</code>, <code>as(from, "raw")</code>: Creates a raw
+ vector based on the values contained in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.factor(x)</code>, <code>as(from, "factor")</code>: Creates a factor object
+ based on the values contained in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.data.frame(x)</code>, <code>as(from, "data.frame")</code>: Creates
+ a <code>data.frame</code> with a single column holding the result of
+ <code>as.vector(x)</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "IRanges")</code>: Creates an IRanges instance
+ from a logical Rle. Note that this instance is guaranteed to be normal.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "NormalIRanges")</code>: Creates a NormalIRanges instance
+ from a logical Rle.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Group Generics</h3>
+ 
+ 
+ <p>Rle objects have support for S4 group generic functionality:
+ </p>
+ 
+ <dl>
+ <dt><code>Arith</code></dt><dd><p><code>"+"</code>, <code>"-"</code>, <code>"*"</code>, <code>"^"</code>,
+ <code>"%%"</code>, <code>"%/%"</code>, <code>"/"</code></p>
+ </dd>
+ <dt><code>Compare</code></dt><dd><p><code>"=="</code>, <code>"&gt;"</code>, <code>"&lt;"</code>, <code>"!="</code>, 
+ <code>"&lt;="</code>, <code>"&gt;="</code></p>
+ </dd>
+ <dt><code>Logic</code></dt><dd><p><code>"&amp;"</code>, <code>"|"</code></p>
+ </dd>
+ <dt><code>Ops</code></dt><dd><p><code>"Arith"</code>, <code>"Compare"</code>, <code>"Logic"</code></p>
+ </dd>
+ <dt><code>Math</code></dt><dd><p><code>"abs"</code>, <code>"sign"</code>, <code>"sqrt"</code>,
+ <code>"ceiling"</code>, <code>"floor"</code>, <code>"trunc"</code>, <code>"cummax"</code>,
+ <code>"cummin"</code>, <code>"cumprod"</code>, <code>"cumsum"</code>, <code>"log"</code>,
+ <code>"log10"</code>, <code>"log2"</code>, <code>"log1p"</code>, <code>"acos"</code>,
+ <code>"acosh"</code>, <code>"asin"</code>, <code>"asinh"</code>, <code>"atan"</code>,
+ <code>"atanh"</code>, <code>"exp"</code>, <code>"expm1"</code>, <code>"cos"</code>,
+ <code>"cosh"</code>, <code>"sin"</code>, <code>"sinh"</code>, <code>"tan"</code>, <code>"tanh"</code>,
+ <code>"gamma"</code>, <code>"lgamma"</code>, <code>"digamma"</code>, <code>"trigamma"</code></p>
+ </dd>
+ <dt><code>Math2</code></dt><dd><p><code>"round"</code>, <code>"signif"</code></p>
+ </dd>
+ <dt><code>Summary</code></dt><dd><p><code>"max"</code>, <code>"min"</code>, <code>"range"</code>,
+ <code>"prod"</code>, <code>"sum"</code>, <code>"any"</code>, <code>"all"</code></p>
+ </dd>
+ <dt><code>Complex</code></dt><dd><p><code>"Arg"</code>, <code>"Conj"</code>, <code>"Im"</code>,
+ <code>"Mod"</code>, <code>"Re"</code></p>
+ </dd>
+ </dl>
+ 
+ <p>See S4groupGeneric for more details.
+ </p>
+ 
+ 
+ <h3>General Methods</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is an Rle object:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>x[i, drop = !is.null(getOption("dropRle")) &amp;&amp; getOption("dropRle")]</code>:
+ Subsets <code>x</code> by index <code>i</code>, where <code>i</code> can be positive
+ integers, negative integers, a logical vector of the same length as
+ <code>x</code>, an Rle object of the same length as <code>x</code>
+ containing logical values, or an IRanges object.
+ When <code>drop = FALSE</code> returns an Rle object. When <code>drop = TRUE</code>,
+ returns an atomic vector.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>x[i] &lt;- value</code>:
+ Equivalent to <code>seqselect(x, i) &lt;- value</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>x %in% table</code>:
+ Returns a logical Rle representing set membership in
+ <code>table</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>aggregate(x, by, FUN, start = NULL, end = NULL, width = NULL,
+                       frequency = NULL, delta = NULL, ..., simplify = TRUE))</code>:
+ Generates summaries on the specified windows and returns the result in a
+ convenient form:
+ </p>
+ 
+ <dl>
+ <dt><code>by</code></dt><dd><p>An object with <code>start</code>, <code>end</code>, and
+ <code>width</code> methods.</p>
+ </dd>
+ <dt><code>FUN</code></dt><dd><p>The function, found via <code>match.fun</code>, to be
+ applied to each window of <code>x</code>.</p>
+ </dd>
+ <dt><code>start</code>, <code>end</code>, <code>width</code></dt><dd><p>the start, end, or width
+ of the window. If <code>by</code> is missing, then must supply two of the
+ three.</p>
+ </dd>
+ <dt><code>frequency</code>, <code>delta</code></dt><dd><p>Optional arguments that specify
+ the sampling frequency and increment within the window.</p>
+ </dd>
+ <dt>...</dt><dd><p>Further arguments for <code>FUN</code>.</p>
+ </dd>
+ <dt><code>simplify</code></dt><dd><p>A logical value specifying whether or not the
+ result should be simplified to a vector or matrix if possible.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>append(x, values, after = length(x))</code>:
+ Insert one Rle into another Rle.
+ </p>
+ 
+ <dl>
+ <dt><code>values</code></dt><dd><p>the Rle to insert.</p>
+ </dd>
+ <dt><code>after</code></dt><dd><p>the subscript in <code>x</code> after which the values
+ are to be inserted.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>c(x, ...)</code>:
+ Combines a set of Rle objects.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>findRange(x, vec)</code>:
+ Returns an IRanges object representing the ranges in Rle <code>vec</code>
+ that are referenced by the indices in the integer vector <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>findRun(x, vec)</code>:
+ Returns an integer vector indicating the run indices in Rle <code>vec</code>
+ that are referenced by the indices in the integer vector <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>head(x, n = 6L)</code>:
+ If <code>n</code> is non-negative, returns the first n elements of <code>x</code>.
+ If <code>n</code> is negative, returns all but the last <code>abs(n)</code> elements
+ of <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>is.na(x)</code>:
+ Returns a logical Rle indicating with values are <code>NA</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>is.unsorted(x, na.rm = FALSE, strictly = FALSE)</code>:
+ Returns a logical value specifying if <code>x</code> is unsorted.
+ </p>
+ 
+ <dl>
+ <dt><code>na.rm</code></dt><dd><p>remove missing values from check.</p>
+ </dd>
+ <dt><code>strictly</code></dt><dd><p>check for _strictly_ increasing values.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>length(x)</code>:
+ Returns the underlying vector length of <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>match(x, table, nomatch = NA_integer_, incomparables = NULL)</code>:
+ Matches the values in <code>x</code> to <code>table</code>:
+ </p>
+ 
+ <dl>
+ <dt><code>table</code></dt><dd><p>the values to be matched against.</p>
+ </dd>
+ <dt><code>nomatch</code></dt><dd><p>the value to be returned in the case when no
+ match is found.</p>
+ </dd>
+ <dt><code>incomparables</code></dt><dd><p>a vector of values that cannot be matched.
+ Any value in <code>x</code> matching a value in this vector is assigned
+ the <code>nomatch</code> value.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>rep(x, times, length.out, each)</code>, <code>rep.int(x, times)</code>:
+ Repeats the values in <code>x</code> through one of the following conventions:
+ </p>
+ 
+ <dl>
+ <dt><code>times</code></dt><dd><p>Vector giving the number of times to repeat each
+ element if of length <code>length(x)</code>, or to repeat the whole vector
+ if of length 1.</p>
+ </dd>
+ <dt><code>length.out</code></dt><dd><p>Non-negative integer. The desired length of
+ the output vector.</p>
+ </dd>
+ <dt><code>each</code></dt><dd><p>Non-negative integer.  Each element of <code>x</code> is
+ repeated <code>each</code> times.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>rev(x)</code>:
+ Reverses the order of the values in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>seqselect(x, start = NULL, end = NULL, width = NULL)</code>:
+ Creates a new Rle object using consecutive subsequences from <code>x</code>
+ specified by two of the three following values:  <code>start</code>, <code>end</code>,
+ and <code>width</code>. See seqselect for more details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>seqselect(x, start=NULL, end=NULL, width=NULL) &lt;- value</code>:
+ Similar to <code>window&lt;-</code>, except that multiple consecutive subsequences
+ can be replaced by a constant <code>value</code>. As such two of the three
+ <code>start</code>, <code>end</code>, and <code>width</code> arguments can be used to
+ specify the consecutive subsequences. Alternatively, <code>start</code> can take
+ a Ranges object or something that can be converted to a Ranges object like
+ an integer vector, logical vector or logical Rle.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>shiftApply(SHIFT, X, Y, FUN, ..., OFFSET = 0L, simplify = TRUE, verbose = FALSE)</code>:
+ Let <code>i</code> be the indices in <code>SHIFT</code>,
+ <code>X_i = window(X, 1 + OFFSET, length(X) - SHIFT[i])</code>, and
+ <code>Y_i = window(Y, 1 + SHIFT[i], length(Y) - OFFSET)</code>. Calculates
+ the set of <code>FUN(X_i, Y_i, ...)</code> values and return the results in a
+ convenient form:
+ </p>
+ 
+ <dl>
+ <dt><code>SHIFT</code></dt><dd><p>A non-negative integer vector of shift values.</p>
+ </dd>
+ <dt><code>X</code>, <code>Y</code></dt><dd><p>The Rle objects to shift.</p>
+ </dd>
+ <dt><code>FUN</code></dt><dd><p>The function, found via <code>match.fun</code>, to be
+ applied to each set of shifted vectors.</p>
+ </dd>
+ <dt>...</dt><dd><p>Further arguments for <code>FUN</code>.</p>
+ </dd>
+ <dt>OFFSET</dt><dd><p>A non-negative integer offset to maintain throughout
+ the shift operations.</p>
+ </dd>
+ <dt><code>simplify</code></dt><dd><p>A logical value specifying whether or not the
+ result should be simplified to a vector or matrix if possible.</p>
+ </dd>
+ <dt><code>verbose</code></dt><dd><p>A logical value specifying whether or not to
+ print the <code>i</code> indices to track the iterations.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>show(object)</code>:
+ Prints out the Rle object in a user-friendly way.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>sort(x, decreasing = FALSE, na.last = NA)</code>:
+ Sorts the values in <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>decreasing</code></dt><dd><p>If <code>TRUE</code>, sort values in decreasing
+ order. If <code>FALSE</code>, sort values in increasing order.</p>
+ </dd>
+ <dt><code>na.last</code></dt><dd><p>If <code>TRUE</code>, missing values are placed last.
+ If <code>FALSE</code>, they are placed first. If <code>NA</code>, they are
+ removed.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>split(x, f, drop = FALSE)</code>:
+ Splits <code>x</code> according to <code>f</code> to create a
+ CompressedRleList object. Empty list elements are removed
+ if <code>drop</code> is <code>TRUE</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>splitRanges(x)</code>:
+ Returns a CompressedIRangesList object that contain the
+ ranges for each of the unique run values. 
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>subset(x, subset)</code>:
+ Returns a new Rle object made of the subset using logical vector
+ <code>subset</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>summary(object, ..., digits = max(3, getOption("digits") - 3))</code>:
+ Summarizes the Rle object using an atomic vector convention. The
+ <code>digits</code> argument is used for number formatting with
+ <code>signif()</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>table(...)</code>:
+ Returns a table containing the counts of the unique values.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>tail(x, n = 6L)</code>:
+ If <code>n</code> is non-negative, returns the last n elements of <code>x</code>.
+ If <code>n</code> is negative, returns all but the first <code>abs(n)</code> elements
+ of <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>unique(x, incomparables = FALSE, ...)</code>:
+ Returns the unique run values. The <code>incomparables</code> argument takes a
+ vector of values that cannot be compared with <code>FALSE</code> being a special
+ value that means that all values can be compared. 
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>window(x, start = NA, end = NA, width = NA, frequency = NULL, delta = NULL, ...)</code>:
+ Extract the subsequence window from <code>x</code> specified by:
+ </p>
+ 
+ <dl>
+ <dt><code>start</code>, <code>end</code>, <code>width</code></dt><dd><p>The start, end, or width
+ of the window. Two of the three are required.</p>
+ </dd>
+ <dt><code>frequency</code>, <code>delta</code></dt><dd><p>Optional arguments that specify
+ the sampling frequency and increment within the window.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>window(x, start = NA, end = NA, width = NA, keepLength = TRUE) &lt;- value</code>:
+ Replace the subsequence window specified on the left (i.e. the subsequence
+ in <code>x</code> specified by <code>start</code>, <code>end</code> and <code>width</code>)
+ by <code>value</code>.
+ <code>value</code> must either be of class Rle, belong to a subclass of Rle, be
+ coercible to Rle, or be <code>NULL</code>.
+ If <code>keepLength</code> is <code>TRUE</code>, the elements of <code>value</code> are
+ repeated to create an Rle with the same number of elements as the
+ width of the subsequence window it is replacing.
+ If <code>keepLength</code> is <code>FALSE</code>, this replacement method can modify
+ the length of <code>x</code>, depending on how the length of the left
+ subsequence window compares to the length of <code>value</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Logical Data Methods</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is an Rle object:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>!x</code>:
+ Returns logical negation (NOT) of <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>which(x)</code>:
+ Returns an integer vector representing the <code>TRUE</code> indices of
+ <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>ifelse(x, yes, no)</code>:
+ For each element of <code>x</code>, returns the corresponding element
+ in <code>yes</code> if <code>TRUE</code>, otherwise the element in
+ <code>no</code>. <code>yes</code> and <code>no</code> may be <code>Rle</code> objects or
+ anything else coercible to a vector.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Numerical Data Methods</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is an Rle object:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>diff(x, lag = 1, differences = 1</code>:
+ Returns suitably lagged and iterated differences of <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>lag</code></dt><dd><p>An integer indicating which lag to use.</p>
+ </dd>
+ <dt><code>differences</code></dt><dd><p>An integer indicating the order of the
+ difference.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>pmax(..., na.rm = FALSE)</code>, <code>pmax.int(..., na.rm = FALSE)</code>:
+ Parallel maxima of the Rle input values. Removes <code>NA</code>s when
+ <code>na.rm = TRUE</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>pmin(..., na.rm = FALSE)</code>, <code>pmin.int(..., na.rm = FALSE)</code>:
+ Parallel minima of the Rle input values. Removes <code>NA</code>s when
+ <code>na.rm = TRUE</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>which.max(x)</code>: Returns the index of the first element matching
+ the maximum value of <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>mean(x, na.rm = FALSE)</code>:
+ Calculates the mean of <code>x</code>. Removes <code>NA</code>s when
+ <code>na.rm = TRUE</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>var(x, y = NULL, na.rm = FALSE)</code>:
+ Calculates the variance of <code>x</code> or covariance of <code>x</code> and <code>y</code>
+ if both are supplied. Removes <code>NA</code>s when <code>na.rm = TRUE</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>cov(x, y, use = "everything")</code>, <code>cor(x, y, use = "everything")</code>:
+ Calculates the covariance and correlation respectively of Rle objects
+ <code>x</code> and <code>y</code>.
+ The <code>use</code> argument is an optional character string giving a method for
+ computing covariances in the presence of missing values. This must be
+ (an abbreviation of) one of the strings <code>"everything"</code>,
+ <code>"all.obs"</code>, <code>"complete.obs"</code>, <code>"na.or.complete"</code>, or
+ <code>"pairwise.complete.obs"</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>sd(x, na.rm = FALSE)</code>:
+ Calculates the standard deviation of <code>x</code>. Removes <code>NA</code>s
+ when <code>na.rm = TRUE</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>median(x, na.rm = FALSE)</code>:
+ Calculates the median of <code>x</code>. Removes <code>NA</code>s when
+ <code>na.rm = TRUE</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>quantile(x, probs = seq(0, 1, 0.25), na.rm = FALSE, names = TRUE, type = 7, ...)</code>:
+ Calculates the specified quantiles of <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>probs</code></dt><dd><p>A numeric vector of probabilities with values in
+ [0,1].</p>
+ </dd>
+ <dt><code>na.rm</code></dt><dd><p>If <code>TRUE</code>, removes <code>NA</code>s from <code>x</code>
+ before the quantiles are computed.</p>
+ </dd>
+ <dt><code>names</code></dt><dd><p>If <code>TRUE</code>, the result has names describing the
+ quantiles.</p>
+ </dd>
+ <dt><code>type</code></dt><dd><p>An integer between 1 and 9 selecting one of the nine
+ quantile algorithms detailed in <code>quantile</code>.</p>
+ </dd>
+ <dt>...</dt><dd><p>Further arguments passed to or from other methods.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>mad(x, center = median(x), constant = 1.4826, na.rm = FALSE, low = FALSE, high = FALSE)</code>:
+ Calculates the median absolute deviation of <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>center</code></dt><dd><p>The center to calculate the deviation from.</p>
+ </dd>
+ <dt><code>constant</code></dt><dd><p>The scale factor.</p>
+ </dd>
+ <dt><code>na.rm</code></dt><dd><p>If <code>TRUE</code>, removes <code>NA</code>s from <code>x</code>
+ before the mad is computed.</p>
+ </dd>
+ <dt><code>low</code></dt><dd><p>If <code>TRUE</code>, compute the 'lo-median'.</p>
+ </dd>
+ <dt><code>high</code></dt><dd><p>If <code>TRUE</code>, compute the 'hi-median'.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>IQR(x, na.rm = FALSE)</code>:
+ Calculates the interquartile range of <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>na.rm</code></dt><dd><p>If <code>TRUE</code>, removes <code>NA</code>s from <code>x</code>
+ before the IQR is computed.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>smoothEnds(y, k = 3)</code>:
+ Smooth end points of an Rle <code>y</code> using subsequently smaller
+ medians and Tukey's end point rule at the very end.
+ </p>
+ 
+ <dl>
+ <dt><code>k</code></dt><dd><p>An integer indicating the width of largest median
+ window; must be odd.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>runmean(x, k, endrule = c("drop", "constant"))</code>:
+ Calculates the means for fixed width running windows across <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>k</code></dt><dd><p>An integer indicating the fixed width of the running
+ window. Must be odd when <code>endrule == "constant"</code>.</p>
+ </dd>
+ <dt>endrule</dt><dd><p>A character string indicating how the values at the
+ beginning and the end (of the data) should be treated.
+ </p>
+ 
+ <dl>
+ <dt><code>"drop"</code></dt><dd><p>do not extend the running statistics to
+ be the same length as the underlying vectors;</p>
+ </dd>
+ <dt><code>"constant"</code></dt><dd><p>copies running statistic to the
+ first values and analogously for the last ones making the
+ smoothed ends <EM>constant</EM>;</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>runmed(x, k, endrule = c("median", "keep", "drop", "constant"))</code>:
+ Calculates the medians for fixed width running windows across <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>k</code></dt><dd><p>An integer indicating the fixed width of the running
+ window. Must be odd when <code>endrule != "drop"</code>.</p>
+ </dd>
+ <dt>endrule</dt><dd><p>A character string indicating how the values at the
+ beginning and the end (of the data) should be treated.
+ </p>
+ 
+ <dl>
+ <dt><code>"keep"</code></dt><dd><p>keeps the first and last <i>k2</i>
+ values at both ends, where <i>k2</i> is the half-bandwidth
+ <code>k2 = k %/% 2</code>, i.e., <code>y[j] = x[j]</code> for
+ <i>j \in \{1,&hellip;,k_2; n-k_2+1,&hellip;,n\}</i>
+ <i>j = 1,..,k2 and (n-k2+1),..,n</i>;</p>
+ </dd>
+ <dt><code>"constant"</code></dt><dd><p>copies the running statistic to the
+ first values and analogously for the last ones making the
+ smoothed ends <EM>constant</EM>;</p>
+ </dd>
+ <dt><code>"median"</code></dt><dd><p>the default, smooths the ends by using
+ symmetrical medians of subsequently smaller bandwidth, but
+ for the very first and last value where Tukey's robust
+ end-point rule is applied, see <code>smoothEnds</code>.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>runsum(x, k, endrule = c("drop", "constant"))</code>:
+ Calculates the sums for fixed width running windows across <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>k</code></dt><dd><p>An integer indicating the fixed width of the running
+ window. Must be odd when <code>endrule == "constant"</code>.</p>
+ </dd>
+ <dt>endrule</dt><dd><p>A character string indicating how the values at the
+ beginning and the end (of the data) should be treated.
+ </p>
+ 
+ <dl>
+ <dt><code>"drop"</code></dt><dd><p>do not extend the running statistics to
+ be the same length as the underlying vectors;</p>
+ </dd>
+ <dt><code>"constant"</code></dt><dd><p>copies running statistic to the
+ first values and analogously for the last ones making the
+ smoothed ends <EM>constant</EM>;</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>runwtsum(x, k, wt, endrule = c("drop", "constant"))</code>:
+ Calculates the sums for fixed width running windows across <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>k</code></dt><dd><p>An integer indicating the fixed width of the running
+ window. Must be odd when <code>endrule == "constant"</code>.</p>
+ </dd>
+ <dt><code>wt</code></dt><dd><p>A numeric vector of length <code>k</code> that
+ provides the weights to use.</p>
+ </dd>
+ <dt>endrule</dt><dd><p>A character string indicating how the values at the
+ beginning and the end (of the data) should be treated.
+ </p>
+ 
+ <dl>
+ <dt><code>"drop"</code></dt><dd><p>do not extend the running statistics to
+ be the same length as the underlying vectors;</p>
+ </dd>
+ <dt><code>"constant"</code></dt><dd><p>copies running statistic to the
+ first values and analogously for the last ones making the
+ smoothed ends <EM>constant</EM>;</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>runq(x, k, i, endrule = c("drop", "constant"))</code>:
+ Calculates the order statistic for fixed width running windows across
+ <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>k</code></dt><dd><p>An integer indicating the fixed width of the running
+ window. Must be odd when <code>endrule == "constant"</code>.</p>
+ </dd>
+ <dt><code>i</code></dt><dd><p>An integer indicating which order statistic to
+ calculate.</p>
+ </dd>
+ <dt>endrule</dt><dd><p>A character string indicating how the values at the
+ beginning and the end (of the data) should be treated.
+ </p>
+ 
+ <dl>
+ <dt><code>"drop"</code></dt><dd><p>do not extend the running statistics to
+ be the same length as the underlying vectors;</p>
+ </dd>
+ <dt><code>"constant"</code></dt><dd><p>copies running statistic to the
+ first values and analogously for the last ones making the
+ smoothed ends <EM>constant</EM>;</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ </dl>
+ 
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Character Data Methods</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is an Rle object:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>nchar(x, type = "chars", allowNA = FALSE)</code>:
+ Returns an integer Rle representing the number of characters in the
+ corresponding values of <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>type</code></dt><dd><p>One of <code>c("bytes", "chars", "width")</code>.</p>
+ </dd>
+ <dt><code>allowNA</code></dt><dd><p>Should <code>NA</code> be returned for invalid multibyte
+ strings rather than throwing an error?</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>substr(x, start, stop)</code>, <code>substring(text, first, last = 1000000L)</code>:
+ Returns a character or factor Rle containing the specified substrings
+ beginning at <code>start</code>/<code>first</code> and ending at
+ <code>stop</code>/<code>last</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>chartr(old, new, x)</code>:
+ Returns a character or factor Rle containing a translated version of
+ <code>x</code>.
+ </p>
+ 
+ <dl>
+ <dt><code>old</code></dt><dd><p>A character string specifying the characters to be
+ translated.</p>
+ </dd>
+ <dt><code>new</code></dt><dd><p>A character string specifying the translations.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>tolower(x)</code>:
+ Returns a character or factor Rle containing a lower case version of
+ <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>toupper(x)</code>:
+ Returns a character or factor Rle containing an upper case version of
+ <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>sub(pattern, replacement, x, ignore.case = FALSE,
+                 perl = FALSE, fixed = FALSE, useBytes = FALSE)</code>:
+ Returns a character or factor Rle containing replacements based on
+ matches determined by regular expression matching. See <code>sub</code>
+ for a description of the arguments.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>gsub(pattern, replacement, x, ignore.case = FALSE,
+                  perl = FALSE, fixed = FALSE, useBytes = FALSE)</code>:
+ Returns a character or factor Rle containing replacements based on
+ matches determined by regular expression matching. See <code>gsub</code>
+ for a description of the arguments.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>paste(..., sep = " ", collapse = NULL)</code>:
+ Returns a character or factor Rle containing a concatenation of
+ the values in <code>...</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Factor Data Methods</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is an Rle object:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>levels(x)</code>, <code>levels(x) &lt;- value</code>:
+ Gets and sets the factor levels, respectively.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>nlevels(x)</code>:
+ Returns the number of factor levels.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>P. Aboyoun</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>rle</code>,
+ Vector-class,
+ S4groupGeneric,
+ IRanges-class
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   x &lt;- Rle(10:1, 1:10)
+   x
+ 
+   runLength(x)
+   runValue(x)
+   nrun(x)
+ 
+   diff(x)
+   unique(x)
+   sort(x)
+   sqrt(x)
+   x^2 + 2 * x + 1
+   x[c(1,3,5,7,9)]
+   window(x, 4, 14)
+   range(x)
+   sum(x)
+   mean(x)
+   x &gt; 4
+   aggregate(x, x &gt; 4, mean)
+   aggregate(x, FUN = mean, start = 1:(length(x) - 50), end = 51:length(x))
+ 
+   x2 &lt;- Rle(LETTERS[c(21:26, 25:26)], 8:1)
+   table(x2)
+ 
+   y &lt;- Rle(c(TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,TRUE,TRUE))
+   y
+   as.vector(y)
+   rep(y, 10)
+   c(y, x &gt; 5)
+ 
+   z &lt;- c("the", "quick", "red", "fox", "jumps", "over", "the", "lazy", "brown", "dog")
+   z &lt;- Rle(z, seq_len(length(z)))
+   chartr("a", "@", z)
+   toupper(z)
+ </pre>
+ 
+ 
+ </body></html>

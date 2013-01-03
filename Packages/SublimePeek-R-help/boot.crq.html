@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Bootstrapping Censored Quantile Regression</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for boot.crq"><tr><td>boot.crq</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2> Bootstrapping Censored Quantile Regression</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Functions used to estimated standard errors, confidence
+ intervals and tests of hypotheses for censored quantile regression models
+ using the Portnoy and Peng-Huang methods.  </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ boot.crq(x, y, c, taus, method, ctype = "right", R = 100, mboot, bmethod = "Bose", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p> The regression design matrix</p>
+ </td></tr>
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p> The regression response vector</p>
+ </td></tr>
+ <tr valign="top"><td><code>c</code></td>
+ <td>
+ <p> The censoring indicator</p>
+ </td></tr>
+ <tr valign="top"><td><code>taus</code></td>
+ <td>
+ <p> The quantiles of interest</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p> The fitting method: either &quot;P&quot; for Portnoy or &quot;PH&quot; for Peng and Huang.</p>
+ </td></tr>
+ <tr valign="top"><td><code>ctype</code></td>
+ <td>
+ <p> Either &quot;right&quot; or &quot;left&quot;</p>
+ </td></tr>
+ <tr valign="top"><td><code>R</code></td>
+ <td>
+ <p> The number of bootstrap replications</p>
+ </td></tr>
+ <tr valign="top"><td><code>bmethod</code></td>
+ <td>
+ <p> The method to be employed.  There are (as yet) two
+ options:  method = &quot;xy-pair&quot; uses the xy-pair method, that is
+ the usual multinomial resampling of xy-pairs, while  method
+ = &quot;Bose&quot; uses the Bose and Chatterjee (2003) weighted resampling
+ method with exponential weights. This is now the default.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mboot</code></td>
+ <td>
+ <p> optional argument for the bootstrap method &quot;xy-pair&quot; that
+ permits subsampling (m out of n) bootstrap.  Obviously mboot
+ should be substantially larger than the column dimension of x,
+ and should be less than the sample size.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p> Optional further arguments to control bootstrapping</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>There are several refinements that are still unimplemented.  Percentile
+ methods should be incorporated, and extensions of the methods to be used 
+ in anova.rq should be made.  Note that bootstrapping for the Powell 
+ method &quot;FP&quot; is done via <code>boot.rq</code>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A matrix of dimension R by p is returned with the R resampled
+ estimates of the vector of quantile regression parameters. When
+ mofn &lt; n for the &quot;xy&quot; method this matrix has been deflated by
+ the fact sqrt(m/n)
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p> Roger Koenker </p>
+ 
+ 
+ <h3>References</h3>
+ 
+  
+ <p>Bose, A. and S. Chatterjee, (2003) Generalized bootstrap for estimators
+ of minimizers of convex functions, <EM>J. Stat. Planning and Inf</EM>, 117,
+ 225-239.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+   <p><code>summary.crq</code></p>
+ 
+ 
+ </body></html>

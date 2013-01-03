@@ -1,0 +1,540 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Postscript and Adobe PDF Setup for 35mm Slides and Other...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for ps.slide"><tr><td>ps.slide</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Postscript and Adobe PDF Setup for 35mm Slides and Other Formats
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The <code>ps.slide</code> function has nice defaults to create postscript
+ images with larger font, thicker lines, and better axis labeling.
+ These images can be used to make nice slides.  There is an option to
+ view the constructed postscript file using <CODE>ghostview</CODE>, and an
+ option to initiate a background process to convert the postscript file
+ to a PC Paintbrush &lsquo;<span class="file">.pcx</span>&rsquo; file for importing into various PC
+ presentation graphics packages although with a significant  loss in
+ resolution.  This option assumes you have installed various
+ public-domain unix image conversion programs. You can preview
+ &lsquo;<span class="file">.pcx</span>&rsquo; files using e.g. <CODE>xli file.pcx &amp;</CODE>. Specify
+ <code>type=1</code> to make nice fullsize graphs or <code>type=3</code> for making
+ 5 x 7in landscape graphs using 14-point type (useful for submitting to
+ journals).  <code>type=2</code> (the default) is for color 35~mm slides. Use
+ <code>type=4</code> to make nice black and white overhead projection
+ transparancies (portrait mode).  This uses line thickness 4, pointsize
+ 14, height 8, width 7.  For <code>type=3</code>, numbers on the y-axis are
+ written horizontally (<code>las</code> defaults to 1 for <code>type=3</code>).
+ </p>
+ <p><code>ps.slide</code> calls <code>mgp.axis.labels</code> in <span class="pkg">Hmisc</span> set
+ up axis-specific defaults for the 2nd <code>mgp</code> graphical parameter.
+ See <code>HmiscOverview</code> for <span class="pkg">Hmisc</span> for help.  This is
+ only used automatically for select high-level graphics functions in
+ <span class="pkg">Hmisc</span> and <span class="pkg">rms</span>, as <font face="Courier New,Courier" color="#666666"><b>R</b></font> only supports a single
+ distance between tick marks and tick mark labels using
+ <code>par</code>, and when <code>las=1</code> a larger distance is needed
+ for the y-axis.
+ </p>
+ <p>See the body of the function for <code>type</code>-specific default values
+ for many of the parameters.  This function has not been tested for
+ color output on Windows systems.
+ </p>
+ <p><code>setps</code> is a function that makes small postscript plots with
+ minimal surrounding white space, suitable for inclusion in books and
+ reports. Internally <code>setps</code> uses (and defines) the <code>psfig</code>
+ function by Antonio Possolo (<a href="mailto:antonio@atc.boeing.com">antonio@atc.boeing.com</a>).
+ <code>setps</code> is especially good for including plots in LaTeX.
+ <code>setps</code> creates a temporary function in the session database that
+ when invoked will convert a completed postscript graphics file to a
+ Adobe Acrobat &lsquo;<span class="file">.pdf</span>&rsquo; if you have Ghostscript installed and in
+ your path (so that the <CODE>gs</CODE> command is available in UNIX or
+ <CODE>gswin32c</CODE> is available for Windows/NT).  Invoke <code>topdf</code>
+ by the command <code>topdf()</code>, or, if you want to convert a graphic
+ other than the last one created, run <code>topdf(filename)</code> to convert
+ &lsquo;<span class="file">filename.ps</span>&rsquo; to &lsquo;<span class="file">filename.pdf</span>&rsquo;.  If <code>trellis=TRUE</code>,
+ <code>setps</code> invokes <code>trellis.device</code> with a
+ <code>postscript</code> device argument, and it does not set any of the
+ <code>par</code> parameters.  Arguments 3, 4, 5, 7, 9, and 10 to
+ <code>setps</code> are ignored if <code>trellis=TRUE</code>.  If
+ <code>options(setpsPrefix="name")</code> is defined, the <span class="samp">name</span> string
+ will be prefixed to the file name used by <code>setps</code>.  <code>setpdf</code>
+ uses a similar option <code>setpdfPrefix</code>.  <code>setps</code> and
+ <code>setpdf</code> set <code>par(mgp=c(2,0.4,0))</code> if <code>trellis=FALSE</code>.
+ </p>
+ <p><code>setpdf</code> is similar to <code>setps</code> but for making Adobe Acrobat
+ PDF graphics files directly.  There are a few problems with the S-Plus
+ <code>pdf.graph</code> function used by <code>setpdf</code>, though: (1) the
+ default for points (open circle) is too large, (2) graphs are not
+ centered properly, (3) gray scale does not work, and (4) there is some
+ wasted space at the bottom of the graph.  When drawing points, the
+ user may want to specify <code>cex=0.7</code>.  It may be better to use
+ <code>setps</code> followed by <code>topdf()</code>.
+ </p>
+ <p><code>tex</code> is a little function to save typing when including TeX
+ commands in graphs that are used with the psfrag package in LaTeX to
+ typeset any LaTeX text inside a postscript graphic.  <code>tex</code>
+ surrounds the input character string with <span class="samp">\tex[options]{}</span>.
+ This is especially useful for getting Greek letters and math symbols
+ in postscript graphs.  By default <code>tex</code> returns a string with
+ <code>psfrag</code> commands specifying that the string be centered, not
+ rotated, and not specially enlarged or shrunk.
+ </p>
+ <p><code>showPsfrag</code> is used to display (using ghostview) a postscript
+ image that contained psfrag LaTeX strings, by building a small LaTeX
+ script and running <CODE>latex</CODE> and <CODE>dvips</CODE>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ps.slide(file, background = if (type != 2) "white" else "navy blue",
+          foreground = if (type == 2) "yellow" else
+                      (if(background == "white") "black" else "white"),
+          font = "Helvetica", pointsize = c(24, 28, 14, 14)[type],
+          hor = type != 4, lwd = c(2, 5, 2, 4)[type],
+          mgp = if(under.unix) list(c(1.8, 0.4, 0), c(1.5, 0.2, 0),
+                  c(2, 0.4, 0), c(1.5, 0.2, 0))[[type]] else
+                  list(c(1.8, 0.5, 0), c(1.5, 0.4, 0), c(2, 0.5, 0),
+                  c(1.5, 0.4, 0))[[type]],
+          mar = list(c(4, 3, 2, 1) + 0.1, c(5, 4, 2.25, 2) + 0.1,
+                  c(3, 3, 1, 1) + 0.1, c(5, 4, 2.25, 2) + 0.1)[[type]],
+          pch = 202, view = FALSE, pcx = FALSE, tiff = FALSE,
+          close = view | pcx | tiff, bty = "l",
+          type = 2, height = switch(type, NULL, NULL, 5, 8),
+          width = switch(type, NULL, NULL, 7, 7),
+          tck = if (type == 3 || !under.unix) -0.013 else par("tck"),
+          las = if (type == 3) 1 else 0, eps =  FALSE, ...)
+ 
+ setps(filename, w=0, h=3, pointsize=10, sublines=0, toplines=0,
+       type="symbol", lwd=2, font="Helvetica",
+       leftlines=0, las=1,
+       trellis=!(missing(setTrellis.) &amp; missing(strip.blank) &amp;
+                 missing(lty.dot.line) &amp; missing(lwd.dot.line)), 
+       setTrellis.=TRUE, 
+       strip.blank =TRUE, lty.dot.line = 1, lwd.dot.line = 1,
+       seqno=NULL, color=FALSE)
+ 
+ setpdf(filename, w=0, h=4, pointsize=10, sublines=0, toplines=0,
+        type="symbol", lwd=1.5, font=if(.R.)"Helvetica" else 1,
+        ratio= if(.R.) 4/3 else (1 + sqrt(5))/2,
+        leftlines=0, las=1, bty='l', hor=FALSE, 
+        trellis=!(missing(setTrellis.) &amp; missing(strip.blank) &amp;
+                  missing(lty.dot.line) &amp; missing(lwd.dot.line)), 
+        setTrellis.=TRUE, 
+        strip.blank =TRUE, lty.dot.line = 1, lwd.dot.line =1,
+        region=c(0, 0, h, w), color=FALSE, seqno=NULL, ...)
+ 
+ tex(string, lref='c', psref='c', scale=1, srt=0)
+ 
+ showPsfrag(filename)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>file,filename</code></td>
+ <td>
+ 
+ <p>name or character string or character vector specifying file
+ prefix. For <code>setps</code> or <code>setpdf</code> specify <code>type="char"</code>
+ if this is a character vector or a quote-delimited character string.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>string</code></td>
+ <td>
+ 
+ <p>a character string to be processed by <code>psfrag</code> in LaTeX.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>background</code></td>
+ <td>
+ 
+ <p>default is yellow on navy blue background (black on white for
+ <code>type=1,3</code>. <code>background</code> may also be set to any legitimate
+ background color listed in the S-supplied object
+ <code>ps.colors.rgb</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>foreground</code></td>
+ <td>
+ 
+ <p>foreground color.  See <code>background</code> for allowable values.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>font</code></td>
+ <td>
+ 
+ <p>font for text.  Replaces the first font in the standard list of
+ fonts in <code>ps.options("fonts")</code>.  If <code>font="Times-Roman"</code>,
+ the fifth font (normally <code>Helvetica-Bold</code>) is set to
+ <code>Times-Bold</code>.  For <code>setpdf</code>, <code>font</code> is a number, and
+ the default is <span class="samp">1</span> for Helvetica.   All default fonts are
+ Helvetica for <code>setps</code>, <code>psfig</code>, and <code>ps.slide</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>pointsize</code></td>
+ <td>
+ 
+ <p>postscript point size. Set to a larger number if using multiple
+ plots via <code>par(mfrow=)</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>hor</code></td>
+ <td>
+ 
+ <p>default is <code>TRUE</code> to make a horizontal graph
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>lwd</code></td>
+ <td>
+ 
+ <p>line width
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>mgp</code></td>
+ <td>
+ 
+ <p>see <code>par</code>.  Defaults are chosen according to <code>type</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>mar</code></td>
+ <td>
+ 
+ <p>margins (see <code>par</code>)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>pch</code></td>
+ <td>
+ 
+ <p>see <code>par</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>view</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to initiate a <CODE>ghostview</CODE> run to
+ view the postscript file. This option will also close out the
+ postscript file (this is done before viewing).  If you have an
+ active <CODE>ghostview</CODE> window for this file already, you
+ can just type <code>graphics.off</code> or <code>dev.off</code> to re-create
+ the &lsquo;<span class="file">.ps</span>&rsquo; file. <CODE>ghostview</CODE> will then update theimage
+ automatically.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>pcx</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to initiate conversion to </p>
+ <PRE>pcx</PRE> format.
+ Also implies <code>close=TRUE</code>.
+ </td></tr>
+ <tr valign="top"><td><code>tiff</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to initiate conversion to </p>
+ <PRE>tiff</PRE> format.
+ Also implies <code>close=TRUE</code>.
+ </td></tr>
+ <tr valign="top"><td><code>close</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to finish construction of the postscript file.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>bty</code></td>
+ <td>
+ 
+ <p>box type surrounding graph.  Default is <code>"l"</code> for <code>"L"</code>
+ shape.  Use <code>"c"</code> for completebox.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ 
+ <p>For <code>ps.slide</code>, <code>type</code> is an integer.  In this case, set
+ <code>type=1</code> to use black on white background, smaller pointsize,
+ and other settings that are good for making overhead transparencies
+ and graphs to include in reports.  Set <code>type=3</code> for 5 x 7in
+ landscape plots, and <code>type=4</code> for overheads. For <code>setps</code>
+ and <code>setpdf</code>, <code>type="char"</code> specifies that  the
+ <code>filename</code> argument is a character string  or vector, and any
+ other value indicatesthat it is an unquoted name.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>height</code></td>
+ <td>
+ 
+ <p>defaults to 5 if <code>type=3</code>, otherwise no default (except for type=4)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>width</code></td>
+ <td>
+ 
+ <p>defaults to 7 if <code>type=3</code>, otherwise no default (except for type=4)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>tck</code></td>
+ <td>
+ 
+ <p>length of tick marks.  See <code>par</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>las</code></td>
+ <td>
+ 
+ <p>set to <code>0</code> to have axis labels always parallel to the axis,
+ <code>1</code> for always horizontal, <code>2</code> for perpendicular toaxis
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>eps</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> if you are going to be importing the postscript
+ file to a system that really cares that it is marked to officially
+ be encapsulated postscript.  If you set <code>eps=TRUE</code>, you may put
+ only one figure in the file (see the <code>onefile</code> argument in
+ <code>postscript</code>).  This applies to UNIX systems only.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>other arguments to <code>ps.options</code> (or
+ <code>postscript</code> for Windows or <code>pdf.graph</code> for
+ <code>setpdf</code>)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>w</code></td>
+ <td>
+ 
+ <p>width of plot.  Default is chosen to scale nicely to <code>h</code> for a
+ landscapeplot
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>h</code></td>
+ <td>
+ 
+ <p>height of plot (default is 3in)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>sublines</code></td>
+ <td>
+ 
+ <p>number of lines to reserve for subtitles
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>toplines</code></td>
+ <td>
+ 
+ <p>number of lines to reserve for main title
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>leftlines</code></td>
+ <td>
+ 
+ <p>number of lines to reserve for left margin
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>trellis</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to set up for postscript output for Trellis
+ graphics.  This makes <code>trellis.device("postscript", ...)</code> be
+ called instead of <code>postscript(...)</code> directly, and leaves
+ <code>par</code> parametersat defaults.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>setTrellis.</code></td>
+ <td>
+ 
+ <p>set to <code>FALSE</code> to prevent <code>setTrellis</code> from being called
+ to set the strip panel background and to set characteristics for dot
+ plot reference lines
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>strip.blank</code></td>
+ <td>
+ 
+ <p>set to <code>FALSE</code> to keep shading in conditioning variable panel
+ titles, if <code>setTrellis.=TRUE</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>lty.dot.line</code></td>
+ <td>
+ 
+ <p>if <code>setTrellis.=TRUE</code>, the line type for dot plot reference
+ lines (default = solid line)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>lwd.dot.line</code></td>
+ <td>
+ 
+ <p>if <code>setTrellis.=TRUE</code>, the line width for dot plot reference
+ lines (default= 1)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>seqno</code></td>
+ <td>
+ 
+ <p>if non-<code>NULL</code>, pastes the value of <code>seqno</code> at the end of
+ the base of the file name, for <code>setps</code> and <code>setpdf</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>color</code></td>
+ <td>
+ 
+ <p>set <code>color=TRUE</code> to use a color Trellis device instead of
+ default of black and white, for <code>setps</code>.  For <code>setpdf</code> set
+ to <code>TRUE</code> to get color pdf graphics.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>region</code></td>
+ <td>
+ 
+ <p>see <code>pdf.graph</code>.  Default is to use an image region that is
+ just large enough to contain the graphic.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>ratio</code></td>
+ <td>
+ 
+ <p>ratio of width to height of the plot when only one of those is
+ specified.  Defaults depend on whether S-Plus or <font face="Courier New,Courier" color="#666666"><b>R</b></font> are being used.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>lref</code></td>
+ <td>
+ 
+ <p>LaTeX reference point for <code>string</code>.  See the <code>psfrag</code>
+ documentation referenced below.  Default is <code>"c"</code> for centered
+ (this is also the default for <code>psref</code>).
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>psref</code></td>
+ <td>
+ 
+ <p>PostScript reference point.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>scale</code></td>
+ <td>
+ 
+ <p>scall factor, default is 1
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>srt</code></td>
+ <td>
+ 
+ <p>rotation for <code>string</code> in degrees (default is zero)
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>nothing, for most of the functions.  <code>tex</code> returns a modified
+ character string.
+ </p>
+ 
+ 
+ <h3>Side Effects</h3>
+ 
+ 
+ <p>Starts a postscript file or a process to convert it to pcx format, or
+ starts a Trellis postscript device.
+ <code>ps.slide</code> Stores a system option <code>ps.slide.file</code>.  <code>pdf.graph</code> opens
+ a graphics file using <code>pdf.graph</code>.  <code>setps</code> creates a function <code>topdf</code>
+ in frame 0 (the session database).
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Frank Harrell<br>
+ Department of Biostatistics<br>
+ Vanderbilt University<br>
+ <a href="mailto:f.harrell@vanderbilt.edu">f.harrell@vanderbilt.edu</a>
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Grant MC, Carlisle (1998): The PSfrag System, Version 3.  Full
+ documentation is obtained by searching www.ctan.org for &lsquo;<span class="file">pfgguide.ps</span>&rsquo;.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>postscript</code>, <code>par</code>, <code>ps.options</code>,
+ <code>mgp.axis.labels</code>, <code>pdf</code>,
+ <code>trellis.device</code>, <code>setTrellis</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ ps.slide("myslide")   # myslide is file name prefix
+ # use ps.slide("myslide",back="green") to use e.g. green background
+ plot(x, y)
+ title("My Title")
+ 
+ 
+ ps.slide(view=TRUE)   # makes myslide.ps file
+                    # use ps.slide(close=TRUE) to close file without viewing with
+                    # ghostview.
+ ps.slide(view=TRUE, pcx=TRUE)
+                    # converts myslide.ps into myslide.pcx (PC Paintbrush
+                    # format suitable for importing in PC graphics packages)
+ mgp.axis.labels(c(.4,1.2))  # override 2nd mgp parameters for x- and y axes
+ mgp.axis.labels(type='x')   # retrieve 3 mgp parameters for x-axis
+ 
+ 
+ setps(myfile)      # equiv. to setps('myfile', type='char')
+                    # setps(myfile, trellis=TRUE, other args) for Trellis
+ # plotting commands
+ dev.off()
+ topdf()            # topdf created by setps
+                    # makes Ghostscript create "myfile.pdf"
+ setpdf(myfile)
+ # plotting commands
+ dev.off()
+ 
+ 
+ # Put math and Greek symbols in a graph
+ setps(test)
+ x &lt;- seq(0,15,length=100)
+ plot(x, dchisq(x, 5), xlab=tex('$x$'),
+         ylab=tex('$f(x)$'), type='l')
+ title(tex('Density Function of the $\chi_{5}^{2}$ Distribution'))
+ dev.off()
+ # To process this file in LaTeX do something like
+ #\documentclass{article}
+ #\usepackage[scanall]{psfrag}
+ #\begin{document}
+ #\begin{figure}
+ #\includegraphics{test.ps}
+ #\caption{This is an example}
+ #\end{figure}
+ #\end{document}
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: List objects</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for List-class"><tr><td>List-class</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>List objects</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>List objects are Vector objects with a <code>"[["</code>,
+ <code>elementType</code> and <code>elementLengths</code> method.
+ The List class serves a similar role as list in base R.
+ </p>
+ <p>It adds one slot, the <code>elementType</code> slot, to the two slots shared by
+ all Vector objects.
+ </p>
+ <p>The <code>elementType</code> slot is the preferred location for List
+ subclasses to store the type of data represented in the sequence. It is
+ designed to take a character of length 1 representing the class of the
+ sequence elements. While the List class performs no validity checking
+ based on <code>elementType</code>, if a subclass expects elements to be of a
+ given type, that subclass is expected to perform the necessary validity
+ checking. For example, the subclass IntegerList has
+ <code>elementType = "integer"</code> and its validity method checks if this
+ condition is TRUE.
+ </p>
+ <p>To be functional, a class that inherits from List must define at least
+ a <code>"[["</code> method (in addition to the minimum set of Vector
+ methods).
+ </p>
+ 
+ 
+ <h3>Accessors</h3>
+ 
+ 
+ <p>In the following code snippets, <code>x</code> is a List object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>elementType(x)</code>:
+ Get the scalar string naming the class from which all elements must
+ derive.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>elementLengths(x)</code>:
+ Get the 'length' of each of the elements.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>isEmpty(x)</code>:
+ Returns a logical indicating either if the sequence has no elements
+ or if all its elements are empty.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Element extraction (list style)</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a List object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>x[[i]]</code>:
+ If defined, return the selected element <code>i</code>, where <code>i</code> is an
+ numeric or character vector of length 1.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>x$name</code>:
+ Similar to <code>x[[name]]</code>, but <code>name</code> is taken literally as an
+ element name.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Looping</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a List object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>lapply(X, FUN, ...)</code>:
+ Like the standard <code>lapply</code> function defined in the
+ base package, the <code>lapply</code> method for List objects returns
+ a list of the same length as <code>X</code>, with each element being the
+ result of applying <code>FUN</code> to the corresponding element of <code>X</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)</code>:
+ Like the standard <code>sapply</code> function defined in the
+ base package, the <code>sapply</code> method for List objects is a
+ user-friendly version of <code>lapply</code> by default returning a vector
+ or matrix if appropriate.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>mapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)</code>:
+ Like the standard <code>mapply</code> function defined in the
+ base package, the <code>mapply</code> method for List objects is a
+ multivariate version of <code>sapply</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>endoapply(X, FUN, ...)</code>:
+ Similar to <code>lapply</code>, but performs an endomorphism,
+ i.e. returns an object of <code>class(X)</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>mendoapply(FUN, ..., MoreArgs = NULL)</code>:
+ Similar to <code>mapply</code>, but performs an endomorphism
+ across multiple objects, i.e. returns an object of
+ <code>class(list(...)[[1]])</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>revElements(x, i)</code>:
+ A convenient way to do <code>x[i] &lt;- endoapply(x[i], rev)</code>.
+ There is a fast method for CompressedList objects,
+ otherwise expect it to be rather slow.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a List object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>as.env(x, enclos = parent.frame())</code>:
+ Creates an environment from <code>x</code> with a symbol for each
+ <code>names(x)</code>. The values are not actually copied into the
+ environment. Rather, they are dynamically bound using
+ <code>makeActiveBinding</code>. This prevents unnecessary copying
+ of the data from the external vectors into R vectors. The values
+ are cached, so that the data is not copied every time the symbol
+ is accessed.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as.list(x, ...)</code>, <code>as(from, "list")</code>:
+ Turns <code>x</code> into a standard list.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>stack(x, indName = "space", valuesName = "values")</code>:
+ As with <code>stack</code> on a <code>list</code>,
+ constructs a <code>DataFrame</code> with two columns: one for the
+ unlisted values, the other indicating the name of the element from
+ which each value was obtained. <code>indName</code> specifies the column
+ name for the index (source name) column and <code>valuesName</code>
+ specifies the column name for the values.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>relist(flesh, skeleton)</code>: Convert <code>flesh</code> to a
+ list with the same structure (element lengths) as
+ <code>skeleton</code>, a <code>List</code> object. This makes sense when
+ <code>flesh[i]</code> corresponds somehow to <code>unlist(skeleton)[i]</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>unsplit(value, f, drop = FALSE)</code>: Unlists
+ <code>value</code>, where the order of the returned vector is as
+ if <code>value</code> were originally created by splitting that vector
+ on the factor <code>f</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Functional Programming</h3>
+ 
+ 
+ <p>The R base package defines some Higher-Order functions that are commonly
+ found in Functional Programming Languages. See <code>?Reduce</code>
+ for the details, and, in particular, for a description of their arguments.
+ The IRanges package provides methods for List objects, so, in addition
+ to be a vector, the <code>x</code> argument can also be a List object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>Reduce(f, x, init, right = FALSE, accumulate = FALSE)</code>:
+ Uses a binary function to successively combine the elements of <code>x</code>
+ and a possibly given initial value.
+ See <code>?Reduce</code> (in the base package) for the details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>Filter(f, x)</code>:
+ Extracts the elements of <code>x</code> for which function <code>f</code> is TRUE.
+ See <code>?Filter</code> (in the base package) for the details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>Find(f, x, right = FALSE, nomatch = NULL)</code>:
+ Extracts the first or last such element in <code>x</code>.
+ See <code>?Find</code> (in the base package) for the details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>Map(f, ...)</code>:
+ Applies a function to the corresponding elements of given List
+ objects.
+ See <code>?Map</code> (in the base package) for the details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>Position(f, x, right = FALSE, nomatch = NA_integer_)</code>:
+ Extracts the first or last such position in <code>x</code>.
+ See <code>?Position</code> (in the base package) for the details.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Evaluating</h3>
+ 
+ 
+ <p>In the code snippets below, <code>envir</code> and <code>data</code> are List
+ objects.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>eval(expr, envir, enclos = parent.frame())</code>:
+ Converts the List object specified in <code>envir</code> to an
+ environment using <code>as.env</code>, with <code>enclos</code> as its parent,
+ and then evaluates <code>expr</code> within that environment.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>with(data, expr, ...)</code>:
+ Equivalent to <code>eval(quote(expr), data, ...)</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>within(data, expr, ...)</code>:
+ Similar to <code>with</code>, except assignments made during evaluation
+ are taken as assignments into <code>data</code>, i.e., new symbols have
+ their value appended to <code>data</code>, and assigning new values to
+ existing symbols results in replacement.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>P. Aboyoun and H. Pages</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Vector for the parent class.
+ </p>
+ <p>SimpleList and CompressedList for direct
+ extensions.
+ </p>
+ <p>IRanges and CompressedLogicalList for example
+ implementations.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   showClass("List")  # shows (some of) the known subclasses
+ </pre>
+ 
+ 
+ </body></html>

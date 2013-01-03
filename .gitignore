@@ -1,0 +1,7 @@
+Packages/perltidy.ERR
+Backup/*
+Settings/*
+*.cache
+*.sublime-project
+*.sublime-workspace
+.DS_Store

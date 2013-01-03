@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Plot Biological Coefficient of Variation</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for plotBCV"><tr><td>plotBCV</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Plot Biological Coefficient of Variation</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Plot genewise biological coefficient of variation (BCV) against gene abundance (in log2 counts per million).
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ plotBCV(object, xlab="logCPM", ylab="Biological coefficient of variation", pch=16, cex=0.2, ... )
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>a <code>DGEList</code> object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>xlab</code></td>
+ <td>
+ <p>label for the x-axis.</p>
+ </td></tr>
+ <tr valign="top"><td><code>ylab</code></td>
+ <td>
+ <p>label for the y-axis.</p>
+ </td></tr>
+ <tr valign="top"><td><code>pch</code></td>
+ <td>
+ <p>the plotting symbol. See <code>points</code> for more details.</p>
+ </td></tr>
+ <tr valign="top"><td><code>cex</code></td>
+ <td>
+ <p>plot symbol expansion factor. See <code>points</code> for more details.</p>
+ </td></tr> 
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>any other arguments are passed to <code>plot</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The BCV is the square root of the negative binomial dispersion.
+ This function displays the common, trended and tagwise BCV estimates.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A plot is created on the current graphics device.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Davis McCarthy, Yunshun Chen, Gordon Smyth</p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ BCV.true &lt;- 0.1
+ y &lt;- DGEList(matrix(rnbinom(6000, size = 1/BCV.true^2, mu = 10),1000,6))
+ y &lt;- estimateCommonDisp(y)
+ y &lt;- estimateTrendedDisp(y)
+ y &lt;- estimateTagwiseDisp(y)
+ plotBCV(y)
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: The DataTable API</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for DataTable-API"><tr><td>DataTable-API</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>The DataTable API</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>DataTable is an API only (i.e. virtual class with no slots) for accessing
+ objects with a rectangular shape like DataFrame or RangedData
+ objects. It mimics the API for standard data.frame objects.
+ </p>
+ 
+ 
+ <h3>Accessors</h3>
+ 
+ 
+ <p>In the following code snippets, <code>x</code> is a <code>DataTable</code>.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>nrow(x)</code>, <code>ncol(x)</code>:
+ Get the number of rows and columns, respectively.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>NROW(x)</code>, <code>NCOL(x)</code>:
+ Same as <code>nrow(x)</code> and <code>ncol(x)</code>, respectively.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>dim(x)</code>:
+ Length two integer vector defined as <code>c(nrow(x), ncol(x))</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>rownames(x)</code>, <code>colnames(x)</code>:
+ Get the names of the rows and columns, respectively.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>dimnames(x)</code>:
+ Length two list of character vectors defined as
+ <code>list(rownames(x), colnames(x))</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Subsetting</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a DataTable object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>x[i, j, drop=TRUE]</code>:
+ Return a new DataTable object made of the selected rows and columns. For
+ single column selection, the <code>drop</code> argument specifies whether or not
+ to coerce the returned sequence to a standard vector.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>window(x, start = NA, end = NA, width = NA, frequency = NULL, delta = NULL, ...)</code>:
+ Extract the subsequence window from the DataTable object using:
+ </p>
+ 
+ <dl>
+ <dt><code>start</code>, <code>end</code>, <code>width</code></dt><dd><p>The start, end, or width
+ of the window. Two of the three are required.</p>
+ </dd>
+ <dt><code>frequency</code>, <code>delta</code></dt><dd><p>Optional arguments that specify
+ the sampling frequency and increment within the window.</p>
+ </dd>
+ </dl>
+ 
+ <p>In general, this is more efficient than using <code>"["</code> operator.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>window(x, start = NA, end = NA, width = NA, keepLength =
+         TRUE) &lt;- value</code>:
+ Replace the subsequence window specified on the left (i.e. the subsequence
+ in <code>x</code> specified by <code>start</code>, <code>end</code> and <code>width</code>)
+ by <code>value</code>.
+ <code>value</code> must either be of class <code>class(x)</code>, belong to a subclass
+ of <code>class(x)</code>, be coercible to <code>class(x)</code>, or be <code>NULL</code>.
+ If <code>keepLength</code> is <code>TRUE</code>, the number of rows of <code>value</code>
+ are repeated to create a DataTable with the same number of rows as the
+ width of the subsequence window it is replacing.
+ If <code>keepLength</code> is <code>FALSE</code>, this replacement method can modify
+ the number of rows of <code>x</code>, depending on how the number of rows of the
+ left subsequence window compares to the number of rows of <code>value</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>seqselect(x, start=NULL, end=NULL, width=NULL)</code>:
+ Similar to <code>window</code>, except that multiple subsequences can be
+ requested. The requested subsequences are concatenated.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>seqselect(x, start=NULL, end=NULL, width=NULL) &lt;- value</code>:
+ Similar to <code>window&lt;-</code>, except that multiple consecutive subsequences
+ can be replaced by a <code>value</code> that spans those windows.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>head(x, n = 6L)</code>:
+ If <code>n</code> is non-negative, returns the first n rows of the DataTable
+ object.
+ If <code>n</code> is negative, returns all but the last <code>abs(n)</code> rows of
+ the DataTable object.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>tail(x, n = 6L)</code>:
+ If <code>n</code> is non-negative, returns the last n rows of the DataTable
+ object.
+ If <code>n</code> is negative, returns all but the first <code>abs(n)</code> rows of
+ the DataTable object.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>subset(x, subset, select, drop = FALSE)</code>:
+ Return a new DataTable object using:
+ </p>
+ 
+ <dl>
+ <dt>subset</dt><dd><p>logical expression indicating rows to keep, where missing
+ values are taken as FALSE.</p>
+ </dd>
+ <dt>select</dt><dd><p>expression indicating columns to keep.</p>
+ </dd>
+ <dt>drop</dt><dd><p>passed on to <code>[</code> indexing operator.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>na.omit(object)</code>:
+ Returns a subset with incomplete cases removed.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>na.exclude(object)</code>:
+ Returns a subset with incomplete cases removed (but to be
+ included with NAs in statistical results).
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>is.na(x)</code>:
+ Returns a logical matrix indicating which cells are missing.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>complete.cases(x)</code>:
+ Returns a logical vector identifying which cases have no missing values.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Combining</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a DataTable object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>cbind(...)</code>: Creates a new <code>DataTable</code> by combining the columns
+ of the <code>DataTable</code> objects in <code>...</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>rbind(...)</code>: Creates a new <code>DataTable</code> by combining the rows of
+ the <code>DataTable</code> objects in <code>...</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>merge(x, y, ...)</code>: Merges two <code>DataTable</code>
+ objects <code>x</code> and <code>y</code>, with arguments in <code>...</code> being
+ the same as those allowed by the base <code>merge</code>. It is
+ allowed for either <code>x</code> or <code>y</code> to be a <code>data.frame</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Looping</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a DataTable object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>aggregate(x, by, FUN, start = NULL, end = NULL, width = NULL,
+                       frequency = NULL, delta = NULL, ..., simplify = TRUE)</code>:
+ Generates summaries on the specified windows and returns the result in a
+ convenient form:
+ </p>
+ 
+ <dl>
+ <dt><code>by</code></dt><dd><p>An object with <code>start</code>, <code>end</code>, and
+ <code>width</code> methods.</p>
+ </dd>
+ <dt><code>FUN</code></dt><dd><p>The function, found via <code>match.fun</code>, to be
+ applied to each window of <code>x</code>.</p>
+ </dd>
+ <dt><code>start</code>, <code>end</code>, <code>width</code></dt><dd><p>the start, end, or width
+ of the window. If <code>by</code> is missing, then must supply two of the
+ three.</p>
+ </dd>
+ <dt><code>frequency</code>, <code>delta</code></dt><dd><p>Optional arguments that specify
+ the sampling frequency and increment within the window.</p>
+ </dd>
+ <dt>...</dt><dd><p>Further arguments for <code>FUN</code>.</p>
+ </dd>
+ <dt><code>simplify</code></dt><dd><p>A logical value specifying whether or not the
+ result should be simplified to a vector or matrix if possible.</p>
+ </dd>
+ </dl>
+ 
+ </dd>
+ <dt></dt><dd>
+ <p><code>by(data, INDICES, FUN, ..., simplify = TRUE)</code>:
+ Apply <code>FUN</code> to each group of <code>data</code>, a <code>DataTable</code>,
+ formed by the factor (or list of factors) <code>INDICES</code>. Exactly 
+ the same contract as <code>as.data.frame</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Utilities</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>duplicated(x)</code>: Returns a logical vector indicating the rows
+ that are identical to a previous row.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>unique(x)</code>: Returns a new <code>DataTable</code> after
+ removing the duplicated rows from <code>x</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>as.env(x, enclos = parent.frame())</code>:
+ Creates an environment from <code>x</code> with a symbol for each
+ <code>colnames(x)</code>. The values are not actually copied into the
+ environment. Rather, they are dynamically bound using
+ <code>makeActiveBinding</code>. This prevents unnecessary copying
+ of the data from the external vectors into R vectors. The values
+ are cached, so that the data is not copied every time the symbol
+ is accessed.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>DataTable-stats for statistical functionality, like fitting
+ regression models,
+ data.frame
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   showClass("DataTable")  # shows (some of) the known subclasses
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Concatenate strings</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for paste"><tr><td>paste</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Concatenate strings</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>paste</code> concatenates vectors of strings or vector-like R
+ objects containing strings.
+ </p>
+ <p>NOTE: This man page is for the <code>paste</code> S4 generic function
+ defined in the BiocGenerics package.
+ See <code>?base::paste</code> for the default method
+ (defined in the base package).
+ Bioconductor packages can define specific methods for objects
+ (typically vector-like objects containing strings) not supported by
+ the default method.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ paste(..., sep=" ", collapse=NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>One or more vector-like R objects containing strings.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>sep, collapse</code></td>
+ <td>
+ 
+ <p>See <code>?base::paste</code> for a description of
+ these arguments.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>See <code>?base::paste</code> for the value returned by the
+ default method.
+ </p>
+ <p>Specific methods defined in other Bioconductor packages will typically
+ return an object of the same class as the input objects.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>base::paste</code> for the default <code>paste</code> method.
+ </p>
+ <p><code>showMethods</code> for displaying a summary of the
+ methods defined for a given generic function.
+ </p>
+ <p><code>selectMethod</code> for getting the definition of
+ a specific method.
+ </p>
+ <p>paste,Rle-method in the IRanges package
+ for the method defined for Rle objects.
+ </p>
+ <p>BiocGenerics for a summary of all the generics defined
+ in the BiocGenerics package.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ paste
+ showMethods("paste")
+ selectMethod("paste", "ANY")  # the default method
+ </pre>
+ 
+ 
+ </body></html>

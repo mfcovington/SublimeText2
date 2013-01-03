@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Conditional logistic regression</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for clogit"><tr><td>clogit</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Conditional logistic regression </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Estimates a logistic regression model by maximising the conditional
+ likelihood. Uses a model formula of the form
+ <code>case.status~exposure+strata(matched.set)</code>.
+ The default is to use the exact conditional likelihood, a commonly
+ used approximate conditional likelihood is provided for compatibility
+ with older software.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ clogit(formula, data, weights, subset, na.action,
+  method=c("exact", "approximate", "efron", "breslow"),
+  ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>formula</code></td>
+ <td>
+ <p>Model formula</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>data frame </p>
+ </td></tr>
+ <tr valign="top"><td><code>weights</code></td>
+ <td>
+ <p>optional, names the variable containing case weights</p>
+ </td></tr>
+ <tr valign="top"><td><code>subset</code></td>
+ <td>
+ <p>optional, subset the data</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.action</code></td>
+ <td>
+ <p>optional na.action argument.  By default the
+ global option <code>na.action</code> is used.</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>use the correct (exact) calculation in the conditional
+ likelihood or one of the approximations</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>optional arguments, which will be passed to
+ <code>coxph.control</code></p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>A stratified Cox model with time=constant, status of 1=case 0=control,
+ and using the exact partial likelihood has the same likelihood formula
+ as a conditional logistic regression.  The clogit routine creates
+ the necessary dummy variable of times (all 1) and then calls coxph.
+ </p>
+ <p>The computation of the exact partial likelihood can be very slow,
+ however.  If a particular strata had say 10 events out of 20 subjects
+ we have to add up a denominator that involves all possible ways of
+ choosing 10 out of 20, which is 20!/(10! 10!) = 184756 terms. Gail et
+ al describe a fast recursion method, which largely ameleorates 
+ this; 
+ it was incorporated into version 2.36-11 of the survival package.
+ (Most of the time conditional logistic modeling 
+ is applied data with 1 case + k controls per set, however, 
+ which involves choosing 1 out of k and the computational issue
+ above does not arise.)
+ The 'appoximate' option maps to the
+ Breslow approximation for historical reasons.
+ </p>
+ <p>It is not clear how case weights should be handled.  For instance if
+ there are two deaths in a strata, one with weight=1 and one with
+ weight=2, should the likelihood calculation consider all subsets of
+ size 2 or all subsets of size 3?
+ Consequently, case weights are ignored by the routine.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An object of class <code>"clogit"</code>, which is a wrapper for a
+ <code>"coxph"</code> object.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Michell H Gail, Jay H Lubin and Lawrence V Rubinstein.  Likelihood
+ calculations for matched case-control studies and survival studies with
+ tied death times.  Biometrika 68:703-707, 1980.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Thomas Lumley</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>strata</code>,<code>coxph</code>,<code>glm</code> </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: clogit(case ~ spontaneous + induced + strata(stratum), data=infert)
+ 
+ # A multinomial response recoded to use clogit
+ #  The revised data set has one copy per possible outcome level, with new
+ #  variable tocc = target occupation for this copy, and case = whether
+ #  that is the actual outcome for each subject.
+ # See the catspec package for more details.
+ resp &lt;- levels(logan$occupation)
+ n &lt;- nrow(logan)
+ indx &lt;- rep(1:n, length(resp))
+ logan2 &lt;- data.frame(logan[indx,],
+                      id = indx,
+                      tocc = factor(rep(resp, each=n)))
+ logan2$case &lt;- (logan2$occupation == logan2$tocc)
+ clogit(case ~ tocc + tocc:education + strata(id), logan2)
+ </pre>
+ 
+ 
+ </body></html>

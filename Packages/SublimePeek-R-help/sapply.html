@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Apply a function over a list-like or vector-like R object</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for lapply"><tr><td>lapply</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Apply a function over a list-like or vector-like R object</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>lapply</code> returns a list of the same length as <code>X</code>, each
+ element of which is the result of applying <code>FUN</code> to the
+ corresponding element of <code>X</code>.
+ </p>
+ <p><code>sapply</code> is a user-friendly version and wrapper of <code>lapply</code>
+ by default returning a vector, matrix or, if <code>simplify="array"</code>,
+ an array if appropriate, by applying <code>simplify2array()</code>.
+ <code>sapply(x, f, simplify=FALSE, USE.NAMES=FALSE)</code> is the same
+ as <code>lapply(x, f)</code>.
+ </p>
+ <p>NOTE: This man page is for the <code>lapply</code> and <code>sapply</code>
+ S4 generic functions defined in the BiocGenerics package.
+ See <code>?base::lapply</code> for the default methods
+ (defined in the base package).
+ Bioconductor packages can define specific methods for objects
+ (typically list-like or vector-like) not supported by the
+ default methods.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ lapply(X, FUN, ...)
+ sapply(X, FUN, ..., simplify=TRUE, USE.NAMES=TRUE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>X</code></td>
+ <td>
+ 
+ <p>A list-like or vector-like R object.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>FUN, ..., simplify, USE.NAMES</code></td>
+ <td>
+ 
+ <p>See <code>?base::lapply</code> for a description of
+ these arguments.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>See <code>?base::lapply</code> for the value returned by the
+ default methods.
+ </p>
+ <p>Specific methods defined in other Bioconductor packages should 
+ behave as consistently as possible with the default methods.
+ In particular, <code>lapply</code> and <code>sapply(simplify=FALSE)</code>
+ should always return a list.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>base::lapply</code> for the default <code>lapply</code> and
+ <code>sapply</code> methods.
+ </p>
+ <p><code>showMethods</code> for displaying a summary of the
+ methods defined for a given generic function.
+ </p>
+ <p><code>selectMethod</code> for getting the definition of
+ a specific method.
+ </p>
+ <p>lapply,List-method in the IRanges package
+ for the <code>lapply</code> method defined for List
+ objects.
+ </p>
+ <p>BiocGenerics for a summary of all the generics defined
+ in the BiocGenerics package.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ lapply  # note the dispatch on the 'X' arg only
+ showMethods("lapply")
+ selectMethod("lapply", "ANY")  # the default method
+ 
+ sapply  # note the dispatch on the 'X' arg only
+ showMethods("sapply")
+ selectMethod("sapply", "ANY")  # the default method
+ </pre>
+ 
+ 
+ </body></html>

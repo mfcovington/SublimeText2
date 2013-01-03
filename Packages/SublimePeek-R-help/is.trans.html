@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Create a new transformation object.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for trans_new"><tr><td>trans_new</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Create a new transformation object.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>A transformation encapsulates a transformation and its
+ inverse, as well as the information needed to create
+ pleasing breaks and labels. The breaks function is
+ applied on the transformed range of the range, and it's
+ expected that the labels function will perform some kind
+ of inverse tranformation on these breaks to give them
+ labels that are meaningful on the original scale.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   trans_new(name, transform, inverse,
+     breaks = pretty_breaks(), format = format_format(),
+     domain = c(-Inf, Inf))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>name</code></td>
+ <td>
+ <p>transformation name</p>
+ </td></tr>
+ <tr valign="top"><td><code>transform</code></td>
+ <td>
+ <p>function, or name of function, that
+ performs the transformation</p>
+ </td></tr>
+ <tr valign="top"><td><code>inverse</code></td>
+ <td>
+ <p>function, or name of function, that
+ performs the inverse of the transformation</p>
+ </td></tr>
+ <tr valign="top"><td><code>breaks</code></td>
+ <td>
+ <p>default breaks function for this
+ transformation. The breaks function is applied to the raw
+ data.</p>
+ </td></tr>
+ <tr valign="top"><td><code>format</code></td>
+ <td>
+ <p>default format for this transformation. The
+ format is applied to breaks generated to the raw data.</p>
+ </td></tr>
+ <tr valign="top"><td><code>domain</code></td>
+ <td>
+ <p>domain, as numeric vector of length 2, over
+ which transformation is valued</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>asn_trans</code>, <code>atanh_trans</code>, <code>boxcox_trans</code>, <code>date_trans</code>, <code>exp_trans</code>, <code>identity_trans</code>, <code>log10_trans</code>, <code>log1p_trans</code>, <code>log2_trans</code>, <code>log_trans</code>, <code>logit_trans</code>, <code>probability_trans</code>, <code>probit_trans</code>, <code>reciprocal_trans</code>, <code>reverse_trans</code>, <code>sqrt_trans</code>, <code>time_trans</code>
+ </p>
+ 
+ 
+ </body></html>

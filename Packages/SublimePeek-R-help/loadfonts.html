@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Reads the fonttable database and registers those fonts with R</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for loadfonts"><tr><td>loadfonts</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Reads the fonttable database and registers those fonts with R</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This registers fonts so that they can be used with the
+ pdf, postscript, or Windows bitmap output device. It must
+ be run once in each R session.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   loadfonts(device = "pdf", quiet = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>device</code></td>
+ <td>
+ <p>The output device. Can be <code>"pdf"</code> (the
+ default), <code>"postscript"</code>, or <code>"win"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>quiet</code></td>
+ <td>
+ <p>If <code>FALSE</code>, print a status message as
+ each font is registered. If <code>TRUE</code>, don't print.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>embed_fonts</code>
+ </p>
+ 
+ 
+ </body></html>

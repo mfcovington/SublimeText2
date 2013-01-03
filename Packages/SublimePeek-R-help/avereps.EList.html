@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Average Over Irregular Replicate Probes</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for avereps"><tr><td>avereps</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Average Over Irregular Replicate Probes</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Condense a microarray data object so that values for within-array replicate probes are replaced with their average.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ## Default S3 method:
+ avereps(x, ID=rownames(x))
+ ## S3 method for class 'MAList'
+ avereps(x, ID=NULL)
+ ## S3 method for class 'EList'
+ avereps(x, ID=NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a matrix-like object, usually a matrix, <code>MAList</code> or <code>EList</code> object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>ID</code></td>
+ <td>
+ <p>probe identifier.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>A new data object is computed in which each probe ID is represented by the average of its replicate spots or features.
+ </p>
+ <p>For an <code>MAList</code> object, the components <code>M</code> and <code>A</code> are both averaged in this way, as are <code>weights</code> and any matrices found in <code>object$other</code>.
+ For an <code>MAList</code> object, <code>ID</code> defaults to <code>MA$genes$ID</code> is that exists, otherwise to <code>rownames(MA$M)</code>.
+ </p>
+ <p><code>EList</code> objects are similar, except that the <code>E</code> component is averaged instead of <code>M</code> and <code>A</code>.
+ </p>
+ <p>If <code>x</code> is of mode <code>"character"</code>, then the replicate values are assumed to be equal and the first is taken as the average.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A data object of the same class as <code>x</code> with a row for each unique value of <code>ID</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>avedups</code>, <code>avearrays</code>. Also <code>rowsum</code> in the base package.
+ </p>
+ <p>02.Classes gives an overview of data classes used in LIMMA.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ x &lt;- matrix(rnorm(8*3),8,3)
+ colnames(x) &lt;- c("S1","S2","S3")
+ rownames(x) &lt;- c("b","a","a","c","c","b","b","b")
+ avereps(x)
+ </pre>
+ 
+ 
+ </body></html>

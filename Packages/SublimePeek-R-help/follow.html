@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Nearest neighbor finding</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for nearest"><tr><td>nearest</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Nearest neighbor finding</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The <code>nearest</code>, <code>precede</code> and <code>follow</code> methods find
+ nearest neighbors between <code>Ranges</code> instances.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ nearest(x, subject, ...)
+ ## S4 method for signature 'Ranges,RangesORmissing'
+ nearest(x, subject,
+ select = c("arbitrary", "all"))
+ precede(x, subject = x, ...)
+ ## S4 method for signature 'Ranges,RangesORmissing'
+ precede(x, subject,
+ select = c("first", "all"))
+ follow(x, subject = x, ...)
+ ## S4 method for signature 'Ranges,RangesORmissing'
+ follow(x, subject,
+ select = c("last", "all"))
+ distanceToNearest(x, subject = x, ...)
+ ## S4 method for signature 'Ranges,RangesORmissing'
+ distanceToNearest(x, subject,
+ select = c("arbitrary", "all"))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>The query <code>Ranges</code> instance.</p>
+ </td></tr>
+ <tr valign="top"><td><code>subject</code></td>
+ <td>
+ <p>The subject <code>Ranges</code> instance, within which the
+ nearest neighbors are found. Can be missing, in which case the
+ query, <code>x</code>, is also the subject.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>select</code></td>
+ <td>
+ <p>Logic for handling ties. By default, all of the methods
+ here will select a single interval (arbitrary for <code>nearest</code>,
+ the first by order in <code>subject</code> for <code>precede</code>, and the
+ last for <code>follow</code>). To get all matchings, as
+ a <code>Hits</code> object, use &ldquo;all&rdquo;.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Additional arguments for methods</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>nearest</code> is the conventional nearest neighbor finder and returns
+ a integer vector containing the index of the nearest neighbor range in
+ <code>subject</code> for each range in <code>x</code>. If there is no nearest
+ neighbor (if <code>subject</code> is empty), NA's are returned.
+ </p>
+ <p>The algorithm is roughly as follows, for a range <code>xi</code> in <code>x</code>:
+ </p>
+ 
+ <ol>
+ <li><p> Find the ranges in <code>subject</code> that overlap <code>xi</code>. If a
+ single range <code>si</code> in <code>subject</code> overlaps <code>xi</code>, <code>si</code>
+ is returned as the nearest neighbor of <code>xi</code>. If there are
+ multiple overlaps, one of the overlapping ranges is chosen
+ arbitrarily.
+ </p>
+ </li>
+ <li><p> If no ranges in <code>subject</code> overlap with <code>xi</code>, then
+ the range in <code>subject</code> with the shortest distance from its end to
+ the start <code>xi</code> or its start to the end of <code>xi</code> is
+ returned.
+ </p>
+ </li></ol>
+ 
+ <p>For each range in <code>x</code>, <code>precede</code> returns the index of the
+ interval in <code>subject</code> that is directly preceded by the query
+ range. Note that any overlapping ranges are excluded. <code>NA</code> is
+ returned when there are no qualifying ranges in <code>subject</code>.
+ </p>
+ <p><code>follow</code> is the opposite of <code>precede</code>: it returns the index
+ of the range in <code>subject</code> that a query range in <code>x</code> directly
+ follows.
+ </p>
+ <p><code>distanceToNearest</code> returns the distance for each range
+ in <code>x</code> to its nearest neighbor in <code>subject</code>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>For <code>nearest</code>, <code>precede</code> and <code>follow</code>, an integer
+ vector of indices in <code>subject</code>, or
+ a <code>Hits</code> if <code>select</code> is
+ &ldquo;all&rdquo;.
+ </p>
+ <p>For <code>distanceToNearest</code>, a <code>DataFrame</code> with a column for
+ the <code>query</code> index, <code>subject</code> index and <code>distance</code>
+ between the pair. This may become more formal in the future.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>M. Lawrence</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>findOverlaps</code> for finding just the overlapping ranges.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   query &lt;- IRanges(c(1, 3, 9), c(2, 7, 10))
+   subject &lt;- IRanges(c(3, 5, 12), c(3, 6, 12))
+ 
+   nearest(query, subject) # c(1L, 1L, 3L)
+   nearest(query) # c(2L, 1L, 2L)
+ 
+   query &lt;- IRanges(c(1, 3, 9), c(3, 7, 10))
+   subject &lt;- IRanges(c(3, 2, 10), c(3, 13, 12))
+   
+   precede(query, subject) # c(3L, 3L, NA)
+   precede(IRanges(), subject) # integer()
+   precede(query, IRanges()) # rep(NA_integer_, 3)
+   precede(query) # c(3L, 3L, NA)
+   
+   follow(query, subject) # c(NA, NA, 1L)
+   follow(IRanges(), subject) # integer()
+   follow(query, IRanges()) # rep(NA_integer_, 3)
+   follow(query) # c(NA, NA, 2L)
+ </pre>
+ 
+ 
+ </body></html>

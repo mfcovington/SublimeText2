@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: View edgeR User's Guide</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for edgeRUsersGuide"><tr><td>edgeRUsersGuide</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>View edgeR User's Guide</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>Finds the location of the edgeR User's Guide and optionally opens it.</p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ edgeRUsersGuide(view=TRUE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>view</code></td>
+ <td>
+ <p>logical, should the document be opened using the default PDF document reader?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The function <code>vignette("edgeR")</code> will find the short edgeR Vignette which describes how to obtain the Limma User's Guide.
+ The User's Guide is not itself a true vignette because it is not automatically generated using <code>Sweave</code> during the package build process.
+ This means that it cannot be found using <code>vignette</code>, hence the need for this special function.
+ </p>
+ <p>If the operating system is other than Windows, then the PDF viewer used is that given by <code>Sys.getenv("R_PDFVIEWER")</code>.
+ The PDF viewer can be changed using <code>Sys.putenv(R_PDFVIEWER=)</code>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ <p>Character string giving the file location.
+ If <code>view=TRUE</code>, the PDF document reader is started and the User's Guide is opened, as a side effect.</p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>system</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ # To get the location:
+ edgeRUsersGuide(view=FALSE)
+ # To open in pdf viewer:
+ ## Not run: edgeRUsersGuide()
+ </pre>
+ 
+ 
+ </body></html>

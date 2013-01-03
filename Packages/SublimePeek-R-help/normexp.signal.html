@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Expected Signal Given Observed Foreground Under Normal+Exp...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for normexp.signal"><tr><td>normexp.signal</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Expected Signal Given Observed Foreground Under Normal+Exp Model</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Adjust foreground intensities for observed background using Normal+Exp Model.
+ This function is called by <code>backgroundCorrect</code> and is not normally called directly by the user.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ normexp.signal(par, x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>par</code></td>
+ <td>
+ <p>numeric vector containing the parameters of the Normal+Exp distribution, see <code>normexp.fit</code> for details.</p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>numeric vector of (background corrected) intensities</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>In general the vector <code>normmean</code> is computed conditional on background at each spot.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Numeric vector containing adjusted intensities.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Ritchie, M. E., Silver, J., Oshlack, A., Silver, J., Holmes, M., Diyagama, D., Holloway, A., and Smyth, G. K. (2007).
+ A comparison of background correction methods for two-colour microarrays.
+ <EM>Bioinformatics</EM>
+ <a href="http://bioinformatics.oxfordjournals.org/cgi/content/abstract/btm412">http://bioinformatics.oxfordjournals.org/cgi/content/abstract/btm412</a>
+ </p>
+ <p>Silver, JD, Ritchie, ME, and Smyth, GK (2009).
+ Microarray background correction: maximum likelihood estimation for the normal-exponential convolution.
+ <EM>Biostatistics</EM> 10, 352-363.
+ <a href="http://biostatistics.oxfordjournals.org/cgi/content/abstract/kxn042">http://biostatistics.oxfordjournals.org/cgi/content/abstract/kxn042</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>normexp.fit</code>
+ </p>
+ <p>An overview of background correction functions is given in <code>04.Background</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre># See normexp.fit</pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Multivariate Normal Density and Random Deviates</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Mvnorm"><tr><td>Mvnorm</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Multivariate Normal Density and Random Deviates</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>These functions provide the density function and a random number
+ generator for the multivariate normal
+ distribution with mean equal to <code>mean</code> and covariance matrix
+ <code>sigma</code>. 
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ dmvnorm(x, mean, sigma, log=FALSE)
+ rmvnorm(n, mean = rep(0, nrow(sigma)), sigma = diag(length(mean)),
+         method=c("eigen", "svd", "chol"))
+ 
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>Vector or matrix of quantiles. If <code>x</code> is a matrix, each
+ row is taken to be a quantile.</p>
+ </td></tr>
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p>Number of observations.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mean</code></td>
+ <td>
+ <p>Mean vector, default is <code>rep(0, length = ncol(x))</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>sigma</code></td>
+ <td>
+ <p>Covariance matrix, default is <code>diag(ncol(x))</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>log</code></td>
+ <td>
+ <p>Logical; if <code>TRUE</code>, densities d are given as log(d).</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>Matrix decomposition used to determine the matrix root of
+ <code>sigma</code>, possible methods are eigenvalue decomposition
+ (<code>"eigen"</code>, default), singular value decomposition
+ (<code>"svd"</code>), and Cholesky decomposition (<code>"chol"</code>).</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Friedrich Leisch and Fabian Scheipl</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>pmvnorm</code>, <code>rnorm</code>, <code>qmvnorm</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ dmvnorm(x=c(0,0))
+ dmvnorm(x=c(0,0), mean=c(1,1))
+ 
+ sigma &lt;- matrix(c(4,2,2,3), ncol=2)
+ x &lt;- rmvnorm(n=500, mean=c(1,2), sigma=sigma)
+ colMeans(x)
+ var(x)
+ 
+ x &lt;- rmvnorm(n=500, mean=c(1,2), sigma=sigma, method="chol")
+ colMeans(x)
+ var(x)
+ 
+ plot(x)
+ </pre>
+ 
+ 
+ </body></html>

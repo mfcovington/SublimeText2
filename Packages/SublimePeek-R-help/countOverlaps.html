@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Interval Search Trees</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for IntervalTree-class"><tr><td>IntervalTree-class</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Interval Search Trees</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Efficiently perform overlap queries with an interval tree.
+ </p>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>A common type of query that arises when working with intervals is
+ finding which intervals in one set overlap those in another. An
+ efficient family of algorithms for answering such queries is known as
+ the Interval Tree. This implementation makes use of the augmented tree
+ algorithm from the reference below, but heavily adapts it for the use
+ case of large, sorted query sets.
+ </p>
+ <p>The simplest approach is to call the <code>findOverlaps</code> function on a
+ <code>Ranges</code> or other object with range information, as described in
+ the following section.
+ </p>
+ <p>An <code>IntervalTree</code> object is a derivative of
+ <code>Ranges</code> and stores its ranges as a tree that is
+ optimized for overlap queries. Thus, for repeated queries against the
+ same subject, it is more efficient to create an <code>IntervalTree</code>
+ once for the subject using the constructor described below and then
+ perform the queries against the <code>IntervalTree</code> instance.
+ </p>
+ 
+ 
+ <h3>Finding Overlaps</h3>
+ 
+ 
+ <p>This main purpose of the interval tree is to optimize the search for
+ ranges overlapping those in a query set. The interface for this
+ operation is the <code>findOverlaps</code> function.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>findOverlaps(query, subject = query, maxgap = 0L, minoverlap = 1L,
+         type = c("any", "start", "end", "within", "equal"),
+         select = c("all", "first", "last", "arbitrary"),
+         drop = FALSE, ignoreSelf = FALSE, ignoreRedundant = FALSE)</code>:
+ </p>
+ <p>Find the intervals in <code>query</code>, a <code>Ranges</code>,
+ <code>RangesList</code>, <code>RangedData</code>, or <code>integer</code> vector (to
+ be converted to length-one ranges), that overlap with the
+ intervals <code>subject</code>, a <code>Ranges</code>, <code>RangesList</code>, or
+ <code>RangedData</code>. If <code>query</code> is unsorted, it is sorted
+ first, so it is usually better to sort up-front, to avoid a sort
+ with each <code>findOverlaps</code> call.
+ </p>
+ <p>If <code>subject</code> is omitted, <code>query</code> is queried against
+ itself. In this case, and only this case, the <code>ignoreSelf</code>
+ and <code>ignoreRedundant</code> arguments are allowed. By default,
+ the result will contain hits for each range against itself, and if
+ there is a hit from A to B, there is also a hit for B to A. If
+ <code>ignoreSelf</code> is <code>TRUE</code>, all self matches are dropped. If
+ <code>ignoreRedundant</code> is <code>TRUE</code>, only one of A-&gt;B and B-&gt;A
+ is returned.
+ </p>
+ <p>Intervals with a separation of <code>maxgap</code> or less and a minimum
+ of <code>minoverlap</code> overlapping positions, allowing for
+ <code>maxgap</code>, are considered to be overlapping.  <code>maxgap</code>
+ should be a scalar, non-negative, integer. <code>minoverlap</code>
+ should be a scalar, positive integer.
+ </p>
+ <p>When <code>select</code> is &quot;all&quot;, the results are returned as a
+ <code>Hits</code> object. When <code>select</code>
+ is <code>"first"</code>, <code>"last"</code>, or <code>"arbitrary"</code> the results
+ are returned as an integer vector of length <code>query</code> containing
+ the first, last, or arbitrary overlapping interval in <code>subject</code>,
+ with <code>NA</code> indicating intervals that did not overlap any intervals
+ in <code>subject</code>.
+ </p>
+ <p>If <code>query</code> is a <code>RangesList</code> or
+ <code>RangedData</code>, <code>subject</code> must be a
+ <code>RangesList</code> or <code>RangedData</code>.  If both lists have names,
+ each element from the subject is paired with the element from the
+ query with the matching name, if any. Otherwise, elements are
+ paired by position. The overlap is then computed between the pairs
+ as described above. If <code>select</code> is <code>"all"</code>, a
+ <code>Hits</code> is returned. For all other
+ <code>select</code> the return value depends on the <code>drop</code> argument.
+ When <code>select != "all" &amp;&amp; !drop</code>, an <code>IntegerList</code>
+ is returned, where each element of the result corresponds to a space in
+ <code>query</code>. When<code>select != "all" &amp;&amp; drop</code>, an integer vector is
+ returned containing indices that are offset to align with the unlisted
+ <code>query</code>.
+ </p>
+ <p>By default, any overlap is accepted. By specifying the <code>type</code>
+ parameter, one can select for specific types of overlap. The types
+ correspond to operations in Allen's Interval Algebra (see
+ references). If <code>type</code> is <code>start</code> or <code>end</code>, the
+ intervals are required to have matching starts or ends,
+ respectively. While this operation seems trivial, the naive
+ implementation using <code>outer</code> would be much less
+ efficient. Specifying <code>equal</code> as the type returns the
+ intersection of the <code>start</code> and <code>end</code> matches. If
+ <code>type</code> is <code>within</code>, the query interval must be wholly
+ contained within the subject interval. Note that all matches must
+ additionally satisfy the <code>minoverlap</code> constraint described above.
+ </p>
+ <p>The <code>maxgap</code> parameter has special meaning with the special
+ overlap types. For <code>start</code>, <code>end</code>, and <code>equal</code>,
+ it specifies the maximum difference in the starts, ends or both,
+ respectively. For <code>within</code>, it is the maximum amount by which
+ the query may be wider than the subject.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>countOverlaps(query, subject, maxgap = 0L, minoverlap = 1L,
+         type = c("any", "start", "end", "within", "equal"))</code>:
+ Returns the overlap hit count for each range in <code>query</code> using the
+ specified <code>findOverlaps</code> parameters. Both <code>query</code> and
+ <code>subject</code> should be <code>Ranges</code>, <code>RangesList</code> or
+ <code>RangedData</code> objects.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>subsetByOverlaps(query, subject, maxgap = 0L, minoverlap = 1L,
+         type = c("any", "start", "end", "within", "equal"))</code>:
+ Returns the subset of <code>query</code> that has an overlap hit with a range
+ in <code>subject</code> using the specified <code>findOverlaps</code> parameters.
+ Both <code>query</code> and <code>subject</code> should be <code>Ranges</code>,
+ <code>RangesList</code> or <code>RangedData</code> objects.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>x %in% table</code>:
+ Shortcut for finding the ranges in <code>x</code> that overlap any of
+ the ranges in <code>table</code>. Both <code>x</code> and <code>table</code> should
+ be <code>Ranges</code>, <code>RangesList</code> or <code>RangedData</code>
+ objects. For <code>Ranges</code> objects, the result is a <code>logical</code>
+ vector of length equal to the number of ranges in <code>x</code>. For
+ <code>RangesList</code> and <code>RangedData</code> objects, the result is a
+ <code>LogicalList</code> object, where each element of the
+ result corresponds to a space in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>match(x, table, nomatch = NA_integer_, incomparables =
+         NULL)</code>:
+ Returns an integer vector of length <code>length(x)</code>, containing
+ the index of the first overlapping range in <code>table</code> for each
+ range in <code>x</code>. If a range in <code>x</code> does not overlap any
+ ranges in <code>table</code>, its value is <code>nomatch</code>. The <code>x</code>
+ and <code>table</code> arguments should either be both <code>Ranges</code>
+ objects or both <code>RangesList</code> objects, in which case the
+ indices are into the unlisted <code>table</code>. The
+ <code>incomparables</code> argument is currently ignored.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Constructor</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p>IntervalTree(ranges): Creates an <code>IntervalTree</code> from the
+ ranges in <code>ranges</code>, an object coercible to
+ <code>IntervalTree</code>, such as an <code>IRanges</code> object.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>as(from, "IRanges")</code>: Imports the ranges in
+ <code>from</code>, an <code>IntervalTree</code>, to an
+ <code>IRanges</code>.</p>
+ </dd>
+ <dt></dt><dd><p><code>as(from, "IntervalTree")</code>: Constructs an
+ <code>IntervalTree</code> representing <code>from</code>, a <code>Ranges</code>
+ object that is coercible to <code>IRanges</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Accessors</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>length(x)</code>: Gets the number of ranges stored in the
+ tree. This is a fast operation that does not bring the ranges into
+ R.</p>
+ </dd>
+ <dt></dt><dd><p><code>start(x)</code>: Get the starts of the ranges.</p>
+ </dd>
+ <dt></dt><dd><p><code>end(x)</code>: Get the ends of the ranges.</p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Notes on Time Complexity</h3>
+ 
+ 
+ <p>The cost of constructing an instance of the interval tree is a
+ <code>O(n*lg(n))</code>, which makes it about as fast as other types of
+ overlap query algorithms based on sorting. The good news is that the
+ tree need only be built once per subject; this is useful in situations
+ of frequent querying. Also, in this implementation the data is stored
+ outside of R, avoiding needless copying. Of course, external storage
+ is not always convenient, so it is possible to coerce the tree to an
+ instance of <code>IRanges</code> (see the Coercion section).
+ </p>
+ <p>For the query operation, the running time is based on the query size
+ <code>m</code> and the average number of hits per query <code>k</code>. The output
+ size is then <code>max(mk,m)</code>, but we abbreviate this as
+ <code>mk</code>. Note that when the <code>multiple</code> parameter is set to
+ <code>FALSE</code>, <code>k</code> is fixed to 1 and drops out of this
+ analysis. We also assume here that the query is sorted by start
+ position (the <code>findOverlaps</code> function sorts the query if it is unsorted).
+ </p>
+ <p>An upper bound for finding overlaps is
+ <code>O(min(mk*lg(n),n+mk))</code>. The fastest interval tree algorithm
+ known is bounded by <code>O(min(m*lg(n),n)+mk)</code> but is a lot more
+ complicated and involves two auxillary trees. The lower bound is
+ <code>Omega(lg(n)+mk)</code>, which is almost the same as for returning
+ the answer, <code>Omega(mk)</code>. The average is of course somewhere in
+ between.
+ </p>
+ <p>This analysis informs the choice of which set of ranges to process
+ into a tree, i.e. assigning one to be the subject and the other to be
+ the query. Note that if <code>m &gt; n</code>, then the running time is
+ <code>O(m)</code>, and the total operation of complexity <code>O(n*lg(n) +
+   m)</code> is better than if <code>m</code> and <code>n</code> were exchanged. Thus, for
+ once-off operations, it is often most efficient to choose the smaller
+ set to become the tree (but <code>k</code> also affects this). This is
+ reinforced by the realization that if <code>mk</code> is about the same in
+ either direction, the running time depends only on <code>n</code>, which
+ should be minimized. Even in cases where a tree has already been
+ constructed for one of the sets, it can be more efficient to build a
+ new tree when the existing tree of size <code>n</code> is much larger than
+ the query set of size <code>m</code>, roughly when <code>n &gt; m*lg(n)</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Michael Lawrence</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Interval tree algorithm from: Cormen, Thomas H.; Leiserson,
+ Charles E.; Rivest, Ronald L.; Stein, Clifford. Introduction to
+ Algorithms, second edition, MIT Press and McGraw-Hill. ISBN
+ 0-262-53196-8
+ </p>
+ <p>Allen's Interval Algebra:
+ James F. Allen: Maintaining knowledge about temporal intervals. In:
+ Communications of the ACM. 26/11/1983. ACM Press. S. 832-843, ISSN 0001-0782
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>Ranges</code>, the parent of this class,
+ <code>Hits</code>, set of hits between 2 vector-like objects.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   query &lt;- IRanges(c(1, 4, 9), c(5, 7, 10))
+   subject &lt;- IRanges(c(2, 2, 10), c(2, 3, 12))
+   tree &lt;- IntervalTree(subject)
+ 
+   ## at most one hit per query
+   findOverlaps(query, tree, select = "first")
+   findOverlaps(query, tree, select = "last")
+   findOverlaps(query, tree, select = "arbitrary")
+ 
+   ## allow multiple hits
+   findOverlaps(query, tree)
+ 
+   ## overlap as long as distance &lt;= 1
+   findOverlaps(query, tree, maxgap = 1L)
+ 
+   ## shortcut
+   findOverlaps(query, subject)
+ 
+   ## query and subject are easily interchangeable
+   query &lt;- IRanges(c(1, 4, 9), c(5, 7, 10))
+   subject &lt;- IRanges(c(2, 2), c(5, 4))
+   tree &lt;- IntervalTree(subject)
+   t(findOverlaps(query, tree))
+   # the same as:
+   findOverlaps(subject, query)
+ 
+   ## one Ranges with itself
+   findOverlaps(query)
+ 
+   ## single points as query
+   subject &lt;- IRanges(c(1, 6, 13), c(4, 9, 14))
+   findOverlaps(c(3L, 7L, 10L), subject, select = "first")
+ 
+   ## alternative overlap types
+   query &lt;- IRanges(c(1, 5, 3, 4), width=c(2, 2, 4, 6))
+   subject &lt;- IRanges(c(1, 3, 5, 6), width=c(4, 4, 5, 4))
+ 
+   findOverlaps(query, tree, type = "start")
+   findOverlaps(query, tree, type = "start", maxgap = 1L)
+   findOverlaps(query, tree, type = "end", select = "first")
+   findOverlaps(query, tree, type = "within", maxgap = 1L)
+ </pre>
+ 
+ 
+ </body></html>

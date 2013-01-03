@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Contrast Matrices</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for contrMat"><tr><td>contrMat</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2> Contrast Matrices </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Computes contrast matrices for several multiple comparison procedures.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ contrMat(n, type = c("Dunnett", "Tukey", "Sequen", "AVE", 
+                      "Changepoint", "Williams", "Marcus", 
+                      "McDermott", "UmbrellaWilliams", "GrandMean"), 
+          base = 1)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p> a (possibly named) vector of sample sizes for each group.</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p> type of contrast. </p>
+ </td></tr>
+ <tr valign="top"><td><code>base</code></td>
+ <td>
+ <p> an integer specifying which group is considered the baseline
+ group for Dunnett contrasts.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Computes the requested matrix of contrasts for comparisons of mean levels.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>The matrix of contrasts with appropriate row names is returned. 
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Frank Bretz, Torsten Hothorn and Peter Westfall (2010),
+ <EM>Multiple Comparisons Using R</EM>, CRC Press, Boca Raton.
+ </p>
+ <p>Frank Bretz, Alan Genz and Ludwig A. Hothorn (2001), On the numerical 
+ availability of multiple comparison procedures. <EM>Biometrical Journal</EM>,
+ <B>43</B>(5), 645&ndash;656.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+  n &lt;- c(10,20,30,40)
+  names(n) &lt;- paste("group", 1:4, sep="")
+  contrMat(n)	# Dunnett is default
+  contrMat(n, base = 2)	# use second level as baseline
+  contrMat(n, type = "Tukey")
+  contrMat(n, type = "Sequen")
+  contrMat(n, type = "AVE")
+  contrMat(n, type = "Changepoint")
+  contrMat(n, type = "Williams")
+  contrMat(n, type = "Marcus")
+  contrMat(n, type = "McDermott")
+  ### Umbrella-protected Williams contrasts, i.e. a sequence of 
+  ### Williams-type contrasts with groups of higher order 
+  ### stepwise omitted
+  contrMat(n, type = "UmbrellaWilliams")
+  ### comparison of each group with grand mean of all groups
+  contrMat(n, type = "GrandMean")
+ 
+ </pre>
+ 
+ 
+ </body></html>

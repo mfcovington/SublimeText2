@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Hexbin Plot Matrices</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for hexplom"><tr><td>hexplom</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Hexbin Plot Matrices</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>hexplom</code> draws Conditional Hexbin Plot Matrices.  It is similar
+ to <code>splom</code>, expect that the default display is different.
+ Specifically, the default display is created using
+ <code>panel.hexplom</code>, which is an alias for <code>panel.hexbinplot</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ hexplom(x, data, ...)
+ 
+ ## S3 method for class 'formula'
+ hexplom(x, data = NULL, ...)
+ 
+ ## S3 method for class 'data.frame'
+ hexplom(x, data = NULL, ..., groups = NULL,
+    subset = TRUE) 
+ 
+ ## S3 method for class 'matrix'
+ hexplom(x, data = NULL, ..., groups = NULL, subset = TRUE)
+ 
+ panel.hexplom(...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>The object on which method dispatch is carried out.
+ </p>
+ <p>For the <code>"formula"</code> method, a formula describing the structure
+ of the plot, which should be of the form <code>~ x | g1 * g2 *
+     ...</code>, where <code>x</code> is a data frame or matrix.  Each of <code>g1,
+     g2, ...</code> must be either factors or shingles. The conditioning
+ variables <code>g1, g2, ...</code> may be omitted.
+ </p>
+ <p>For the <code>data.frame</code> and <code>matrix</code> methods, a data frame or
+ matrix as appropriate.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ 
+ <p>For the <code>formula</code> method, an optional data frame in which
+ variables in the formula (as well as <code>groups</code> and
+ <code>subset</code>, if any) are to be evaluated.  By default, the
+ environment where the function was called from is used.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>groups, subset, ...</code></td>
+ <td>
+ <p> see <code>splom</code>.  The
+ non-standard evaluation of <code>groups</code> and <code>subset</code> only
+ applies in the <code>formula</code> method.  Apart from arguments that
+ apply to <code>splom</code> (many of which are only documented in
+ <code>xyplot</code>), additional arguments meant for
+ <code>panel.hexplom</code> (which is an alias for
+ <code>panel.hexbinplot</code>) may also be supplied.  Such
+ arguments may include ones that control details of the hexbin
+ calculations, documented in <code>gplot.hexbin</code></p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An object of class <code>"trellis"</code>. The
+ <code>update</code> method can be used to
+ update components of the object and the
+ <code>print</code> method (usually called by
+ default) will plot it on an appropriate plotting device.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p> Deepayan Sarkar <a href="mailto:Deepayan.Sarkar@R-project.org">Deepayan.Sarkar@R-project.org</a>,
+ Nicholas Lewin-Koh <a href="mailto:nikko@hailmail.net">nikko@hailmail.net</a></p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>splom</code>, <code>xyplot</code>,
+ <code>hexbinplot</code>,
+ <code>Lattice</code>, <code>panel.pairs</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ ## Simple hexplom
+ data(NHANES)
+ hexplom(~NHANES[,7:14], xbins=15)
+ 
+ ## With colors and conditioning
+ hexplom(~NHANES[,9:13] | Sex, data = NHANES,
+         xbins = 15, colramp = magent)
+ 
+ ## With custom panel function
+ hexplom(NHANES[,9:13], xbins = 20,colramp = BTY, 
+         upper.panel = panel.hexboxplot)
+ 
+   
+ </pre>
+ 
+ 
+ </body></html>

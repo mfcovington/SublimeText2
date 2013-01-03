@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Lists of Atomic Vectors in Natural and Rle Form</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for AtomicList"><tr><td>AtomicList</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Lists of Atomic Vectors in Natural and Rle Form</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>An extension of <code>List</code> that holds
+ only atomic vectors in either a natural or run-length encoded form.</p>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The lists of atomic vectors are <code>LogicalList</code>, <code>IntegerList</code>,
+ <code>NumericList</code>, <code>ComplexList</code>, <code>CharacterList</code>, and
+ <code>RawList</code>. There is also an <code>RleList</code> class for
+ run-length encoded versions of these atomic vector types.
+ </p>
+ <p>Each of the above mentioned classes is virtual with Compressed* and Simple*
+ non-virtual representations.
+ </p>
+ 
+ 
+ <h3>Constructors</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>LogicalList(..., compress = TRUE)</code>: Concatenates the
+ <code>logical</code> vectors in <code>...</code> into a new <code>LogicalList</code>.
+ If <code>compress</code>, the internal storage of the data is compressed.</p>
+ </dd>
+ <dt></dt><dd><p><code>IntegerList(..., compress = TRUE)</code>: Concatenates the
+ <code>integer</code> vectors in <code>...</code> into a new <code>IntegerList</code>.
+ If <code>compress</code>, the internal storage of the data is compressed.</p>
+ </dd>
+ <dt></dt><dd><p><code>NumericList(..., compress = TRUE)</code>: Concatenates the
+ <code>numeric</code> vectors in <code>...</code> into a new <code>NumericList</code>.
+ If <code>compress</code>, the internal storage of the data is compressed.</p>
+ </dd>
+ <dt></dt><dd><p><code>ComplexList(..., compress = TRUE)</code>: Concatenates the
+ <code>complex</code> vectors in <code>...</code> into a new <code>ComplexList</code>.
+ If <code>compress</code>, the internal storage of the data is compressed.</p>
+ </dd>
+ <dt></dt><dd><p><code>CharacterList(..., compress = TRUE)</code>: Concatenates the
+ <code>character</code> vectors in <code>...</code> into a new <code>CharacterList</code>.
+ If <code>compress</code>, the internal storage of the data is compressed.</p>
+ </dd>
+ <dt></dt><dd><p><code>RawList(..., compress = TRUE)</code>: Concatenates the
+ <code>raw</code> vectors in <code>...</code> into a new <code>RawList</code>.
+ If <code>compress</code>, the internal storage of the data is compressed.</p>
+ </dd>
+ <dt></dt><dd><p><code>RleList(..., compress = FALSE)</code>: Concatenates the
+ run-length encoded atomic vectors in <code>...</code> into a new
+ <code>RleList</code>.
+ If <code>compress</code>, the internal storage of the data is compressed.</p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>as(from, "CompressedSplitDataFrameList")</code>,
+ <code>as(from, "SimpleSplitDataFrameList")</code>: Creates a
+ CompressedSplitDataFrameList/SimpleSplitDataFrameList
+ instance from an AtomicList instance.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "IRangesList")</code>, <code>as(from, "CompressedIRangesList")</code>,
+ <code>as(from, "SimpleIRangesList")</code>: Creates a
+ CompressedIRangesList/SimpleIRangesList
+ instance from a LogicalList or logical RleList instance. Note that the
+ elements of this instance are guaranteed to be normal.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "NormalIRangesList")</code>,
+ <code>as(from, "CompressedNormalIRangesList")</code>,
+ <code>as(from, "SimpleNormalIRangesList")</code>: Creates a
+ CompressedNormalIRangesList/SimpleNormalIRangesList
+ instance from a LogicalList or logical RleList instance.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>as(from, "CharacterList")</code>,
+ <code>as(from, "ComplexList")</code>,
+ <code>as(from, "IntegerList")</code>,
+ <code>as(from, "LogicalList")</code>,
+ <code>as(from, "NumericList")</code>,
+ <code>as(from, "RawList")</code>,
+ <code>as(from, "RleList")</code>:
+ Coerces an <code>AtomicList</code> <code>from</code> to another derivative of
+ <code>AtomicList</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>as(from, "AtomicList")</code>: If <code>from</code> is a vector,
+ converts it to an <code>AtomicList</code> of the appropriate type.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Group Generics</h3>
+ 
+ 
+ <p>AtomicList objects have support for S4 group generic functionality to operate
+ within elements across objects:
+ </p>
+ 
+ <dl>
+ <dt><code>Arith</code></dt><dd><p><code>"+"</code>, <code>"-"</code>, <code>"*"</code>, <code>"^"</code>,
+ <code>"%%"</code>, <code>"%/%"</code>, <code>"/"</code></p>
+ </dd>
+ <dt><code>Compare</code></dt><dd><p><code>"=="</code>, <code>"&gt;"</code>, <code>"&lt;"</code>, <code>"!="</code>, 
+ <code>"&lt;="</code>, <code>"&gt;="</code></p>
+ </dd>
+ <dt><code>Logic</code></dt><dd><p><code>"&amp;"</code>, <code>"|"</code></p>
+ </dd>
+ <dt><code>Ops</code></dt><dd><p><code>"Arith"</code>, <code>"Compare"</code>, <code>"Logic"</code></p>
+ </dd>
+ <dt><code>Math</code></dt><dd><p><code>"abs"</code>, <code>"sign"</code>, <code>"sqrt"</code>,
+ <code>"ceiling"</code>, <code>"floor"</code>, <code>"trunc"</code>, <code>"cummax"</code>,
+ <code>"cummin"</code>, <code>"cumprod"</code>, <code>"cumsum"</code>, <code>"log"</code>,
+ <code>"log10"</code>, <code>"log2"</code>, <code>"log1p"</code>, <code>"acos"</code>,
+ <code>"acosh"</code>, <code>"asin"</code>, <code>"asinh"</code>, <code>"atan"</code>,
+ <code>"atanh"</code>, <code>"exp"</code>, <code>"expm1"</code>, <code>"cos"</code>,
+ <code>"cosh"</code>, <code>"sin"</code>, <code>"sinh"</code>, <code>"tan"</code>, <code>"tanh"</code>,
+ <code>"gamma"</code>, <code>"lgamma"</code>, <code>"digamma"</code>, <code>"trigamma"</code></p>
+ </dd>
+ <dt><code>Math2</code></dt><dd><p><code>"round"</code>, <code>"signif"</code></p>
+ </dd>
+ <dt><code>Summary</code></dt><dd><p><code>"max"</code>, <code>"min"</code>, <code>"range"</code>,
+ <code>"prod"</code>, <code>"sum"</code>, <code>"any"</code>, <code>"all"</code></p>
+ </dd>
+ <dt><code>Complex</code></dt><dd><p><code>"Arg"</code>, <code>"Conj"</code>, <code>"Im"</code>,
+ <code>"Mod"</code>, <code>"Re"</code></p>
+ </dd>
+ </dl>
+ 
+ <p>See S4groupGeneric for more details.
+ </p>
+ 
+ 
+ <h3>Other Basic Methods</h3>
+ 
+ 
+ <p>The AtomicList objects also support a large number of basic methods.
+ Like the group generics above, these methods perform the corresponding
+ operation on each element of the list separately. The methods are: 
+ </p>
+ 
+ <dl>
+ <dt>General</dt><dd><p><code>%in%</code>, <code>is.na</code>, <code>match</code>, <code>sort</code>,
+ <code>table</code>, <code>unique</code></p>
+ </dd>
+ <dt>Logical</dt><dd><p><code>!</code>, <code>which</code>, <code>which.max</code>, <code>which.min</code></p>
+ </dd>
+ <dt>Numeric</dt><dd><p><code>diff</code>,
+ <code>pmax</code>, <code>pmax.int</code>, <code>pmin</code>, <code>pmin.int</code>,
+ <code>mean</code>, <code>var</code>, <code>cov</code>, <code>cor</code>, <code>sd</code>,
+ <code>median</code>, <code>quantile</code>, <code>mad</code>, <code>IQR</code></p>
+ </dd>
+ <dt>Running Window</dt><dd><p><code>smoothEnds</code>, <code>runmed</code>. <code>runmean</code>,
+ <code>runsum</code>, <code>runwtsum</code>, <code>runq</code></p>
+ </dd>
+ <dt>Character</dt><dd><p><code>nchar</code>, <code>chartr</code>, <code>tolower</code>,
+ <code>toupper</code>, <code>sub</code>, <code>gsub</code></p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>RleList Methods</h3>
+ 
+ 
+ <p>RleList has a number of methods that are not shared by other
+ AtomicList derivatives.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>runLength(x)</code>: Gets the run lengths of each element of the
+ list, as an IntegerList.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>runValue(x)</code>: Gets the run values of each element of the
+ list, as an AtomicList.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>ranges(x)</code>: Gets the run ranges as a
+ <code>RangesList</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Specialized Methods</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>drop(x)</code>: Checks if every element of <code>x</code> is of
+ length one, and, if so, unlists <code>x</code>. Otherwise, an error is
+ thrown.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>P. Aboyoun</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>List</code> for the applicable methods.</p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   int1 &lt;- c(1L,2L,3L,5L,2L,8L)
+   int2 &lt;- c(15L,45L,20L,1L,15L,100L,80L,5L)
+   collection &lt;- IntegerList(int1, int2)
+ 
+   ## names
+   names(collection) &lt;- c("one", "two")
+   names(collection)
+   names(collection) &lt;- NULL # clear names
+   names(collection)
+   names(collection) &lt;- "one"
+   names(collection) # c("one", NA)
+ 
+   ## extraction
+   collection[[1]] # range1
+   collection[["1"]] # NULL, does not exist
+   collection[["one"]] # range1
+   collection[[NA_integer_]] # NULL
+ 
+   ## subsetting
+   collection[numeric()] # empty
+   collection[NULL] # empty
+   collection[] # identity
+   collection[c(TRUE, FALSE)] # first element
+   collection[2] # second element
+   collection[c(2,1)] # reversed
+   collection[-1] # drop first
+   collection$one
+ 
+   ## replacement
+   collection$one &lt;- int2
+   collection[[2]] &lt;- int1
+ 
+   ## combining
+   col1 &lt;- IntegerList(one = int1, int2)
+   col2 &lt;- IntegerList(two = int2, one = int1)
+   col3 &lt;- IntegerList(int2)
+   append(col1, col2)
+   append(col1, col2, 0)
+   col123 &lt;- c(col1, col2, col3)
+   col123
+ 
+   ## revElements
+   revElements(col123)
+   revElements(col123, 4:5)
+ 
+   ## group generics
+   2 * col1
+   col1 + col1
+   col1 &gt; 2
+   sum(col1)  # equivalent to (but faster than) 'sapply(col1, sum)'
+   mean(col1)  # equivalent to (but faster than) 'sapply(col1, mean)'
+ </pre>
+ 
+ 
+ </body></html>

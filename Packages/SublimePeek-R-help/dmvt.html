@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: The Multivariate t Distribution</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Mvt"><tr><td>Mvt</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>The Multivariate t Distribution</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>These functions provide information about the multivariate t
+ distribution with non-centrality parameter (or mode) <code>delta</code>,
+ covariance matrix <code>sigma</code> and degrees of freedom <code>df</code>. 
+ <code>dmvt</code> gives the density and <code>rmvt</code>
+ generates random deviates.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ rmvt(n, sigma = diag(2), df = 1, delta = rep(0, nrow(sigma)),
+      type = c("shifted", "Kshirsagar"), ...)
+ dmvt(x, delta, sigma, df = 1, log = TRUE,
+      type = "shifted")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>Vector or matrix of quantiles. If <code>x</code> is a matrix, each
+ row is taken to be a quantile.</p>
+ </td></tr>
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p>Number of observations.</p>
+ </td></tr>
+ <tr valign="top"><td><code>delta</code></td>
+ <td>
+ <p> the vector of noncentrality parameters of length n, for
+ <code>type = "shifted"</code> delta specifies the mode.</p>
+ </td></tr>
+ <tr valign="top"><td><code>sigma</code></td>
+ <td>
+ <p>Correlation matrix, default is <code>diag(ncol(x))</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>df</code></td>
+ <td>
+ <p> degree of freedom as integer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>log</code></td>
+ <td>
+ <p>Logical; if <code>TRUE</code>, densities d are given as log(d).</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p> type of the noncentral multivariate t distribution
+ to be computed. <code>type = "Kshirsagar"</code> corresponds
+ to formula (1.4) in Genz and Bretz (2009) (see also
+ Chapter 5.1 in Kotz and Nadarajah (2004)). This is the
+ noncentral t-distribution  needed for calculating
+ the power of multiple contrast tests under a normality
+ assumption. <code>type = "shifted"</code> corresponds to the
+ formula right before formula (1.4) in Genz and Bretz (2009)
+ (see also formula (1.1) in Kotz and Nadarajah (2004)). It
+ is a location shifted version of the central t-distribution.
+ This noncentral multivariate t distribution appears for
+ example as the Bayesian posterior distribution
+ for the regression coefficients in a linear regression.
+ In the central case both types coincide.
+ Note that the defaults differ from the default 
+ in <code>pmvt</code> (for reasons of backward 
+ compatibility).
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p> additional arguments to <code>rmvnorm</code>,
+ for example <code>method</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>For type = &quot;shifted&quot; the following density is implemented
+ </p>
+ <p align="center"><i>c(1+(x-&delta;)'S^{-1}(x-&delta;)/&nu;)^{-(&nu;+m)/2},</i></p>
+ 
+ <p>where
+ </p>
+ <p align="center"><i>c = &Gamma;((&nu;+m)/2)/((&pi; &nu;)^{m/2}&Gamma;(&nu;/2)|S|^{1/2}),</i></p>
+ 
+ <p>here <i>S</i> is a positive definite symmetric matrix (which might be
+ the correlation or the covariance matrix), <i>delta</i> is the
+ non-centrality vector and  <i>&nu;</i> are the degrees of freedom.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>pmvt</code> and <code>qmvt</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+   dmvt(x=c(0,0), sigma = diag(2))
+   x &lt;- rmvt(n=100, sigma = diag(2), df = 3)
+   plot(x)
+ 
+ </pre>
+ 
+ 
+ </body></html>

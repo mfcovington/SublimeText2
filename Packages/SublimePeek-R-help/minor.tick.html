@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Minor Tick Marks</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for minor.tick"><tr><td>minor.tick</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Minor Tick Marks
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Adds minor tick marks to an existing plot.  All minor tick marks that
+ will fit on the axes will be drawn.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ minor.tick(nx=2, ny=2, tick.ratio=0.5)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>nx</code></td>
+ <td>
+ 
+ <p>number of intervals in which to divide the area between major tick marks on
+ the X-axis.  Set to 1 to suppress minor tick marks.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>ny</code></td>
+ <td>
+ 
+ <p>same as <code>nx</code> but for the Y-axis
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>tick.ratio</code></td>
+ <td>
+ 
+ <p>ratio of lengths of minor tick marks to major tick marks.  The length
+ of major tick marks is retrieved from <code>par("tck")</code>.
+ </p>
+ </td></tr></table>
+ 
+ 
+ <h3>Side Effects</h3>
+ 
+ 
+ <p>plots
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Frank Harrell
+ <br>
+ Department of Biostatistics
+ <br>
+ Vanderbilt University
+ <br>
+ <a href="mailto:f.harrell@vanderbilt.edu">f.harrell@vanderbilt.edu</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>axis</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ plot(runif(20),runif(20))
+ minor.tick()
+ </pre>
+ 
+ 
+ </body></html>

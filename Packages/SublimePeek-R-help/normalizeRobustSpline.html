@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Normalize Single Microarray Using Shrunk Robust Splines</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for normalizeRobustSpline"><tr><td>normalizeRobustSpline</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Normalize Single Microarray Using Shrunk Robust Splines</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Normalize the M-values for a single microarray using robustly fitted regression splines and empirical Bayes shrinkage.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ normalizeRobustSpline(M,A,layout,df=5,method="M")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>M</code></td>
+ <td>
+ <p>numeric vector of M-values</p>
+ </td></tr>
+ <tr valign="top"><td><code>A</code></td>
+ <td>
+ <p>numeric vector of A-values</p>
+ </td></tr>
+ <tr valign="top"><td><code>layout</code></td>
+ <td>
+ <p>list specifying the dimensions of the spot matrix and the grid matrix</p>
+ </td></tr>
+ <tr valign="top"><td><code>df</code></td>
+ <td>
+ <p>degrees of freedom for regression spline, i.e., the number of regression coefficients and the number of knots</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>choices are <code>"M"</code> for M-estimation or <code>"MM"</code> for high breakdown point regression</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function implements an idea similar to print-tip loess normalization but uses regression splines in place of the loess curves and uses empirical Bayes ideas to shrink the individual prtin-tip curves towards a common value.
+ This allows the technique to introduce less noise into good quality arrays with little spatial variation while still giving good results on arrays with strong spatial variation.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Numeric vector containing normalized M-values.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>The function is based on unpublished work by the author.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>An overview of LIMMA functions for normalization is given in 05.Normalization.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ MA &lt;- normalizeWithinArrays(RG)
+ normM &lt;- normalizeRobustSpline(MA$M[,1],MA$A[,1],MA$printer)
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

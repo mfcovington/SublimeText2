@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Transform RNA-Seq Data Ready for Linear Modelling</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for voom"><tr><td>voom</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Transform RNA-Seq Data Ready for Linear Modelling</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Transform count data to log2-counts per million, estimate the mean-variance relationship and use this to compute appropriate observational-level weights.
+ The data are then ready for linear modelling.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ voom(counts, design = NULL, lib.size = NULL, normalize.method = "none", plot = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>counts</code></td>
+ <td>
+ <p>either a numeric <code>matrix</code> containing raw counts or a <code>DGEList</code> object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>design</code></td>
+ <td>
+ <p>design matrix with rows corresponding to samples and columns to coefficients to be estimated.  Defaults to the unit vector meaning that samples are treated as replicates.</p>
+ </td></tr>
+ <tr valign="top"><td><code>lib.size</code></td>
+ <td>
+ <p>numeric vector containing total librazy sizes for each sample. If <code>NULL</code>, library sizes are calculated as column sums of <code>counts</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>normalize.method</code></td>
+ <td>
+ <p>normalization method to be applied to the log2-counts-per-million. Choices are as for the <code>method</code> argument of <code>normalizeBetweenArrays</code> when the data is single-channel.</p>
+ </td></tr>
+ <tr valign="top"><td><code>plot</code></td>
+ <td>
+ <p><code>logical</code> value indicating whether a plot of mean-variance trend is displayed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments are passed to <code>lmFit</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function is intended to process RNA-Seq or ChIP-Seq data prior to linear modelling in limma.
+ </p>
+ <p><code>voom</code> is an acronym for mean-variance modelling at the observational level.
+ The key concern is to estimate the mean-variance relationship in the data, then use this to compute appropriate weights for each observation.
+ Count data almost show non-trivial mean-variance relationships.
+ Raw counts show increasing variance with increasing count size, while log-counts typically show a decreasing mean-variance trend.
+ This function estimates the mean-variance trend for log-counts, then assigns a weight to each observation based on its predicted variance.
+ The weights are then used in the linear modelling process to adjust for heteroscedasticity. 
+ </p>
+ <p>In an experiment, a count value is observed for each tag in each sample. A tag-wise mean-variance trend is computed using <code>lowess</code>. The tag-wise mean is the mean log2 count with an offset of 0.5, across samples for a given tag. The tag-wise variance is the quarter-root-variance of normalized log2 counts per million values with an offset of 0.5, across samples for a given tag. Tags with zero counts across all samples are not included in the lowess fit.
+ Optional normalization is performed using <code>normalizeBetweenArrays</code>. 
+ Using fitted values of log2 counts from a linear model fit by <code>lmFit</code>, variances from the mean-variance trend were interpolated for each observation. This was carried out by <code>approxfun</code>. Inverse variance weights can be used to correct for mean-variance trend in the count data.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An EList object with the following components:
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>E</code></td>
+ <td>
+ <p>numeric matrix of normalized expression values on the log2 scale</p>
+ </td></tr>
+ <tr valign="top"><td><code>weights</code></td>
+ <td>
+ <p>numeric matrix of inverse variance weights</p>
+ </td></tr>
+ <tr valign="top"><td><code>design</code></td>
+ <td>
+ <p>numeric matrix of experimental design</p>
+ </td></tr>
+ <tr valign="top"><td><code>lib.size</code></td>
+ <td>
+ <p>numeric vector of total library sizes</p>
+ </td></tr>
+ <tr valign="top"><td><code>genes</code></td>
+ <td>
+ <p>dataframe of gene annotation, only if <code>counts</code> was a <code>DGEList</code> object</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Charity Law and Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>normalizeBetweenArrays</code>
+ </p>
+ 
+ 
+ </body></html>

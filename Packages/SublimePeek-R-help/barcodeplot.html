@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Barcode Plot</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for barcodeplot"><tr><td>barcodeplot</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Barcode Plot</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Plot positions of one or two gene sets in a ranked list of statistics.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ barcodeplot(statistics,index,index2=NULL,labels=c("Group 1 (highest statistic)","Group 2 (lowest statistic)"),
+             quantiles=c(-1,1),col.bars=NULL,offset.bars=!is.null(index2), ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>index</code></td>
+ <td>
+ <p>index vector for the gene set.  This can be a vector of indices, or a logical vector of the same length as <code>statistics</code> or, in general, any vector such that <code>statistic[index]</code> gives the statistic values for the gene set to be tested.</p>
+ </td></tr>
+ <tr valign="top"><td><code>index2</code></td>
+ <td>
+ <p>index vector for a second gene set.  Usually used to specify down-regulated genes when <code>index</code> is used for up-regulated genes.vector specifying the elements of <code>statistic</code> in the test group.</p>
+ </td></tr>
+ <tr valign="top"><td><code>statistics</code></td>
+ <td>
+ <p>numeric vector giving the values of statistics to rank genes by.</p>
+ </td></tr>
+ <tr valign="top"><td><code>labels</code></td>
+ <td>
+ <p>character vector of labels for the two groups of RNA samples that are being compared by the statistics.  First labe is associated with high statistics and is displayed at the left end of the plot.  Second label is associated with low or negative statistics and is displayed at the right end of the plot.</p>
+ </td></tr>
+ <tr valign="top"><td><code>quantiles</code></td>
+ <td>
+ <p>numeric vector of length 2, giving cutoff values for <code>statistics</code> considered small or large respectively.  Used to color the rectangle of the barcodeplot.</p>
+ </td></tr>
+ <tr valign="top"><td><code>col.bars</code></td>
+ <td>
+ <p>character vector giving colors for the bars on the barcodeplot. Defaults to <code>"black"</code> for one set or <code>c("red","blue")</code> for two sets.</p>
+ </td></tr>
+ <tr valign="top"><td><code>offset.bars</code></td>
+ <td>
+ <p>logical. When there are two sets, bars for the first set are normally offset up and and bars for the second set are offset down from the rectangle of the barcodeplot.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments are passed to <code>plot</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Rank statistics left to right from largest to smallest, and show positions of one or two specified subsets.
+ This plot is typically used in conjunction with gene set tests.
+ It first appeared in the literature in Lim et al (2009).
+ It was inspired by the set location plot of Subramanian et al (2005).
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>No value is returned but a plot is produced as a side effect.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth and Di Wu</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Lim E, Vaillant F, Wu D, Forrest NC, Pal B, Hart AH, Asselin-Labat ML, Gyorki DE, Ward T, Partanen A, Feleppa F, Huschtscha LI, Thorne HJ; kConFab; Fox SB, Yan M, French JD, Brown MA, Smyth GK, Visvader JE, Lindeman GJ (2009).
+ Aberrant luminal progenitors as the candidate target population for basal tumor development in BRCA1 mutation carriers.
+ <EM>Nat Med</EM>, 15, 907-913..
+ </p>
+ <p>Subramanian A, Tamayo P, Mootha VK, Mukherjee S, Ebert BL, Gillette MA, Paulovich A, Pomeroy SL, Golub TR, Lander ES, Mesirov JP (2005).
+ Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles.
+ <EM>Proc Natl Acad Sci USA</EM>, 102, 15545-15550.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>camera</code>, <code>wilcox.test</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ stat &lt;- rnorm(100)
+ sel &lt;- 1:10
+ stat[sel] &lt;- stat[sel]+1
+ barcodeplot(stat,sel)
+ sel2 &lt;- 11:20
+ stat[sel2] &lt;- stat[sel2]-1
+ barcodeplot(stat,sel,sel2)
+ </pre>
+ 
+ 
+ </body></html>

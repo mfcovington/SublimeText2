@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Expectation: is the object equal (with numerical tolerance)...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for equals"><tr><td>equals</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Expectation: is the object equal (with numerical tolerance) to a value?</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Comparison performed using <code>all.equal</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   equals(expected, label = NULL, ...)
+ 
+   expect_equal(object, expected, ..., info = NULL,
+     label = NULL, expected.label = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>expected</code></td>
+ <td>
+ <p>Expected value</p>
+ </td></tr>
+ <tr valign="top"><td><code>label</code></td>
+ <td>
+ <p>For full form, label of expected object used
+ in error messages. Useful to override default (deparsed
+ expected expression) when doing tests in a loop.  For
+ short cut form, object label. When <code>NULL</code>, computed
+ from deparsed object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>expected.label</code></td>
+ <td>
+ <p>Equivalent of <code>label</code> for
+ shortcut form.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other values passed to
+ <code>all.equal</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>object to test</p>
+ </td></tr>
+ <tr valign="top"><td><code>info</code></td>
+ <td>
+ <p>extra information to be included in the
+ message (useful when writing tests in loops).</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Other expectations: <code>expect_equivalent</code>,
+ <code>expect_error</code>, <code>expect_false</code>,
+ <code>expect_identical</code>, <code>expect_is</code>,
+ <code>expect_match</code>, <code>expect_message</code>,
+ <code>expect_output</code>, <code>expect_true</code>,
+ <code>expect_warning</code>,
+ <code>gives_warning</code>, <code>is_a</code>,
+ <code>is_equivalent_to</code>, <code>is_false</code>,
+ <code>is_identical_to</code>, <code>is_true</code>,
+ <code>matches</code>, <code>prints_text</code>,
+ <code>shows_message</code>,
+ <code>takes_less_than</code>, <code>throws_error</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ a &lt;- 10
+ expect_that(a, equals(10))
+ expect_equal(a, 10)
+ 
+ # Use equals() when testing for numeric equality
+ sqrt(2) ^ 2 - 1
+ expect_that(sqrt(2) ^ 2, equals(2))
+ expect_equal(sqrt(2) ^ 2, 2)
+ # Neither of these forms take floating point representation errors into
+ # account
+ ## Not run: 
+ expect_that(sqrt(2) ^ 2 == 2, is_true())
+ expect_that(sqrt(2) ^ 2, is_identical_to(2))
+ 
+ ## End(Not run)
+ 
+ # You can pass on additional arguments to all.equal:
+ ## Not run: 
+ # Test the ABSOLUTE difference is within .002
+ expect_equal(object = 10.01, expected = 10, tolerance = .002,
+   scale = 1)
+ 
+ # Test the RELATIVE difference is within .002
+ expectedValue &lt;- 10
+ expect_equal(object = 10.01, expected = expectedValue, tolerance = 0.002,
+   scale = expectedValue)
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

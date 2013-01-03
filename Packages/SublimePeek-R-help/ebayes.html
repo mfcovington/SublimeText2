@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Empirical Bayes Statistics for Differential Expression</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for ebayes"><tr><td>ebayes</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Empirical Bayes Statistics for Differential Expression</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>Given a series of related parameter estimates and standard errors, compute moderated t-statistics, moderated F-statistic, and log-odds of differential expression by empirical Bayes shrinkage of the standard errors towards a common value.</p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ebayes(fit, proportion=0.01, stdev.coef.lim=c(0.1,4), trend=FALSE)
+ eBayes(fit, proportion=0.01, stdev.coef.lim=c(0.1,4), trend=FALSE)
+ treat(fit, lfc=0, trend=FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>fit</code></td>
+ <td>
+ <p>an <code>MArrayLM</code> fitted model object produced by <code>lmFit</code> or <code>contrasts.fit</code>, or an unclassed list produced by <code>lm.series</code>, <code>gls.series</code> or <code>mrlm</code> containing components <code>coefficients</code>, <code>stdev.unscaled</code>, <code>sigma</code> and <code>df.residual</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>proportion</code></td>
+ <td>
+ <p>numeric value between 0 and 1, assumed proportion of genes which are differentially expressed</p>
+ </td></tr>
+ <tr valign="top"><td><code>stdev.coef.lim</code></td>
+ <td>
+ <p>numeric vector of length 2, assumed lower and upper limits for the standard deviation of log2-fold-changes for differentially expressed genes</p>
+ </td></tr>
+ <tr valign="top"><td><code>trend</code></td>
+ <td>
+ <p>logical, should an intensity-trend be allowed for the prior variance. Default is that the prior variance is constant.</p>
+ </td></tr>
+ <tr valign="top"><td><code>lfc</code></td>
+ <td>
+ <p>the minimum log2-fold-change which is considered material</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>These functions is used to rank genes in order of evidence for differential expression.
+ They use an empirical Bayes method to shrink the probe-wise sample variances towards a common value and to augmenting the degrees of freedom for the individual variances (Smyth, 2004).
+ The functions accept as input argument <code>fit</code> a fitted model object from the functions <code>lmFit</code>, <code>lm.series</code>, <code>mrlm</code> or <code>gls.series</code>.
+ The fitted model object may have been processed by <code>contrasts.fit</code> before being passed to <code>eBayes</code> to convert the coefficients of the design matrix into an arbitrary number of contrasts which are to be tested equal to zero.
+ The columns of <code>fit</code> define a set of contrasts which are to be tested equal to zero.
+ </p>
+ <p>The empirical Bayes moderated t-statistics test each individual contrast equal to zero.
+ For each probe (row), the moderated F-statistic tests whether all the contrasts are zero.
+ The F-statistic is an overall test computed from the set of t-statistics for that probe.
+ This is exactly analogous the relationship between t-tests and F-statistics in conventional anova, except that the residual mean squares and residual degrees of freedom have been moderated between probes.
+ </p>
+ <p>The estimates <code>s2.prior</code> and <code>df.prior</code> are computed by <code>fitFDist</code>.
+ <code>s2.post</code> is the weighted average of <code>s2.prior</code> and <code>sigma^2</code> with weights proportional to <code>df.prior</code> and <code>df.residual</code> respectively.
+ The <code>lods</code> is sometimes known as the B-statistic.
+ The F-statistics <code>F</code> are computed by <code>classifyTestsF</code> with <code>fstat.only=TRUE</code>.
+ </p>
+ <p><code>eBayes</code> doesn't compute ordinary (unmoderated) t-statistics by default, but these can be easily extracted from 
+ the linear model output, see the example below.
+ </p>
+ <p><code>ebayes</code> is the earlier and leaner function.
+ <code>eBayes</code> is intended to have a more object-orientated flavor as it produces objects containing all the necessary components for downstream analysis.
+ </p>
+ <p><code>treat</code> computes empirical Bayes moderated-t p-values relative to a minimum required fold-change threshold.
+ Use <code>topTreat</code> to summarize output from <code>treat</code>.
+ Instead of testing for genes which have log-fold-changes different from zero, it tests whether the log2-fold-change is greater than <code>lfc</code> in absolute value (McCarthy and Smyth, 2009).
+ <code>treat</code> is concerned with p-values rather than posterior odds, so it does not compute the B-statistic <code>lods</code>.
+ The idea of thresholding doesn't apply to F-statistics in a straightforward way, so moderated F-statistics are also not computed.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>eBayes</code> produces an object of class <code>MArrayLM</code> with the following components, see <code>MArrayLM-class</code>.
+ <code>ebayes</code> produces an ordinary list without <code>F</code> or <code>F.p.value</code>.
+ <code>treat</code> produces an <code>MArrayLM</code> object, but without <code>lods</code>, <code>var.prior</code>, <code>F</code> or <code>F.p.value</code>.
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>t</code></td>
+ <td>
+ <p>numeric vector or matrix of moderated t-statistics</p>
+ </td></tr>
+ <tr valign="top"><td><code>p.value</code></td>
+ <td>
+ <p>numeric vector of p-values corresponding to the t-statistics</p>
+ </td></tr>
+ <tr valign="top"><td><code>s2.prior</code></td>
+ <td>
+ <p>estimated prior value for <code>sigma^2</code>. A vector if <code>covariate</code> is non-<code>NULL</code>, otherwise a scalar.</p>
+ </td></tr>
+ <tr valign="top"><td><code>df.prior</code></td>
+ <td>
+ <p>degrees of freedom associated with <code>s2.prior</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>df.total</code></td>
+ <td>
+ <p>numeric vector of total degrees of freedom associated with t-statistics and p-values. Equal to <code>df.prior+df.residual</code> or <code>sum(df.residual)</code>, whichever is smaller.</p>
+ </td></tr>
+ <tr valign="top"><td><code>s2.post</code></td>
+ <td>
+ <p>numeric vector giving the posterior values for <code>sigma^2</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>lods</code></td>
+ <td>
+ <p>numeric vector or matrix giving the log-odds of differential expression</p>
+ </td></tr>
+ <tr valign="top"><td><code>var.prior</code></td>
+ <td>
+ <p>estimated prior value for the variance of the log2-fold-change for differentially expressed gene</p>
+ </td></tr>
+ <tr valign="top"><td><code>F</code></td>
+ <td>
+ <p>numeric vector of moderated F-statistics for testing all contrasts defined by the columns of <code>fit</code> simultaneously equal to zero</p>
+ </td></tr>
+ <tr valign="top"><td><code>F.p.value</code></td>
+ <td>
+ <p>numeric vector giving p-values corresponding to <code>F</code></p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth and Davis McCarthy</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>McCarthy, D. J., and Smyth, G. K. (2009). Testing significance relative to a fold-change threshold is a TREAT. <EM>Bioinformatics</EM>.
+ <a href="http://bioinformatics.oxfordjournals.org/cgi/content/abstract/btp053">http://bioinformatics.oxfordjournals.org/cgi/content/abstract/btp053</a>
+ </p>
+ <p>Loennstedt, I., and Speed, T. P. (2002). Replicated microarray data. <EM>Statistica Sinica</EM> <B>12</B>, 31-46.
+ </p>
+ <p>Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments.
+ <EM>Statistical Applications in Genetics and Molecular Biology</EM>, Volume <B>3</B>, Article 3. <a href="http://www.bepress.com/sagmb/vol3/iss1/art3">http://www.bepress.com/sagmb/vol3/iss1/art3</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>squeezeVar</code>, <code>fitFDist</code>, <code>tmixture.matrix</code>.
+ </p>
+ <p>An overview of linear model functions in limma is given by 06.LinearModels.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ #  See also lmFit examples
+ 
+ #  Simulate gene expression data,
+ #  6 microarrays and 100 genes with one gene differentially expressed
+ set.seed(2004); invisible(runif(100))
+ M &lt;- matrix(rnorm(100*6,sd=0.3),100,6)
+ M[1,] &lt;- M[1,] + 1
+ fit &lt;- lmFit(M)
+ 
+ #  Ordinary t-statistic
+ par(mfrow=c(1,2))
+ ordinary.t &lt;- fit$coef / fit$stdev.unscaled / fit$sigma
+ qqt(ordinary.t,df=fit$df.residual,main="Ordinary t")
+ abline(0,1)
+ 
+ #  Moderated t-statistic
+ eb &lt;- eBayes(fit)
+ qqt(eb$t,df=eb$df.prior+eb$df.residual,main="Moderated t")
+ abline(0,1)
+ #  Points off the line may be differentially expressed
+ par(mfrow=c(1,1))
+ </pre>
+ 
+ 
+ </body></html>

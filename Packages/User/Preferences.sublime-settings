@@ -1,0 +1,35 @@
+{
+	"autoReloadChanged": true,
+	"caret_style": "blink",
+	"color_scheme": "Packages/User/Sunburst-mfc.tmTheme",
+	"detect_indentation": false,
+	"font_face": "Mensch",
+	"highlight_line": true,
+	"ignored_packages":
+	[
+		"Vintage",
+		"SublimeLinter",
+		"MarkdownEditing",
+		"Markdown Preview",
+		"SmartMarkdown",
+		"LaTeXTools",
+		"HtmlTidy",
+		"Git",
+		"Gist",
+		"Csslisible",
+		// "BracketHighlighter",
+		"Python Pep8 Lint",
+		"FileDiffs",
+		"Alignment",
+		"WordCount",
+		"SideBarEnhancements",
+		"lispindent",
+        "Alignment"
+        // "SublimeBlockCursor"
+	],
+	"perltidy_cmd": "/Users/mfc/perl5/perlbrew/perls/current/bin/perltidy",
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true,
+	"wide_caret": true,
+    "auto_complete_commit_on_tab": false
+}

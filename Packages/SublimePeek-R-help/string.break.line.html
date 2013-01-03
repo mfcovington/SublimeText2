@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Break a String into Many Lines at Newlines</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for string.break.line"><tr><td>string.break.line</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Break a String into Many Lines at Newlines</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Takes a string and breaks it into seperate substrings where there are
+ newline characters.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ string.break.line(string)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>string</code></td>
+ <td>
+ <p>character vector to be separated into many lines.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Returns a list that is the same length of as the <code>string</code>
+ argument.
+ </p>
+ <p>Each list element is a character vector.
+ </p>
+ <p>Each character vectors elements are the
+ split lines of the corresponding element in the <code>string</code> argument vector.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Charles Dupont</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>strsplit</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ a &lt;- c('', 'this is a single line string',
+        'This is a\nmulti-line string.')
+ 
+ b &lt;- string.break.line(a)
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Convert Gene Set Symbols to Indices</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for symbols2indices"><tr><td>symbols2indices</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Convert Gene Set Symbols to Indices</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Make a list of gene set symbols into a list of gene sets indices. 
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ symbols2indices(gene.sets, symbols, remove.empty=TRUE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>gene.sets</code></td>
+ <td>
+ <p>list of character vectors, each vector containing the symbols for a set of genes.</p>
+ </td></tr>
+ <tr valign="top"><td><code>symbols</code></td>
+ <td>
+ <p>character vector of gene symbols.</p>
+ </td></tr>
+ <tr valign="top"><td><code>remove.empty</code></td>
+ <td>
+ <p>logical, should sets of size zero be removed from the output?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function used to create input for <code>romer</code> function.
+ Typically, <code>symbols</code> is the vector of symbols of genes on a microarray, and <code>gene.sets</code> is obtained constructed from a database of gene sets, for example a representation of the Molecular Signatures Database (MSigDB) downloaded from <a href="http://bioinf.wehi.edu.au/software/MSigDB">http://bioinf.wehi.edu.au/software/MSigDB</a>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>list of integer vectors, each vector containing the indices of a gene set in the vector <code>symbols</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth and Yifang Hu</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>romer</code>,<code>mroast</code>
+ </p>
+ 
+ 
+ </body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Low-level string utilities</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for strutils"><tr><td>strutils</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Low-level string utilities</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Some low-level string utilities that operate on ordinary
+ character vectors. For more advanced string manipulations,
+ see the Biostrings package.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ strsplitAsListOfIntegerVectors(x, sep=",")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>A character vector where each element is a string containing
+ comma-separated decimal integer values.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>sep</code></td>
+ <td>
+ 
+ <p>The value separator character.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A list of integer vectors. The list is of the same length as the input.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p><code>strsplitAsListOfIntegerVectors</code> is similar to the
+ <code>strsplitAsListOfIntegerVectors2</code> function shown in the
+ Examples section below, except that the former generally raises
+ an error where the latter would have inserted an <code>NA</code> in
+ the returned object. More precisely:
+ </p>
+ 
+ <ul>
+ <li><p> The latter accepts NAs in the input,
+ the former doesn't (raises an error).
+ </p>
+ </li>
+ <li><p> The latter introduces NAs by coercion (with a warning),
+ the former doesn't (raises an error).
+ </p>
+ </li>
+ <li><p> The latter supports &quot;inaccurate integer conversion in coercion&quot;
+ when the value to coerce is &gt; INT_MAX (then it's coerced to INT_MAX),
+ the former doesn't (raises an error).
+ </p>
+ </li>
+ <li><p> The latter coerces non-integer values (e.g. 10.3) to an
+ int by truncating them, the former doesn't (raises an error).
+ </p>
+ </li></ul>
+ 
+ <p>When it fails, <code>strsplitAsListOfIntegerVectors</code> will print
+ an informative error message.
+ Finally, <code>strsplitAsListOfIntegerVectors</code> is faster and uses
+ much less memory than <code>strsplitAsListOfIntegerVectors2</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>H. Pages</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>strsplit</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   x &lt;- c("1116,0,-19",
+          " +55291 , 2476,",
+          "19184,4269,5659,6470,6721,7469,14601",
+          "7778889, 426900, -4833,5659,6470,6721,7096",
+          "19184 , -99999")
+   y &lt;- strsplitAsListOfIntegerVectors(x)
+   y
+ 
+   ## In normal situations (i.e. when the input is well-formed),
+   ## strsplitAsListOfIntegerVectors() does actually the same as the
+   ## function below but is more efficient (both in speed and memory
+   ## footprint):
+   strsplitAsListOfIntegerVectors2 &lt;- function(x, sep=",")
+   {
+     tmp &lt;- strsplit(x, sep, fixed = TRUE)
+     lapply(tmp, as.integer)
+   }
+   y2 &lt;- strsplitAsListOfIntegerVectors2(x)
+   stopifnot(identical(y, y2))
+ </pre>
+ 
+ 
+ </body></html>

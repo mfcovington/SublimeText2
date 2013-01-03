@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Load package, if available.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for library_if_available"><tr><td>library_if_available</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Load package, if available.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Quietly load a package if it is installed, otherwise do
+ nothing.  This is useful for testing files so that you
+ can run them while you are developing your package,
+ before it is installed for the first time; then continue
+ to have the same code work when the tests are run
+ automatically by R CMD CHECK.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   library_if_available(package)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>package</code></td>
+ <td>
+ <p>package name (without quotes)</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ library_if_available(testthat)
+ library_if_available(packagethatdoesntexist)
+ </pre>
+ 
+ 
+ </body></html>
