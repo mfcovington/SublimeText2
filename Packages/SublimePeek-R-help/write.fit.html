@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Write MArrayLM Object to a File</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for write.fit"><tr><td>write.fit</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Write MArrayLM Object to a File</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Write a microarray linear model fit to a file.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ write.fit(fit, results=NULL, file, digits=3, adjust="none", method="separate", F.adjust="none", sep="\t", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>fit</code></td>
+ <td>
+ <p>object of class <code>MArrayLM</code> containing the results of a linear model fit</p>
+ </td></tr>
+ <tr valign="top"><td><code>results</code></td>
+ <td>
+ <p>object of class <code>TestResults</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p>character string giving name of file</p>
+ </td></tr>
+ <tr valign="top"><td><code>digits</code></td>
+ <td>
+ <p>integer indicating precision to be used</p>
+ </td></tr>
+ <tr valign="top"><td><code>adjust</code></td>
+ <td>
+ <p>character string specifying multiple-testing adjustment method for the t-statistic P-values, e.g., <code>"BH"</code>. See <code>p.adjust</code> for the available options. If <code>NULL</code> or <code>"none"</code> then the P-values are not adjusted.</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>character string, should the P-value adjustment be <code>"global"</code> or <code>"separate"</code> for each contrast.</p>
+ </td></tr>
+ <tr valign="top"><td><code>F.adjust</code></td>
+ <td>
+ <p>character string specifying adjustment method for the F-statistic P-values.</p>
+ </td></tr>
+ <tr valign="top"><td><code>sep</code></td>
+ <td>
+ <p>the field separator string. Values in the output file will be separated by this string.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments are passed to <code>write.table</code></p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function writes a tab-delimited text file containing for each gene (1) the average log-intensity, (2) the log-ratios, (3) moderated t-statistics, (4) t-statistic P-values, (5) F-statistic if available, (6) F-statistic P-values if available, (7) classification if available and (8) gene names and annotation.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>No value is produced but a file is written to the current working directory.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>write</code> in the base library.
+ </p>
+ <p>An overview of linear model functions in limma is given by 06.LinearModels.
+ </p>
+ 
+ 
+ </body></html>

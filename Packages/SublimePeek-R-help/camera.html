@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Competitive Gene Set Test Accounting for Inter-gene...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for camera"><tr><td>camera</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Competitive Gene Set Test Accounting for Inter-gene Correlation</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Test whether a set of genes is highly ranked relative to other genes in terms of differential expression, accounting for inter-gene correlation.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ camera(indices, y, design, contrast=ncol(design), weights=NULL, use.ranks=FALSE, allow.neg.cor=TRUE, trend.var=FALSE)
+ interGeneCorrelation(y, design)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>indices</code></td>
+ <td>
+ <p>an index vector or a list of index vectors.  Can be any vector such that <code>y[indices,]</code> selects the rows corresponding to the test set.</p>
+ </td></tr>
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>numeric matrix giving log-expression or log-ratio values for a series of microarrays, or any data object that can coerced to a matrix including <code>ExpressionSet</code>, <code>MAList</code>, <code>EList</code> or <code>PLMSet</code> objects.
+ Rows correspond to probes and columns to samples.</p>
+ </td></tr>
+ <tr valign="top"><td><code>design</code></td>
+ <td>
+ <p>design matrix.</p>
+ </td></tr>
+ <tr valign="top"><td><code>contrast</code></td>
+ <td>
+ <p>contrast of the linear model coefficients for which the test is required. Can be an integer specifying a column of <code>design</code>, or else a numeric vector of same length as the number of columns of <code>design</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>weights</code></td>
+ <td>
+ <p>can be a numeric matrix of individual weights, of same size as <code>y</code>, or a numeric vector of array weights with length equal to <code>ncol(y)</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>use.ranks</code></td>
+ <td>
+ <p>do a rank-based test (<code>TRUE</code>) or a parametric test (<code>FALSE</code>?</p>
+ </td></tr>
+ <tr valign="top"><td><code>allow.neg.cor</code></td>
+ <td>
+ <p>should reduced variance inflation factors be allowed for negative correlations?</p>
+ </td></tr>
+ <tr valign="top"><td><code>trend.var</code></td>
+ <td>
+ <p>logical, should an empirical Bayes trend be estimated?  See <code>eBayes</code> for details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function implements the camera gene set test proposed by Wu and Smyth (2012).
+ <code>camera</code> performs a <EM>competitive</EM> test in the sense defined by Goeman and Buhlmann (2007).
+ It tests whether the genes in the set are highly ranked in terms of differential expression relative to genes not in the set.
+ It has similar aims to <code>geneSetTest</code> but accounts for inter-gene correlation.
+ See <code>roast</code> for an analogous <EM>self-contained</EM> gene set test.
+ </p>
+ <p>The function can be used for any microarray experiment which can be represented by a linear model.
+ The design matrix for the experiment is specified as for the <code>lmFit</code> function, and the contrast of interest is specified as for the <code>contrasts.fit</code> function.
+ This allows users to focus on differential expression for any coefficient or contrast in a linear model by giving the vector of test statistic values.
+ </p>
+ <p><code>camera</code> estimates p-values after adjusting the variance of test statistics by an estimated variance inflation factor.
+ The inflation factor depends on estimated genewise correlation and the number of genes in the gene set. 
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A numeric matrix with a row for each set and the following columns:
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>NGenes</code></td>
+ <td>
+ <p>number of genes in set</p>
+ </td></tr>
+ <tr valign="top"><td><code>Correlation</code></td>
+ <td>
+ <p>inter-gene correlation</p>
+ </td></tr>
+ <tr valign="top"><td><code>Down</code></td>
+ <td>
+ <p>left-tail p-value</p>
+ </td></tr>
+ <tr valign="top"><td><code>Up</code></td>
+ <td>
+ <p>right-tail p-value</p>
+ </td></tr>
+ <tr valign="top"><td><code>TwoSided</code></td>
+ <td>
+ <p>two-tailed p-value</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Di Wu and Gordon Smyth</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Wu, D, and Smyth, GK (2012). Camera: a competitive gene set test accounting for inter-gene correlation.
+ Submitted.
+ </p>
+ <p>Goeman, JJ, and Buhlmann, P (2007).
+ Analyzing gene expression data in terms of gene sets: methodological issues.
+ <EM>Bioinformatics</EM> 23, 980-987. 
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>rankSumTestWithCorrelation</code>,
+ <code>geneSetTest</code>,
+ <code>roast</code>,
+ <code>romer</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ y &lt;- matrix(rnorm(1000*6),1000,6)
+ design &lt;- cbind(Intercept=1,Group=c(0,0,0,1,1,1))
+ 
+ # First set of 20 genes are genuinely differentially expressed
+ iset1 &lt;- 1:20
+ y[iset1,4:6] &lt;- y[iset1,4:6]+1
+ 
+ # Second set of 20 genes are not DE
+ iset2 &lt;- 21:40
+  
+ camera(iset1, y, design)
+ camera(iset2, y, design)
+ 
+ camera(list(set1=iset1,set2=iset2), y, design)
+ </pre>
+ 
+ 
+ </body></html>

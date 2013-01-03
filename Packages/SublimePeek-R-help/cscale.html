@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Continuous scale.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for cscale"><tr><td>cscale</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Continuous scale.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Continuous scale.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   cscale(x, palette, na.value = NA,
+     trans = identity_trans())
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>vector of continuous values to scale</p>
+ </td></tr>
+ <tr valign="top"><td><code>palette</code></td>
+ <td>
+ <p>palette to use.
+ </p>
+ <p>Built in palettes:
+ <code>area_pal</code>, <code>brewer_pal</code>, <code>dichromat_pal</code>, <code>div_gradient_pal</code>, <code>gradient_n_pal</code>, <code>grey_pal</code>, <code>hue_pal</code>, <code>identity_pal</code>, <code>linetype_pal</code>, <code>manual_pal</code>, <code>rescale_pal</code>, <code>seq_gradient_pal</code>, <code>shape_pal</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>na.value</code></td>
+ <td>
+ <p>value to use for missing values</p>
+ </td></tr>
+ <tr valign="top"><td><code>trans</code></td>
+ <td>
+ <p>transformation object describing the how to
+ transform the raw data prior to scaling.  Defaults to the
+ identity transformation which leaves the data unchanged.
+ </p>
+ <p>Built in transformations:
+ <code>asn_trans</code>, <code>atanh_trans</code>, <code>boxcox_trans</code>, <code>date_trans</code>, <code>exp_trans</code>, <code>identity_trans</code>, <code>log10_trans</code>, <code>log1p_trans</code>, <code>log2_trans</code>, <code>log_trans</code>, <code>logit_trans</code>, <code>probability_trans</code>, <code>probit_trans</code>, <code>reciprocal_trans</code>, <code>reverse_trans</code>, <code>sqrt_trans</code>, <code>time_trans</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ with(mtcars, plot(disp, mpg, cex = cscale(hp, rescale_pal())))
+ with(mtcars, plot(disp, mpg, cex = cscale(hp, rescale_pal(),
+   trans = sqrt_trans())))
+ with(mtcars, plot(disp, mpg, cex = cscale(hp, area_pal())))
+ with(mtcars, plot(disp, mpg, pch = 20, cex = 5,
+   col = cscale(hp, seq_gradient_pal("grey80", "black"))))
+ </pre>
+ 
+ 
+ </body></html>

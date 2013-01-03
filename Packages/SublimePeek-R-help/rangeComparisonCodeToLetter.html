@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Comparing and ordering ranges</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Ranges-comparison"><tr><td>Ranges-comparison</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Comparing and ordering ranges</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Methods for comparing and ordering the elements in one or more
+ Ranges objects.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ## ==== Equality and related methods ====
+ ## --------------------------------------
+ 
+ ## S4 method for signature 'Ranges,Ranges'
+ e1 == e2
+ 
+ ## S4 method for signature 'Ranges,Ranges'
+ e1 != e2
+ 
+ ## S4 method for signature 'Ranges'
+ duplicated(x, incomparables=FALSE, fromLast=FALSE,
+            method=c("auto", "quick", "hash"), ...)
+ 
+ ## S4 method for signature 'Ranges'
+ unique(x, incomparables=FALSE, fromLast=FALSE,
+        method=c("auto", "quick", "hash"), ...)
+ 
+ ## ==== Ordering and related methods ====
+ ## --------------------------------------
+ 
+ ## S4 method for signature 'Ranges,Ranges'
+ e1 &lt;= e2
+ ## S4 method for signature 'Ranges,Ranges'
+ e1 &gt;= e2
+ ## S4 method for signature 'Ranges,Ranges'
+ e1 &lt; e2
+ ## S4 method for signature 'Ranges,Ranges'
+ e1 &gt; e2
+ 
+ ## S4 method for signature 'Ranges'
+ order(..., na.last=TRUE, decreasing=FALSE)
+ 
+ ## S4 method for signature 'Ranges'
+ sort(x, decreasing=FALSE, ...)
+ 
+ ## S4 method for signature 'Ranges'
+ rank(x, na.last=TRUE,
+      ties.method=c("average", "first", "random", "max", "min"))
+ 
+ ## ==== Generalized range-wise comparison ====
+ ## -------------------------------------------
+ compare(x, y)
+ rangeComparisonCodeToLetter(code)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>e1, e2, x, y</code></td>
+ <td>
+ 
+ <p>Ranges objects.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>incomparables</code></td>
+ <td>
+ 
+ <p>Must be <code>FALSE</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>fromLast</code></td>
+ <td>
+ 
+ <p>See default S3 method for <code>duplicated</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ 
+ <p>Use a Quicksort-based (<code>method="quick"</code>)
+ or a hash-based (<code>method="hash"</code>) algorithm.
+ The latter tends to give better performance, except maybe for some
+ pathological input that we've not been able to determine so far.
+ When <code>method="auto"</code> is specified, the hash-based algorithm
+ is used as long as the length of <code>x</code> is &lt;= 2^29, otherwise the
+ Quicksort-based algorithm is used.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Ranges objects for <code>order</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>na.last</code></td>
+ <td>
+ 
+ <p>Ignored.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>decreasing</code></td>
+ <td>
+ 
+ <p><code>TRUE</code> or <code>FALSE</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>ties.method</code></td>
+ <td>
+ 
+ <p>A character string specifying how ties are treated. Only <code>"first"</code>
+ is supported for now.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>code</code></td>
+ <td>
+ 
+ <p>A vector of codes as returned by <code>compare</code>.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Two ranges are considered equal iff they share the same start and width.
+ Note that with this definition, 2 empty ranges are generally
+ not equal (they need to share the same start to be considered equal).
+ This means that, when it comes to comparing ranges, an empty range is
+ interpreted as a position between its end and start. For example, a
+ typical usecase is comparison of insertion points defined along a string
+ (like a DNA sequence) and represented as empty ranges.
+ </p>
+ <p>Ranges are ordered by starting position first, and then by width.
+ This way, the space of ranges is totally ordered.
+ The <code>order</code>, <code>sort</code> and <code>rank</code> methods for Ranges
+ objects are consistent with this order.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>duplicated(x)</code>:
+ Determines which elements of <code>x</code> are equal to elements
+ with smaller subscripts, and returns a logical vector indicating
+ which elements are duplicates.
+ It is semantically equivalent to <code>duplicated(as.data.frame(x))</code>.
+ See <code>duplicated</code> in the base package for more details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>unique(x)</code>:
+ Removes duplicate ranges from <code>x</code>.
+ See <code>unique</code> in the base package for more details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>order(...)</code>:
+ Returns a permutation which rearranges its first argument (a Ranges
+ object) into ascending order, breaking ties by further arguments (also
+ Ranges objects).
+ See <code>order</code> in the BiocGenerics package
+ for more information.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>sort(x)</code>:
+ Sorts <code>x</code>.
+ See <code>sort</code> in the base package for more details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>rank(x, na.last=TRUE, ties.method=c("average", "first", "random", "max", "min"))</code>:
+ Returns the sample ranks of the ranges in <code>x</code>.
+ See <code>rank</code> in the base package for more details.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>compare(x, y)</code>:
+ Performs &quot;generalized range-wise comparison&quot; of <code>x</code> and <code>y</code>,
+ that is, returns an integer vector where the i-th element is a code
+ describing how the i-th element in <code>x</code> is qualitatively positioned
+ relatively to the i-th element in <code>y</code>.
+ </p>
+ <p>Here is a summary of the 13 predefined codes and their meanings:
+ </p>
+ <PRE>
+         -6: x[i]: .oooo.......         6: x[i]: .......oooo.
+             y[i]: .......oooo.            y[i]: .oooo.......
+ 
+         -5: x[i]: ..oooo......         5: x[i]: ......oooo..
+             y[i]: ......oooo..            y[i]: ..oooo......
+ 
+         -4: x[i]: ...oooo.....         4: x[i]: .....oooo...
+             y[i]: .....oooo...            y[i]: ...oooo.....
+ 
+         -3: x[i]: ...oooooo...         3: x[i]: .....oooo...
+             y[i]: .....oooo...            y[i]: ...oooooo...
+ 
+         -2: x[i]: ..oooooooo..         2: x[i]: ....oooo....
+             y[i]: ....oooo....            y[i]: ..oooooooo..
+ 
+         -1: x[i]: ...oooo.....         1: x[i]: ...oooooo...
+             y[i]: ...oooooo...            y[i]: ...oooo.....
+ 
+                         0: x[i]: ...oooooo...
+                            y[i]: ...oooooo...
+       </PRE>
+ Note that this way of comparing ranges is a refinement over the
+ standard ranges comparison defined by the <code>==</code>, <code>!=</code>,
+ <code>&lt;=</code>, <code>&gt;=</code>, <code>&lt;</code> and <code>&gt;</code> operators. In particular
+ a code that is <code>&lt; 0</code>, <code>= 0</code>, or <code>&gt; 0</code>, corresponds to
+ <code>x[i] &lt; y[i]</code>, <code>x[i] == y[i]</code>, or <code>x[i] &gt; y[i]</code>,
+ respectively.
+ The <code>compare</code> method for Ranges objects is guaranteed
+ to return predefined codes only but methods for other objects (e.g.
+ for GenomicRanges objects) can return
+ non-predefined codes. Like for the predefined codes, the sign of any
+ non-predefined code must tell whether <code>x[i]</code> is less than, or
+ greater than <code>y[i]</code>.
+ </dd>
+ <dt></dt><dd>
+ <p><code>rangeComparisonCodeToLetter(x)</code>:
+ Translate the codes returned by <code>compare</code>. The 13 predefined
+ codes are translated as follow: -6 -&gt; a; -5 -&gt; b; -4 -&gt; c; -3 -&gt; d;
+ -2 -&gt; e; -1 -&gt; f; 0 -&gt; g; 1 -&gt; h; 2 -&gt; i; 3 -&gt; j; 4 -&gt; k; 5-&gt; l; 6 -&gt; m.
+ Any non-predefined code is translated to X.
+ The translated codes are returned in a factor with 14 levels:
+ a, b, ..., l, m, X.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Ranges-class,
+ IRanges-class,
+ <code>duplicated</code>,
+ <code>unique</code>,
+ <code>order</code>,
+ <code>sort</code>,
+ <code>rank</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   x &lt;- IRanges(start=c(20L, 8L, 20L, 22L, 25L, 20L, 22L, 22L),
+                width=c( 4L, 0L, 11L,  5L,  0L,  9L,  5L,  0L))
+   x
+ 
+   ## ---------------------------------------------------------------------
+   ## A. EQUALITY AND RELATED METHODS
+   ## ---------------------------------------------------------------------
+   which(width(x) == 0)  # 3 empty ranges
+   x[2] == x[2]  # TRUE
+   x[2] == x[5]  # FALSE
+   x == x[4]
+   duplicated(x)
+   unique(x)
+ 
+   ## ---------------------------------------------------------------------
+   ## B. ORDERING AND RELATED METHODS
+   ## ---------------------------------------------------------------------
+   x &gt;= x[3]
+   order(x)
+   sort(x)
+   rank(x, ties.method="first")
+ 
+   ## ---------------------------------------------------------------------
+   ## C. GENERALIZED RANGE-WISE COMPARISON OF 2 Ranges OBJECTS
+   ## ---------------------------------------------------------------------
+   x0 &lt;- IRanges(1:11, width=4)
+   x0
+   y0 &lt;- IRanges(6, 9)
+   compare(x0, y0)
+   compare(IRanges(4:6, width=6), y0)
+   compare(IRanges(6:8, width=2), y0)
+   compare(x0, y0) &lt; 0   # equivalent to 'x0 &lt; y0'
+   compare(x0, y0) == 0  # equivalent to 'x0 == y0'
+   compare(x0, y0) &gt; 0   # equivalent to 'x0 &gt; y0'
+ 
+   rangeComparisonCodeToLetter(-10:10)
+   rangeComparisonCodeToLetter(compare(x0, y0))
+ </pre>
+ 
+ 
+ </body></html>

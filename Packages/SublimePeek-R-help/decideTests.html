@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Multiple Testing Across Genes and Contrasts</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for decideTests"><tr><td>decideTests</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Multiple Testing Across Genes and Contrasts</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Classify a series of related t-statistics as up, down or not significant.
+ A number of different multiple testing schemes are offered which adjust for multiple testing down the genes as well as across contrasts for each gene.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ decideTests(object,method="separate",adjust.method="BH",p.value=0.05,lfc=0)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p><code>MArrayLM</code> object output from <code>eBayes</code> from which the t-statistics may be extracted.</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>character string specify how probes and contrasts are to be combined in the multiple testing strategy.  Choices are <code>"separate"</code>, <code>"global"</code>, <code>"hierarchical"</code>, <code>"nestedF"</code> or any partial string.</p>
+ </td></tr>
+ <tr valign="top"><td><code>adjust.method</code></td>
+ <td>
+ <p>character string specifying p-value adjustment method.  Possible values are <code>"none"</code>, <code>"BH"</code>, <code>"fdr"</code> (equivalent to <code>"BH"</code>), <code>"BY"</code> and <code>"holm"</code>. See <code>p.adjust</code> for details.</p>
+ </td></tr>
+ <tr valign="top"><td><code>p.value</code></td>
+ <td>
+ <p>numeric value between 0 and 1 giving the desired size of the test</p>
+ </td></tr>
+ <tr valign="top"><td><code>lfc</code></td>
+ <td>
+ <p>minimum log2-fold-change required</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>These functions implement multiple testing procedures for determining whether each statistic in a matrix of t-statistics should be considered significantly different from zero.
+ Rows of <code>tstat</code> correspond to genes and columns to coefficients or contrasts.
+ </p>
+ <p>The setting <code>method="separate"</code> is equivalent to using <code>topTable</code> separately for each coefficient in the linear model fit, and will give the same lists of probes if <code>adjust.method</code> is the same.
+ <code>method="global"</code> will treat the entire matrix of t-statistics as a single vector of unrelated tests.
+ <code>method="hierarchical"</code> adjusts down genes and then across contrasts.
+ <code>method="nestedF"</code> adjusts down genes and then uses <code>classifyTestsF</code> to classify contrasts as significant or not for the selected genes.
+ Please see the limma User's Guide for a discussion of the statistical properties of these methods.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An object of class <code>TestResults</code>.
+ This is essentially a numeric matrix with elements <code>-1</code>, <code>0</code> or <code>1</code> depending on whether each t-statistic is classified as significantly negative, not significant or significantly positive respectively.
+ </p>
+ <p>If <code>lfc&gt;0</code> then contrasts are judged significant only when the log2-fold change is at least this large in absolute value.
+ For example, one might choose <code>lfc=log2(1.5)</code> to restrict to 50% changes or <code>lfc=1</code> for 2-fold changes.
+ In this case, contrasts must satisfy both the p-value and the fold-change cutoff to be judged significant.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>An overview of multiple testing functions is given in 08.Tests.
+ </p>
+ 
+ 
+ </body></html>

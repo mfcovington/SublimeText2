@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Multidimensional scaling plot of microarray data</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for plotMDS"><tr><td>plotMDS</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Multidimensional scaling plot of microarray data</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Plot the sample relations based on MDS.
+ Distances on the plot can be interpreted in terms of <EM>leading log2-fold-change</EM>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ## Default S3 method:
+ plotMDS(x, top=500, labels=colnames(x), col=NULL, cex=1, dim.plot=c(1,2), ndim=max(dim.plot), gene.selection="pairwise",
+         xlab=paste("Dimension",dim.plot[1]), ylab=paste("Dimension",dim.plot[2]), ...)
+ ## S3 method for class 'MDS'
+ plotMDS(x, labels=colnames(x$distance.matrix), col=NULL, cex=1, dim.plot=x$dim.plot, xlab=paste("Dimension",dim.plot[1]), ylab=paste("Dimension",dim.plot[2]),...)
+ 
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>any data object which can be coerced to a matrix, such as <code>ExpressionSet</code> or <code>EList</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>top</code></td>
+ <td>
+ <p>number of top genes used to calculate pairwise distances.</p>
+ </td></tr>
+ <tr valign="top"><td><code>labels</code></td>
+ <td>
+ <p>character vector of sample names or labels. If <code>x</code> has no column names, then defaults the index of the samples.</p>
+ </td></tr>
+ <tr valign="top"><td><code>col</code></td>
+ <td>
+ <p>numeric or character vector of colors for the plotting characters.</p>
+ </td></tr>
+ <tr valign="top"><td><code>cex</code></td>
+ <td>
+ <p>numeric vector of plot symbol expansions.</p>
+ </td></tr>
+ <tr valign="top"><td><code>dim.plot</code></td>
+ <td>
+ <p>which two dimensions should be plotted, numeric vector of length two.</p>
+ </td></tr>
+ <tr valign="top"><td><code>ndim</code></td>
+ <td>
+ <p>number of dimensions in which data is to be represented</p>
+ </td></tr>
+ <tr valign="top"><td><code>gene.selection</code></td>
+ <td>
+ <p>character, <code>"pairwise"</code> to choose the top genes separately for each pairwise comparison between the samples or <code>"common"</code> to select the same genes for all comparisons</p>
+ </td></tr>
+ <tr valign="top"><td><code>xlab</code></td>
+ <td>
+ <p>title for the x-axis</p>
+ </td></tr>
+ <tr valign="top"><td><code>ylab</code></td>
+ <td>
+ <p>title for the y-axis</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>any other arguments are passed to <code>plot</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function is a variation on the usual multdimensional scaling (or principle coordinate) plot, in that a distance measure particularly appropriate for the microarray context is used.
+ The distance between each pair of samples (columns) is the root-mean-square deviation (Euclidean distance) for the top <code>top</code> genes.
+ Distances on the plot can be interpreted as <EM>leading log2-fold-change</EM>, meaning
+ the typical (root-mean-square) log2-fold-change between the samples for the genes that distinguish those samples.
+ </p>
+ <p>If <code>gene.selection</code> is <code>"common"</code>, then the top genes are those with the largest standard deviations between samples.
+ If <code>gene.selection</code> is <code>"pairwise"</code>, then a different set of top genes is selected for each pair of samples.
+ The pairwise feature selection may be appropriate for microarray data when different molecular pathways are relevant for distinguishing different pairs of samples.
+ </p>
+ <p>See <code>text</code> for possible values for <code>col</code> and <code>cex</code>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A plot is created on the current graphics device.
+ </p>
+ <p>An object of class <code>"MDS"</code> is invisibly returned.
+ This is a list containing the following components:
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>distance.matrix</code></td>
+ <td>
+ <p>numeric matrix of pairwise distances between columns of <code>x</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>cmdscale.out</code></td>
+ <td>
+ <p>output from the function <code>cmdscale</code> given the distance matrix</p>
+ </td></tr>
+ <tr valign="top"><td><code>dim.plot</code></td>
+ <td>
+ <p>dimensions plotted</p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>x-xordinates of plotted points</p>
+ </td></tr>
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>y-cordinates of plotted points</p>
+ </td></tr>
+ <tr valign="top"><td><code>gene.selection</code></td>
+ <td>
+ <p>gene selection method</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Di Wu and Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>cmdscale</code>
+ </p>
+ <p>An overview of diagnostic functions available in LIMMA is given in 09.Diagnostics.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ # Simulate gene expression data for 1000 probes and 6 microarrays.
+ # Samples are in two groups
+ # First 50 probes are differentially expressed in second group
+ sd &lt;- 0.3*sqrt(4/rchisq(1000,df=4))
+ x &lt;- matrix(rnorm(1000*6,sd=sd),1000,6)
+ rownames(x) &lt;- paste("Gene",1:1000)
+ x[1:50,4:6] &lt;- x[1:50,4:6] + 2
+ # without labels, indexes of samples are plotted.
+ mds &lt;- plotMDS(x,  col=c(rep("black",3), rep("red",3)) )
+ # or labels can be provided, here group indicators:
+ plotMDS(mds,  col=c(rep("black",3), rep("red",3)), labels= c(rep("Grp1",3), rep("Grp2",3)))
+ </pre>
+ 
+ 
+ </body></html>

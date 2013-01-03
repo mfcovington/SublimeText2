@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Area Under Receiver Operating Curve</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for auROC"><tr><td>auROC</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Area Under Receiver Operating Curve</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Compute exact area under the ROC for empirical data.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ auROC(truth, stat=NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>truth</code></td>
+ <td>
+ <p>logical vector, or numeric vector of 0s and 1s, indicating whether each case is a true positive.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>numeric vector containing test statistics used to rank cases, from largest to smallest.
+ If <code>NULL</code>, then <code>truth</code> is assumed to be already sorted in decreasing test statistic order.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function computes the exact area under an empirical ROC curve.
+ Cases are ranked by <code>stat</code> from largest to smallest.
+ The number of true and false discoveries are determined by how well the true states represented by <code>truth</code> match up with the observed statistics given by <code>stat</code>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Numeric vector giving area under the curve, 1 being perfect and 0 being the minimum, or <code>NULL</code> if <code>truth</code> has zero length.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>See 08.Tests for other functions for testing and processing p-values.
+ </p>
+ <p>See also <code>AUC</code> in the <code>ROC</code> package.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ auROC(c(1,1,0,0,0))
+ truth &lt;- rbinom(30,size=1,prob=0.2)
+ stat &lt;- rchisq(30,df=2)
+ auROC(truth,stat)
+ </pre>
+ 
+ 
+ </body></html>

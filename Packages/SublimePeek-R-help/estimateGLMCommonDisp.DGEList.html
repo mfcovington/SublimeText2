@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Estimate Common Dispersion for Negative Binomial GLMs</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for estimateGLMCommonDisp"><tr><td>estimateGLMCommonDisp</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Estimate Common Dispersion for Negative Binomial GLMs</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Estimates a common negative binomial dispersion parameter for a DGE dataset with a general experimental design.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ## S3 method for class 'DGEList'
+ estimateGLMCommonDisp(y, design=NULL, offset=NULL, method="CoxReid", verbose=FALSE, ...)
+ ## Default S3 method:
+ estimateGLMCommonDisp(y, design=NULL, offset=NULL, method="CoxReid", verbose=FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>object containing read counts, as for <code>glmFit</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>design</code></td>
+ <td>
+ <p>numeric design matrix, as for <code>glmFit</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>offset</code></td>
+ <td>
+ <p>numeric vector or matrix of offsets for the log-linear models, as for <code>glmFit</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>method for estimating the dispersion.
+ Possible values are <code>"CoxReid"</code>, <code>"Pearson"</code> or <code>"deviance"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>verbose</code></td>
+ <td>
+ <p>logical, if <code>TRUE</code> estimated dispersion and BCV will be printed to standard output.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments are passed to lower-level functions.
+ See <code>dispCoxReid</code>, <code>dispPearson</code> and <code>dispDeviance</code> for details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function calls <code>dispCoxReid</code>, <code>dispPearson</code> or <code>dispDeviance</code> depending on the <code>method</code> specified.
+ See <code>dispCoxReid</code> for details of the three methods and a discussion of their relative performance.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>The default method returns a numeric vector of length 1 containing the estimated dispersion.
+ </p>
+ <p>The <code>DGEList</code> method returns the same <code>DGEList</code> <code>y</code> as input but with <code>common.dispersion</code> as an added component.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth, Davis McCarthy, Yunshun Chen</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>McCarthy, DJ, Chen, Y, Smyth, GK (2012). Differential expression analysis of multifactor RNA-Seq experiments with respect to biological variation.
+ <EM>Nucleic Acids Research</EM>.
+ <a href="http://nar.oxfordjournals.org/content/early/2012/02/06/nar.gks042">http://nar.oxfordjournals.org/content/early/2012/02/06/nar.gks042</a>
+ (Published online 28 January 2012)
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>dispCoxReid</code>, <code>dispPearson</code>, <code>dispDeviance</code>
+ </p>
+ <p><code>estimateGLMTrendedDisp</code> for trended dispersion and <code>estimateGLMTagwiseDisp</code> for tagwise dispersions in the context of a generalized linear model.
+ </p>
+ <p><code>estimateCommonDisp</code> for common dispersion or <code>estimateTagwiseDisp</code> for tagwise dispersion in the context of a multiple group experiment (one-way layout).
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ #  True dispersion is 1/size=0.1
+ y &lt;- matrix(rnbinom(1000,mu=10,size=10),ncol=4)
+ d &lt;- DGEList(counts=y,group=c(1,1,2,2))
+ design &lt;- model.matrix(~group, data=d$samples)
+ d1 &lt;- estimateGLMCommonDisp(d, design, verbose=TRUE)
+ 
+ #  Compare with classic CML estimator:
+ d2 &lt;- estimateCommonDisp(d, verbose=TRUE)
+ 
+ #  See example(glmFit) for a different example
+ </pre>
+ 
+ 
+ </body></html>

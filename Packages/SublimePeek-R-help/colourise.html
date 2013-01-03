@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Colourise text for display in the terminal.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for colourise"><tr><td>colourise</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Colourise text for display in the terminal.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>If R is not currently running in a system that supports
+ terminal colours the text will be returned unchanged.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   colourise(text, fg = "black", bg = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>text</code></td>
+ <td>
+ <p>character vector</p>
+ </td></tr>
+ <tr valign="top"><td><code>fg</code></td>
+ <td>
+ <p>foreground colour, defaults to white</p>
+ </td></tr>
+ <tr valign="top"><td><code>bg</code></td>
+ <td>
+ <p>background colour, defaults to transparent</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Allowed colours are: black, blue, brown, cyan, dark gray,
+ green, light blue, light cyan, light gray, light green,
+ light purple, light red, purple, red, white, yellow
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ print(colourise("Red", "red"))
+ cat(colourise("Red", "red"), "\n")
+ cat(colourise("White on red", "white", "red"), "\n")
+ </pre>
+ 
+ 
+ </body></html>

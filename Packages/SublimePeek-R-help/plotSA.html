@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Sigma vs A plot for microarray linear model</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for plotSA"><tr><td>plotSA</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Sigma vs A plot for microarray linear model</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Plot log residual standard deviation versus average log expression for a fitted microarray linear model.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ plotSA(fit, xlab="Average log-expression", ylab="log2(sigma)", zero.weights=FALSE, pch=16, cex=0.2, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>fit</code></td>
+ <td>
+ <p>an <code>MArrayLM</code> object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>xlab</code></td>
+ <td>
+ <p>character string giving label for x-axis</p>
+ </td></tr>
+ <tr valign="top"><td><code>ylab</code></td>
+ <td>
+ <p>character string giving label for y-axis</p>
+ </td></tr>
+ <tr valign="top"><td><code>pch</code></td>
+ <td>
+ <p>vector or list of plotting characters. Default is integer code 16 which gives a solid circle.</p>
+ </td></tr>
+ <tr valign="top"><td><code>cex</code></td>
+ <td>
+ <p>numeric expansion factor for plotting character. 
+ Defaults to 0.2.</p>
+ </td></tr>
+ <tr valign="top"><td><code>zero.weights</code></td>
+ <td>
+ <p>logical, should spots with zero or negative weights be plotted?</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>any other arguments are passed to <code>plot</code></p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This plot is used to check the mean-variance relationship of the expression data, after fitting a linear model.
+ </p>
+ <p>See <code>points</code> for possible values for <code>pch</code> and <code>cex</code>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ <p>A plot is created on the current graphics device.</p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>An overview of diagnostic functions available in LIMMA is given in 09.Diagnostics.
+ </p>
+ 
+ 
+ </body></html>

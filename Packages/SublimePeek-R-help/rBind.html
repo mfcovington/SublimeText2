@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Combine R objects by rows or columns</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for cbind"><tr><td>cbind</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Combine R objects by rows or columns</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>cbind</code> and <code>rbind</code> take a sequence of R objects arguments
+ and combine them by columns or rows, respectively.
+ </p>
+ <p>NOTE: This man page is for the <code>cbind</code> and <code>rbind</code>
+ S4 generic functions defined in the BiocGenerics package.
+ See <code>?base::cbind</code> for the default methods
+ (defined in the base package).
+ Bioconductor packages can define specific methods for objects
+ (typically vector-like or matrix-like) not supported by the default
+ methods.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ cbind(..., deparse.level=1)
+ rbind(..., deparse.level=1)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>One or more vector-like or matrix-like R objects. These can be given as
+ named arguments.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>deparse.level</code></td>
+ <td>
+ 
+ <p>See <code>?base::cbind</code> for a description of
+ this argument.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>See <code>?base::cbind</code> for the value returned by the
+ default methods.
+ </p>
+ <p>Specific methods defined in other Bioconductor packages will typically
+ return an object of the same class as the input objects.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>base::cbind</code> for the default <code>cbind</code> and
+ <code>rbind</code> methods.
+ </p>
+ <p><code>showMethods</code> for displaying a summary of the
+ methods defined for a given generic function.
+ </p>
+ <p><code>selectMethod</code> for getting the definition of
+ a specific method.
+ </p>
+ <p>cbind,DataFrame-method in the IRanges package
+ for the <code>cbind</code> method defined for DataFrame
+ objects.
+ </p>
+ <p>BiocGenerics for a summary of all the generics defined
+ in the BiocGenerics package.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ cbind  # note the dispatch on the '...' arg only
+ showMethods("cbind")
+ selectMethod("cbind", "ANY")  # the default method
+ 
+ rbind  # note the dispatch on the '...' arg only
+ showMethods("rbind")
+ selectMethod("rbind", "ANY")  # the default method
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Make a latex table from a table of rq results</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for latex.summary.rqs"><tr><td>latex.summary.rqs</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2> Make a latex table from a table of rq results</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Produces a file with latex commands for a table of rq results.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>## S3 method for class 'summary.rqs'
+ latex(x, transpose = FALSE, caption = "caption goes here.", 
+ 		digits = 3, file = as.character(substitute(x)), ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p><code>x</code> is an object of class <code>summary.rqs</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>transpose</code></td>
+ <td>
+ <p>if <code>TRUE</code> transpose table so that 
+ rows are quantiles and columns are covariates. </p>
+ </td></tr>
+ <tr valign="top"><td><code>caption</code></td>
+ <td>
+ <p> caption for the table</p>
+ </td></tr>
+ <tr valign="top"><td><code>digits</code></td>
+ <td>
+ <p> decimal precision of table entries.</p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p> name of file </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p> optional arguments for <code>latex.table</code>  </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Calls  <code>latex.table</code>. 
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Returns invisibly after writing the file.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p> R. Koenker</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+  <p><code>summary.rqs</code>, <code>latex.table</code></p>
+ 
+ 
+ </body></html>

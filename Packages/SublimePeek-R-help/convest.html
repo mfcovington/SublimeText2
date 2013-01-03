@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Estimate Proportion of True Null Hypotheses</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for convest"><tr><td>convest</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Estimate Proportion of True Null Hypotheses</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Returns an estimate of the proportion of true null hypotheses using a convex decreasing density estimate on a vector of
+ p-values.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ convest(p, niter = 100, doplot = FALSE, doreport = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>p</code></td>
+ <td>
+ <p>numeric vector of p-values, calculated using any test of your
+ choice. Missing values are not allowed</p>
+ </td></tr>
+ <tr valign="top"><td><code>niter</code></td>
+ <td>
+ <p>number of iterations to be used in fitting the convex,
+ decreasing density for the p-values. Default is 100.</p>
+ </td></tr>
+ <tr valign="top"><td><code>doplot</code></td>
+ <td>
+ <p>logical, should updated plots of fitted convex decreasing
+ p-value density be produced at each iteration?
+ Default is <code>FALSE</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>doreport</code></td>
+ <td>
+ <p>logical, should the estimated proportion be printed at each iteration?
+ Default is <code>FALSE</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The proportion of true null hypotheses is often denoted pi0.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Numeric value in the interval [0,1] representing he estimated proportion of true null hypotheses.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Egil Ferkingstad and Mette Langaas</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Langaas, M., Ferkingstad, E., and Lindqvist, B. (2005).
+ Estimating the proportion of true null hypotheses, with application
+ to DNA microarray data.
+ <EM>Journal of the Royal Statistical Society Series</EM> B, 67, 555-572.
+ Preprint at <a href="http://www.math.ntnu.no/~mettela/">http://www.math.ntnu.no/~mettela/</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>See 08.Tests for other functions for producing or interpretting p-values.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ # First simulate data, use no.genes genes and no.ind individuals,
+ # with given value of pi0. Draw from normal distribution with mean=0
+ # (true null) and mean=mean.diff (false null).
+ 
+ no.genes &lt;- 1000
+ no.ind &lt;- 20
+ pi0 &lt;- 0.9
+ mean.diff &lt;- 1
+ n1 &lt;- round(pi0*no.ind*no.genes)
+ n2 &lt;- round((1-pi0)*no.ind*no.genes)
+ x &lt;- matrix(c(rnorm(n1,mean=0),rnorm(n2,mean=mean.diff)),ncol=no.ind,byrow=TRUE)
+ 
+ # calculate p-values using your favorite method, e.g.
+ pvals &lt;- ebayes(lm.series(x))$p.value
+ 
+ # run the convex decreasing density estimator to estimate pi0
+ convest(pvals,niter=100,doplot=interactive())
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Estimate Empirical Bayes Trended Dispersion Values</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for estimateTrendedDisp"><tr><td>estimateTrendedDisp</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Estimate Empirical Bayes Trended Dispersion Values</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Estimates trended dispersion values by an empirical Bayes method.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ estimateTrendedDisp(object, method="bin.spline", df=5, span=2/3)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+  
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>object of class <code>DGEList</code> containing (at least) the elements <code>counts</code> (table of raw counts), <code>group</code> (factor indicating group), <code>lib.size</code> (numeric vector of library sizes) and <code>pseudo.alt</code> (numeric matrix of quantile-adjusted pseudocounts calculated under the alternative hypothesis of a true difference between groups; recommended to use the <code>DGEList</code> object provided as the output of <code>estimateCommonDisp</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>method used to estimated the trended dispersions. Possible values are <code>"spline"</code>, and <code>"loess"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>df</code></td>
+ <td>
+ <p>integer giving the degrees of freedom of the spline function if <code>"spline"</code> method is used, see <code>ns</code> in the splines package. Default is 5.</p>
+ </td></tr>
+ <tr valign="top"><td><code>span</code></td>
+ <td>
+ <p>scalar, passed to <code>loess</code> to determine the amount of smoothing for the loess fit when <code>"loess"</code> method is used. Default is <code>2/3</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function takes the binned common dispersion and abundance, and fits a smooth curve through these binned values using either natural cubic splines or loess. From this smooth curve it predicts the dispersion value for each gene based on the gene's overall abundance. This results in estimates for the NB dispersion parameter which have a dependence on the overall expression level of the gene, and thus have an abundance-dependent trend.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An object of class <code>DGEList</code> with the same components as for <code>estimateCommonDisp</code> plus the trended dispersion estimates for each gene or tag.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Yunshun Chen and Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>estimateCommonDisp</code> estimates a common value for the dispersion parameter for all tags/genes - should generally be run before <code>estimateTrendedDisp</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ y &lt;- matrix(rnbinom(6000, mu=100, size=10), 1000, 6)
+ group &lt;- c(0,0,0,1,1,1)
+ d &lt;- DGEList(y, group=group)
+ d &lt;- estimateCommonDisp(d)
+ d &lt;- estimateTrendedDisp(d)
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Set operations</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for sets"><tr><td>sets</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Set operations</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Performs <EM>set</EM> union, intersection and (asymmetric!) difference
+ on two vector-like R objects.
+ </p>
+ <p>NOTE: This man page is for the <code>union</code>, <code>intersect</code> and
+ <code>setdiff</code> S4 generic functions defined in the BiocGenerics package.
+ See <code>?base::union</code> for the default methods
+ (defined in the base package).
+ Bioconductor packages can define specific methods for objects
+ (typically vector-like) not supported by the default methods.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ union(x, y, ...)
+ intersect(x, y, ...)
+ setdiff(x, y, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x, y</code></td>
+ <td>
+ 
+ <p>R objects of the same class (typically a vector-like class).
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Additional arguments, for use in specific methods.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>See <code>?base::union</code> for the value returned by the
+ default methods.
+ </p>
+ <p>Specific methods defined in other Bioconductor packages will typically
+ return an object of the same class as the input objects.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>The default methods (defined in the base package) only take 2 arguments.
+ We've added the <code>...</code> argument to the generic functions defined in
+ the BiocGenerics package so they can be called with an arbitrary number
+ of effective arguments.
+ For <code>union</code> or <code>intersect</code>, this typically allows Bioconductor
+ packages to define methods that compute the union or intersection of more
+ than 2 objects. However, for <code>setdiff</code>, which is conceptually a
+ binary operation, this typically allows methods to add extra arguments
+ for controlling/altering the behavior of the operation.
+ Like for example the <code>ignore.strand</code> argument supported by the
+ <code>setdiff</code> method for GRanges objects (defined
+ in the GenomicRanges package). (Note that the <code>union</code> and
+ <code>intersect</code> methods for those objects also support the
+ <code>ignore.strand</code> argument.)
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>base::union</code> for the default <code>union</code>,
+ <code>intersect</code>, and <code>setdiff</code> methods.
+ </p>
+ <p><code>showMethods</code> for displaying a summary of the
+ methods defined for a given generic function.
+ </p>
+ <p><code>selectMethod</code> for getting the definition of
+ a specific method.
+ </p>
+ <p>union,GRanges,GRanges-method in the GenomicRanges
+ package for the <code>union</code> method defined for GRanges
+ objects.
+ </p>
+ <p>BiocGenerics for a summary of all the generics defined
+ in the BiocGenerics package.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ union
+ showMethods("union")
+ selectMethod("union", c("ANY", "ANY"))  # the default method
+ 
+ intersect
+ showMethods("intersect")
+ selectMethod("intersect", c("ANY", "ANY"))  # the default method
+ 
+ setdiff
+ showMethods("setdiff")
+ selectMethod("setdiff", c("ANY", "ANY"))  # the default method
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: GappedRanges objects</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for GappedRanges-class"><tr><td>GappedRanges-class</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>GappedRanges objects</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The GappedRanges class is a vector-like container for storing a set
+ of &quot;gapped ranges&quot;.
+ </p>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>A &quot;gapped range&quot; is conceptually the union of 1 or more non-overlapping
+ (and non-empty) ranges ordered from left to right.
+ More precisely, a &quot;gapped range&quot; can be represented by a normal IRanges
+ object of length &gt;= 1. In particular normality here ensures that the
+ individual ranges are non-empty and are separated by non-empty gaps.
+ The start of a &quot;gapped range&quot; is the start of its first range.
+ The end of a &quot;gapped range&quot; is the end of its last range.
+ If we ignore the gaps, then a GappedRanges object can be seen as a
+ Ranges object.
+ </p>
+ 
+ 
+ <h3>Constructor</h3>
+ 
+ 
+ <p>No constructor function is provided for GappedRanges objects.
+ The coercion methods described below can be used to create GappedRanges
+ objects.
+ </p>
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>as(from, "GappedRanges")</code>:
+ Turns a CompressedNormalIRangesList or CompressedIRangesList
+ object into a GappedRanges object.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "RangesList")</code>:
+ Turns a GappedRanges object into a RangesList object (more precisely
+ the result will be a CompressedNormalIRangesList object).
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Accessor methods</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a GappedRanges object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>length(x)</code>:
+ Returns the number of &quot;gapped ranges&quot; in <code>x</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>start(x), end(x)</code>:
+ Returns an integer vector of length <code>length(x)</code>
+ containing the start and end (respectively) of each
+ &quot;gapped range&quot; in <code>x</code>. See Details section above for
+ the exact definitions of the start and end of a &quot;gapped range&quot;.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>width(x)</code>:
+ Defined as <code>end(x) - start(x) + 1L</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>ngap(x)</code>:
+ Returns an integer vector of length <code>length(x)</code>
+ containing the number of gaps for each &quot;gapped range&quot;
+ in <code>x</code>.
+ Equivalent to <code>elementLengths(x) - 1L</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>names(x)</code>:
+ <code>NULL</code> or a character vector of length <code>length(x)</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Subsetting and related operations</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a GappedRanges object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>x[i]</code>:
+ Returns a new GappedRanges object made of the selected &quot;gapped ranges&quot;.
+ <code>i</code> can be a numeric, character or logical vector,
+ or any of the types supported by the <code>[</code> method for
+ CompressedNormalIRangesList objects.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>x[[i]]</code>:
+ Returns the NormalIRanges object representing the i-th
+ element in <code>x</code>.
+ Equivalent to <code>as(from, "RangesList")[[i]]</code>.
+ <code>i</code> can be a single numeric value or a single character string.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>elemenType(x)</code>:
+ Returns the type of <code>x[[i]]</code> as a single string (always
+ <code>"NormalIRanges"</code>).
+ Note that the semantic of the <code>[[</code> method for GappedRanges
+ objects is different from the semantic of the method for
+ Ranges objects (the latter returns an integer vector).
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>elementLengths(x)</code>:
+ Semantically equivalent to
+ </p>
+ <PRE>sapply(seq_len(length(x)), function(i) length(x[[i]]))</PRE>
+ but much faster.
+ Note that the semantic of the <code>elementLengths</code> method for
+ GappedRanges objects is different from the semantic of the method
+ for Ranges objects (the latter returns the <code>width</code> of
+ the Ranges object).
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Combining and related operations</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a GappedRanges object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>c(x, ...)</code>:
+ Combine <code>x</code> and the GappedRanges objects in <code>...</code> together.
+ The result is an object of the same class as <code>x</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>H. Pages</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Ranges-class,
+ CompressedNormalIRangesList-class
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   ## The 3 following IRanges objects are normal. Each of them will be
+   ## stored as a "gapped range" in the GappedRanges object 'gr'.
+   ir1 &lt;- IRanges(start=c(11, 21, 23), end=c(15, 21, 30))
+   ir2 &lt;- IRanges(start=-2, end=15)
+   ir3 &lt;- IRanges(start=c(-2, 21), end=c(10, 22))
+   irl &lt;- IRangesList(ir1, ir2, ir3)
+ 
+   gr &lt;- as(irl, "GappedRanges")
+   gr
+ 
+   length(gr)
+   start(gr)
+   end(gr)
+   width(gr)
+   ngap(gr)
+   gr[-1]
+   gr[ngap(gr) &gt;= 1]
+   gr[[1]]
+   as.integer(gr[[1]])
+   gr[[2]]
+   as.integer(gr[[2]])
+   as(gr, "RangesList")
+   start(as(gr, "RangesList"))  # not the same as 'start(gr)'
+ </pre>
+ 
+ 
+ </body></html>

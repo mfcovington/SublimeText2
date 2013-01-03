@@ -1,0 +1,846 @@
+[
+  {
+      "from": "NaN",
+      "to": ["NaN","Number.NaN"]
+  },
+  {
+      "from": "while",
+      "to": ["do...while","while"]
+  },
+  {
+      "from": "in",
+      "to": ["for...in","for each...in","in"]
+  },
+  {
+      "from": "else",
+      "to": ["if...else"]
+  },
+  {
+      "from": "catch",
+      "to": ["try...catch"]
+  },
+  {
+      "from": "parse",
+      "to": ["Date.parse","JSON.parse"]
+  },
+  {
+      "from": "prototype",
+      "to": ["Date.prototype","Boolean.prototype","Array.prototype","Function.prototype","Number.prototype","Object.prototype","RegExp.prototype","String.prototype","Error.prototype","EvalError.prototype","RangeError.prototype","ReferenceError.prototype","SyntaxError.prototype","TypeError.prototype","URIError.prototype"]
+  },
+  {
+      "from": "Arity",
+      "to": ["Function.Arity"]
+  },
+  {
+      "from": "Caller",
+      "to": ["Function.Caller"]
+  },
+  {
+      "from": "Constructor",
+      "to": ["Function.Constructor","Object.Constructor"]
+  },
+  {
+      "from": "Length",
+      "to": ["Function.Length"]
+  },
+  {
+      "from": "Name",
+      "to": ["Function.Name"]
+  },
+  {
+      "from": "now",
+      "to": ["Date.now"]
+  },
+  {
+      "from": "UTC",
+      "to": ["Date.UTC"]
+  },
+  {
+      "from": "Apply",
+      "to": ["Function.Apply"]
+  },
+  {
+      "from": "Call",
+      "to": ["Function.Call"]
+  },
+  {
+      "from": "ToSource",
+      "to": ["Function.ToSource","Object.ToSource"]
+  },
+  {
+      "from": "ToString",
+      "to": ["Function.ToString","Object.ToString"]
+  },
+  {
+      "from": "getFullYear",
+      "to": ["Date.getFullYear"]
+  },
+  {
+      "from": "setFullYear",
+      "to": ["Date.setFullYear"]
+  },
+  {
+      "from": "getUTCFullYear",
+      "to": ["Date.getUTCFullYear"]
+  },
+  {
+      "from": "setUTCFullYear",
+      "to": ["Date.setUTCFullYear"]
+  },
+  {
+      "from": "constructor",
+      "to": ["Date.constructor","Boolean.constructor","Array.constructor","Function.constructor","Number.constructor","Object.constructor","RegExp.constructor","String.constructor"]
+  },
+  {
+      "from": "Parent",
+      "to": ["Object.Parent"]
+  },
+  {
+      "from": "Proto",
+      "to": ["Object.Proto"]
+  },
+  {
+      "from": "getDate",
+      "to": ["Date.getDate"]
+  },
+  {
+      "from": "getDay",
+      "to": ["Date.getDay"]
+  },
+  {
+      "from": "getHours",
+      "to": ["Date.getHours"]
+  },
+  {
+      "from": "getMilliseconds",
+      "to": ["Date.getMilliseconds"]
+  },
+  {
+      "from": "getMinutes",
+      "to": ["Date.getMinutes"]
+  },
+  {
+      "from": "getMonth",
+      "to": ["Date.getMonth"]
+  },
+  {
+      "from": "getSeconds",
+      "to": ["Date.getSeconds"]
+  },
+  {
+      "from": "getTime",
+      "to": ["Date.getTime"]
+  },
+  {
+      "from": "getTimezoneOffset",
+      "to": ["Date.getTimezoneOffset"]
+  },
+  {
+      "from": "getUTCDate",
+      "to": ["Date.getUTCDate"]
+  },
+  {
+      "from": "getUTCDay",
+      "to": ["Date.getUTCDay"]
+  },
+  {
+      "from": "getUTCHours",
+      "to": ["Date.getUTCHours"]
+  },
+  {
+      "from": "getUTCMilliseconds",
+      "to": ["Date.getUTCMilliseconds"]
+  },
+  {
+      "from": "getUTCMinutes",
+      "to": ["Date.getUTCMinutes"]
+  },
+  {
+      "from": "getUTCMonth",
+      "to": ["Date.getUTCMonth"]
+  },
+  {
+      "from": "getUTCSeconds",
+      "to": ["Date.getUTCSeconds"]
+  },
+  {
+      "from": "getYear",
+      "to": ["Date.getYear"]
+  },
+  {
+      "from": "setDate",
+      "to": ["Date.setDate"]
+  },
+  {
+      "from": "setHours",
+      "to": ["Date.setHours"]
+  },
+  {
+      "from": "setMilliseconds",
+      "to": ["Date.setMilliseconds"]
+  },
+  {
+      "from": "setMinutes",
+      "to": ["Date.setMinutes"]
+  },
+  {
+      "from": "setSeconds",
+      "to": ["Date.setSeconds"]
+  },
+  {
+      "from": "setMonth",
+      "to": ["Date.setMonth"]
+  },
+  {
+      "from": "setUTCDate",
+      "to": ["Date.setUTCDate"]
+  },
+  {
+      "from": "setTime",
+      "to": ["Date.setTime"]
+  },
+  {
+      "from": "setUTCHours",
+      "to": ["Date.setUTCHours"]
+  },
+  {
+      "from": "setUTCMilliseconds",
+      "to": ["Date.setUTCMilliseconds"]
+  },
+  {
+      "from": "setUTCMinutes",
+      "to": ["Date.setUTCMinutes"]
+  },
+  {
+      "from": "setUTCMonth",
+      "to": ["Date.setUTCMonth"]
+  },
+  {
+      "from": "setUTCSeconds",
+      "to": ["Date.setUTCSeconds"]
+  },
+  {
+      "from": "setYear",
+      "to": ["Date.setYear"]
+  },
+  {
+      "from": "toDateString",
+      "to": ["Date.toDateString"]
+  },
+  {
+      "from": "toISOString",
+      "to": ["Date.toISOString"]
+  },
+  {
+      "from": "toJSON",
+      "to": ["Date.toJSON"]
+  },
+  {
+      "from": "toGMTString",
+      "to": ["Date.toGMTString"]
+  },
+  {
+      "from": "toUTCString",
+      "to": ["Date.toUTCString"]
+  },
+  {
+      "from": "toLocaleDateString",
+      "to": ["Date.toLocaleDateString"]
+  },
+  {
+      "from": "toLocaleString",
+      "to": ["Object.toLocaleString","Date.toLocaleString"]
+  },
+  {
+      "from": "toLocaleTimeString",
+      "to": ["Date.toLocaleTimeString"]
+  },
+  {
+      "from": "toLocaleFormat",
+      "to": ["Date.toLocaleFormat"]
+  },
+  {
+      "from": "toSource",
+      "to": ["Date.toSource","Object.toSource","Boolean.toSource","Array.toSource","Function.toSource","Number.toSource","RegExp.toSource","String.toSource","Error.toSource"]
+  },
+  {
+      "from": "toString",
+      "to": ["Date.toString","Object.toString","Boolean.toString","Array.toString","Function.toString","Number.toString","RegExp.toString","String.toString","Error.toString"]
+  },
+  {
+      "from": "toTimeString",
+      "to": ["Date.toTimeString"]
+  },
+  {
+      "from": "valueOf",
+      "to": ["Date.valueOf","Object.valueOf","Boolean.valueOf","Number.valueOf","String.valueOf"]
+  },
+  {
+      "from": "DefineGetter",
+      "to": ["Object.DefineGetter"]
+  },
+  {
+      "from": "DefineSetter",
+      "to": ["Object.DefineSetter"]
+  },
+  {
+      "from": "HasOwnProperty",
+      "to": ["Object.HasOwnProperty"]
+  },
+  {
+      "from": "IsPrototypeOf",
+      "to": ["Object.IsPrototypeOf"]
+  },
+  {
+      "from": "LookupGetter",
+      "to": ["Object.LookupGetter"]
+  },
+  {
+      "from": "LookupSetter",
+      "to": ["Object.LookupSetter"]
+  },
+  {
+      "from": "NoSuchMethod",
+      "to": ["Object.NoSuchMethod"]
+  },
+  {
+      "from": "PropertyIsEnumerable",
+      "to": ["Object.PropertyIsEnumerable"]
+  },
+  {
+      "from": "Unwatch",
+      "to": ["Object.Unwatch"]
+  },
+  {
+      "from": "Watch",
+      "to": ["Object.Watch"]
+  },
+  {
+      "from": "ToLocaleString",
+      "to": ["Object.ToLocaleString","Number.ToLocaleString"]
+  },
+  {
+      "from": "length",
+      "to": ["Array.length","Function.length","String.length"]
+  },
+  {
+      "from": "join",
+      "to": ["Array.join"]
+  },
+  {
+      "from": "slice",
+      "to": ["Array.slice","String.slice"]
+  },
+  {
+      "from": "indexOf",
+      "to": ["Array.indexOf","String.indexOf"]
+  },
+  {
+      "from": "push",
+      "to": ["Array.push"]
+  },
+  {
+      "from": "splice",
+      "to": ["Array.splice"]
+  },
+  {
+      "from": "isArray",
+      "to": ["Array.isArray"]
+  },
+  {
+      "from": "ValueOf",
+      "to": ["Object.ValueOf"]
+  },
+  {
+      "from": "pop",
+      "to": ["Array.pop"]
+  },
+  {
+      "from": "reverse",
+      "to": ["Array.reverse"]
+  },
+  {
+      "from": "shift",
+      "to": ["Array.shift"]
+  },
+  {
+      "from": "sort",
+      "to": ["Array.sort"]
+  },
+  {
+      "from": "concat",
+      "to": ["Array.concat","String.concat"]
+  },
+  {
+      "from": "unshift",
+      "to": ["Array.unshift"]
+  },
+  {
+      "from": "lastIndexOf",
+      "to": ["Array.lastIndexOf","String.lastIndexOf"]
+  },
+  {
+      "from": "filter",
+      "to": ["Array.filter"]
+  },
+  {
+      "from": "forEach",
+      "to": ["Array.forEach"]
+  },
+  {
+      "from": "every",
+      "to": ["Array.every"]
+  },
+  {
+      "from": "map",
+      "to": ["Array.map"]
+  },
+  {
+      "from": "some",
+      "to": ["Array.some"]
+  },
+  {
+      "from": "ReduceRight",
+      "to": ["Array.ReduceRight"]
+  },
+  {
+      "from": "Reduce",
+      "to": ["Array.Reduce"]
+  },
+  {
+      "from": "arguments",
+      "to": ["Function.arguments"]
+  },
+  {
+      "from": "arity",
+      "to": ["Function.arity"]
+  },
+  {
+      "from": "caller",
+      "to": ["Function.caller"]
+  },
+  {
+      "from": "name",
+      "to": ["Function.name","Error.name","ReferenceError.name"]
+  },
+  {
+      "from": "bind",
+      "to": ["Function.bind"]
+  },
+  {
+      "from": "apply",
+      "to": ["Function.apply"]
+  },
+  {
+      "from": "call",
+      "to": ["Function.call"]
+  },
+  {
+      "from": "isGenerator",
+      "to": ["Function.isGenerator"]
+  },
+  {
+      "from": "MAX_VALUE",
+      "to": ["Number.MAX_VALUE"]
+  },
+  {
+      "from": "MIN_VALUE",
+      "to": ["Number.MIN_VALUE"]
+  },
+  {
+      "from": "NEGATIVE_INFINITY",
+      "to": ["Number.NEGATIVE_INFINITY"]
+  },
+  {
+      "from": "POSITIVE_INFINITY",
+      "to": ["Number.POSITIVE_INFINITY"]
+  },
+  {
+      "from": "toExponential",
+      "to": ["Number.toExponential"]
+  },
+  {
+      "from": "toFixed",
+      "to": ["Number.toFixed"]
+  },
+  {
+      "from": "toPrecision",
+      "to": ["Number.toPrecision"]
+  },
+  {
+      "from": "defineProperty",
+      "to": ["Object.defineProperty"]
+  },
+  {
+      "from": "create",
+      "to": ["Object.create"]
+  },
+  {
+      "from": "defineProperties",
+      "to": ["Object.defineProperties"]
+  },
+  {
+      "from": "getOwnPropertyDescriptor",
+      "to": ["Object.getOwnPropertyDescriptor"]
+  },
+  {
+      "from": "keys",
+      "to": ["Object.keys"]
+  },
+  {
+      "from": "getOwnPropertyNames",
+      "to": ["Object.getOwnPropertyNames"]
+  },
+  {
+      "from": "GetPrototypeOf",
+      "to": ["Object.GetPrototypeOf"]
+  },
+  {
+      "from": "preventExtensions",
+      "to": ["Object.preventExtensions"]
+  },
+  {
+      "from": "isExtensible",
+      "to": ["Object.isExtensible"]
+  },
+  {
+      "from": "seal",
+      "to": ["Object.seal"]
+  },
+  {
+      "from": "freeze",
+      "to": ["Object.freeze"]
+  },
+  {
+      "from": "isSealed",
+      "to": ["Object.isSealed"]
+  },
+  {
+      "from": "isFrozen",
+      "to": ["Object.isFrozen"]
+  },
+  {
+      "from": "proto",
+      "to": ["Object.proto"]
+  },
+  {
+      "from": "defineGetter",
+      "to": ["Object.defineGetter"]
+  },
+  {
+      "from": "defineSetter",
+      "to": ["Object.defineSetter"]
+  },
+  {
+      "from": "eval",
+      "to": ["Object.eval"]
+  },
+  {
+      "from": "hasOwnProperty",
+      "to": ["Object.hasOwnProperty"]
+  },
+  {
+      "from": "isPrototypeOf",
+      "to": ["Object.isPrototypeOf"]
+  },
+  {
+      "from": "lookupGetter",
+      "to": ["Object.lookupGetter"]
+  },
+  {
+      "from": "noSuchMethod",
+      "to": ["Object.noSuchMethod"]
+  },
+  {
+      "from": "propertyIsEnumerable",
+      "to": ["Object.propertyIsEnumerable"]
+  },
+  {
+      "from": "lookupSetter",
+      "to": ["Object.lookupSetter"]
+  },
+  {
+      "from": "unwatch",
+      "to": ["Object.unwatch"]
+  },
+  {
+      "from": "watch",
+      "to": ["Object.watch"]
+  },
+  {
+      "from": "global",
+      "to": ["RegExp.global"]
+  },
+  {
+      "from": "ignoreCase",
+      "to": ["RegExp.ignoreCase"]
+  },
+  {
+      "from": "multiline",
+      "to": ["RegExp.multiline"]
+  },
+  {
+      "from": "lastIndex",
+      "to": ["RegExp.lastIndex"]
+  },
+  {
+      "from": "source",
+      "to": ["RegExp.source"]
+  },
+  {
+      "from": "test",
+      "to": ["RegExp.test"]
+  },
+  {
+      "from": "exec",
+      "to": ["RegExp.exec"]
+  },
+  {
+      "from": "replace",
+      "to": ["String.replace"]
+  },
+  {
+      "from": "substring",
+      "to": ["String.substring"]
+  },
+  {
+      "from": "substr",
+      "to": ["String.substr"]
+  },
+  {
+      "from": "charAt",
+      "to": ["String.charAt"]
+  },
+  {
+      "from": "fromCharCode",
+      "to": ["String.fromCharCode"]
+  },
+  {
+      "from": "localeCompare",
+      "to": ["String.localeCompare"]
+  },
+  {
+      "from": "charCodeAt",
+      "to": ["String.charCodeAt"]
+  },
+  {
+      "from": "match",
+      "to": ["String.match"]
+  },
+  {
+      "from": "quote",
+      "to": ["String.quote"]
+  },
+  {
+      "from": "search",
+      "to": ["String.search"]
+  },
+  {
+      "from": "split",
+      "to": ["String.split"]
+  },
+  {
+      "from": "toLocaleLowerCase",
+      "to": ["String.toLocaleLowerCase"]
+  },
+  {
+      "from": "toLowerCase",
+      "to": ["String.toLowerCase"]
+  },
+  {
+      "from": "toUpperCase",
+      "to": ["String.toUpperCase"]
+  },
+  {
+      "from": "toLocaleUpperCase",
+      "to": ["String.toLocaleUpperCase"]
+  },
+  {
+      "from": "Trim",
+      "to": ["String.Trim"]
+  },
+  {
+      "from": "TrimLeft",
+      "to": ["String.TrimLeft"]
+  },
+  {
+      "from": "TrimRight",
+      "to": ["String.TrimRight"]
+  },
+  {
+      "from": "anchor",
+      "to": ["String.anchor"]
+  },
+  {
+      "from": "big",
+      "to": ["String.big"]
+  },
+  {
+      "from": "blink",
+      "to": ["String.blink"]
+  },
+  {
+      "from": "fixed",
+      "to": ["String.fixed"]
+  },
+  {
+      "from": "bold",
+      "to": ["String.bold"]
+  },
+  {
+      "from": "italics",
+      "to": ["String.italics"]
+  },
+  {
+      "from": "fontcolor",
+      "to": ["String.fontcolor"]
+  },
+  {
+      "from": "fontsize",
+      "to": ["String.fontsize"]
+  },
+  {
+      "from": "small",
+      "to": ["String.small"]
+  },
+  {
+      "from": "sub",
+      "to": ["String.sub"]
+  },
+  {
+      "from": "link",
+      "to": ["String.link"]
+  },
+  {
+      "from": "strike",
+      "to": ["String.strike"]
+  },
+  {
+      "from": "sup",
+      "to": ["String.sup"]
+  },
+  {
+      "from": "message",
+      "to": ["Error.message"]
+  },
+  {
+      "from": "Stack",
+      "to": ["Error.Stack"]
+  },
+  {
+      "from": "stringify",
+      "to": ["JSON.stringify"]
+  },
+  {
+      "from": "LN2",
+      "to": ["Math.LN2"]
+  },
+  {
+      "from": "E",
+      "to": ["Math.E"]
+  },
+  {
+      "from": "LN10",
+      "to": ["Math.LN10"]
+  },
+  {
+      "from": "LOG2E",
+      "to": ["Math.LOG2E"]
+  },
+  {
+      "from": "LOG10E",
+      "to": ["Math.LOG10E"]
+  },
+  {
+      "from": "PI",
+      "to": ["Math.PI"]
+  },
+  {
+      "from": "SQRT1_2",
+      "to": ["Math.SQRT1_2"]
+  },
+  {
+      "from": "SQRT2",
+      "to": ["Math.SQRT2"]
+  },
+  {
+      "from": "abs",
+      "to": ["Math.abs"]
+  },
+  {
+      "from": "acos",
+      "to": ["Math.acos"]
+  },
+  {
+      "from": "asin",
+      "to": ["Math.asin"]
+  },
+  {
+      "from": "atan",
+      "to": ["Math.atan"]
+  },
+  {
+      "from": "atan2",
+      "to": ["Math.atan2"]
+  },
+  {
+      "from": "ceil",
+      "to": ["Math.ceil"]
+  },
+  {
+      "from": "cos",
+      "to": ["Math.cos"]
+  },
+  {
+      "from": "floor",
+      "to": ["Math.floor"]
+  },
+  {
+      "from": "log",
+      "to": ["Math.log"]
+  },
+  {
+      "from": "exp",
+      "to": ["Math.exp"]
+  },
+  {
+      "from": "max",
+      "to": ["Math.max"]
+  },
+  {
+      "from": "pow",
+      "to": ["Math.pow"]
+  },
+  {
+      "from": "min",
+      "to": ["Math.min"]
+  },
+  {
+      "from": "random",
+      "to": ["Math.random"]
+  },
+  {
+      "from": "sin",
+      "to": ["Math.sin"]
+  },
+  {
+      "from": "round",
+      "to": ["Math.round"]
+  },
+  {
+      "from": "sqrt",
+      "to": ["Math.sqrt"]
+  },
+  {
+      "from": "tan",
+      "to": ["Math.tan"]
+  },
+  {
+      "from": "getPrototypeOf",
+      "to": ["Object.getPrototypeOf"]
+  },
+  {
+      "from": "if",
+      "to": ["if...else"]
+  }
+]

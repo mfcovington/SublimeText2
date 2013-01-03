@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Estimate Proportion of Expressed Probes</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for propexpr"><tr><td>propexpr</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Estimate Proportion of Expressed Probes</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>Estimate the proportion of microarray probes which are expressed in each array.</p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ propexpr(x, neg.x=NULL, status=x$genes$Status, labels=c("negative","regular"))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>matrix or similar object containing raw intensities for a set of arrays.</p>
+ </td></tr>
+ <tr valign="top"><td><code>neg.x</code></td>
+ <td>
+ <p>matrix or similar object containing raw intensities for negative control probes for the same arrays. If <code>NULL</code>, then negative controls must be provided in <code>x</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>status</code></td>
+ <td>
+ <p>character vector giving probe types.</p>
+ </td></tr>
+ <tr valign="top"><td><code>labels</code></td>
+ <td>
+ <p>character vector giving probe type identifiers.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function estimates the proportion of expressed in a microarray by utilizing the negative control probes.
+ Illumina BeadChip arrays contain 750~1600 negative control probes.
+ The expression profile of these control probes can be saved to a separate file by the Illumina BeadStudio software when using it to output the expression profile for regular probes.
+ The control probe profile could be re-generated if it was not generated when the regular probe profile was created by BeadStudio.
+ Other microarray platforms can also use this function to estimate the proportion of expressed probes in each array, provided that they have a set of negative control probes.
+ </p>
+ <p><code>labels</code> can include one or two probe type identifiers. 
+ Its first element should be the identifier for negative control probes (<code>negative</code> by default).
+ If <code>labels</code> only contains one identifier, then it will be assumed to contain the identifier for negative control probes.
+ By default, <code>regular</code> is the identifier for regular probes.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Numeric vector giving the proportions of expressed probes in each array.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Wei Shi and Gordon Smyth</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Shi, W, de Graaf, C, Kinkel, S, Achtman, A, Baldwin, T, Schofield, L, Scott, H, Hilton, D, Smyth, GK (2010). Estimating the proportion of microarray probes expressed in an RNA sample. Nucleic Acids Research 38, 2168-2176.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+  
+ <p>Description to the control probes in Illumina BeadChips can be found in <code>read.ilmn</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ x &lt;- read.ilmn(files="sample probe profile.txt",ctrlfiles="control probe profile.txt")
+ propexpr(x, )
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

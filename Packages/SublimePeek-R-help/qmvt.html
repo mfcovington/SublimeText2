@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Quantiles of the Multivariate t Distribution</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for qmvt"><tr><td>qmvt</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2> Quantiles of the Multivariate t Distribution </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Computes the equicoordinate quantile function of the multivariate t
+ distribution for arbitrary correlation matrices
+ based on inversion of qmvt.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ qmvt(p, interval = NULL, tail = c("lower.tail", 
+      "upper.tail", "both.tails"), df = 1, delta = 0, corr = NULL, 
+      sigma = NULL, algorithm = GenzBretz(), 
+      type = c("Kshirsagar", "shifted"), ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>p</code></td>
+ <td>
+ <p> probability.</p>
+ </td></tr>
+ <tr valign="top"><td><code>interval</code></td>
+ <td>
+ <p> optional, a vector containing the end-points of the interval to be
+ searched by <code>uniroot</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>tail</code></td>
+ <td>
+ <p> specifies which quantiles should be computed.
+ <code>lower.tail</code> gives the quantile <i>x</i> for which 
+ <i>P[X &le; x] = p</i>, <code>upper.tail</code> gives <i>x</i> with 
+ <i>P[X &gt; x] = p</i> and 
+ <code>both.tails</code> leads to <i>x</i> 
+ with <i>P[-x &le; X &le; x] = p</i>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>delta</code></td>
+ <td>
+ <p> the vector of noncentrality parameters of length n, for
+ <code>type = "shifted"</code> delta specifies the mode.</p>
+ </td></tr>
+ <tr valign="top"><td><code>df</code></td>
+ <td>
+ <p> degree of freedom as integer. Normal quantiles are computed for <code>df = 0</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>corr</code></td>
+ <td>
+ <p> the correlation matrix of dimension n.</p>
+ </td></tr>
+ <tr valign="top"><td><code>sigma</code></td>
+ <td>
+ <p> the covariance matrix of dimension n. Either <code>corr</code> or
+ <code>sigma</code> can be specified. If <code>sigma</code> is given, the
+ problem is standardized. If neither <code>corr</code> nor
+ <code>sigma</code> is given, the identity matrix is used
+ for <code>sigma</code>. </p>
+ </td></tr>
+ <tr valign="top"><td><code>algorithm</code></td>
+ <td>
+ <p> an object of class <code>GenzBretz</code> or
+ <code>TVPACK</code> defining the
+ hyper parameters of this algorithm.</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p> type of the noncentral multivariate t distribution
+ to be computed. <code>type = "Kshirsagar"</code> corresponds
+ to formula (1.4) in Genz and Bretz (2009) (see also
+ Chapter 5.1 in Kotz and Nadarajah (2004)) and
+ <code>type = "shifted"</code> corresponds to the formula before
+ formula (1.4) in Genz and Bretz (2009)
+ (see also formula (1.1) in Kotz and Nadarajah (2004)). </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p> additional parameters to be passed to                                            
+ <code>GenzBretz</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Only equicoordinate quantiles are computed, i.e., the quantiles in each
+ dimension coincide. Currently, the distribution function is inverted by 
+ using the
+ <code>uniroot</code> function which may result in limited accuracy of the 
+ quantiles. 
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A list with four components: <code>quantile</code> and <code>f.quantile</code> 
+ give the location of the quantile and the value of the function
+ evaluated at that point. <code>iter</code> and <code>estim.prec</code> give the number 
+ of iterations used and an approximate estimated precision from
+ <code>uniroot</code>.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>pmvnorm</code>, <code>qmvnorm</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ qmvt(0.95, df = 16, tail = "both")
+ </pre>
+ 
+ 
+ </body></html>

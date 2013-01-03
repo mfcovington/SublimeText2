@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Special Version of legend for R</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for rlegend"><tr><td>rlegend</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Special Version of legend for R</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>rlegend</code> is a version of <code>legend</code> for <font face="Courier New,Courier" color="#666666"><b>R</b></font> that implements
+ <code>plot=FALSE</code>, adds <code>grid=TRUE</code>, and defaults <code>lty, lwd,
+   pch</code> to <code>NULL</code> and checks for <code>length&gt;0</code> rather than
+ <code>missing()</code>, so it's easier to deal with non-applicable
+ parameters.  But when <code>grid</code> is in effect, the preferred function
+ to use is <code>rlegendg</code>, which calls the <code>lattice</code>
+ <code>draw.key</code> function.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ rlegend(x, y, legend, fill, col = "black", lty = NULL, lwd = NULL, pch = NULL, angle = NULL, density = NULL, bty = "o", bg = par("bg"), pt.bg = NA, cex = 1, xjust = 0, yjust = 1, x.intersp = 1, y.intersp = 1, adj = 0, text.width = NULL, merge = do.lines &amp;&amp; has.pch, trace = FALSE, ncol = 1, horiz = FALSE, plot = TRUE, grid = FALSE, ...)
+ 
+ rlegendg(x, y, legend, col=pr$col[1], lty=NULL,
+          lwd=NULL, pch=NULL, cex=pr$cex[1], other=NULL) 
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x,y,legend,fill,col,lty,lwd,pch,angle,density,bty,bg,pt.bg,cex,xjust,
+ yjust,x.intersp,y.intersp,adj,text.width,merge,trace,ncol,horiz</code></td>
+ <td>
+ 
+ <p>see <code>legend</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>plot</code></td>
+ <td>
+ <p>set to <code>FALSE</code> to suppress drawing the legend.  This
+ is used the compute the size needed for when the legend is drawn
+ with a later call to <code>rlegend</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>grid</code></td>
+ <td>
+ <p>set to <code>TRUE</code> if the <code>grid</code> package is in effect</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>see <code>legend</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>other</code></td>
+ <td>
+ <p>a list containing other arguments to pass to
+ <code>draw.key</code>.  See the help file for <code>xyplot</code>.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a list with elements <code>rect</code> and <code>text</code>.  <code>rect</code> has
+ elements <code>w, h, left, top</code> with size/position information.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Frank Harrell and R-Core</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>legend</code>,<code>draw.key</code></p>
+ 
+ 
+ </body></html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Genuine Association of Gene Expression Profiles</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for genas"><tr><td>genas</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Genuine Association of Gene Expression Profiles</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Calculates biological correlation between two gene expression profiles.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ genas(fit, coef=c(1,2))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>fit</code></td>
+ <td>
+ <p>an <code>MArrayLM</code> fitted model object produced by <code>lmFit</code> or <code>contrasts.fit</code> and followed by <code>eBayes</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>coef</code></td>
+ <td>
+ <p>numeric vector of length 2 to indicate which contrasts/columns in the fit object are to be used</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The biological correlation between the true log fold changes of pairs of comparisons is computed. This method is to be applied when multiple groups (such as treatment groups, mutants or knock-outs) are compared back to the same control group.
+ </p>
+ <p>This method is an extension of the empirical Bayes method of <code>limma</code>. It aims to separate the technical correlation, which comes from comparing multiple treatment/mutant/knock-out groups to the same control group, from biological correlation, which is the true correlation of the gene expression profiles between two treatment/mutant/knock-out groups.
+ </p>
+ <p>The fit object should include only differentially expressed genes. One approach is to calculate the true proportion of differentially expressed genes using <code>convest</code> on the F p-value produced by <code>lmFit</code>. Any reasonable set of genes displaying some degree of differential expression should be adequate.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>genas</code> produces a list with the following components.
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>technical.correlation</code></td>
+ <td>
+ <p>estimate of the technical correlation</p>
+ </td></tr>
+ <tr valign="top"><td><code>covariance.matrix</code></td>
+ <td>
+ <p>estimate of the covariance matrix from which the biological correlation is obtained</p>
+ </td></tr>
+ <tr valign="top"><td><code>biological.correlation</code></td>
+ <td>
+ <p>estimate of the biological correlation</p>
+ </td></tr>
+ <tr valign="top"><td><code>deviance</code></td>
+ <td>
+ <p>the likelihood ratio test statistic used to test whether the biological correlation is equal to 0</p>
+ </td></tr>
+ <tr valign="top"><td><code>p.value</code></td>
+ <td>
+ <p>the p.value associated with <code>deviance</code></p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Belinda Phipson and Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>lmFit</code>, <code>eBayes</code>, <code>contrasts.fit</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ library(limma)
+ #  Simulate gene expression data,
+ #  6 microarrays with 100 genes on each array 
+ set.seed(2004)
+ y&lt;-matrix(rnorm(600),ncol=6)
+ 
+ # two experimental groups and one control group with two replicates each
+ group&lt;-factor(c("A","A","B","B","control","control"))
+ design&lt;-model.matrix(~0+group)
+ colnames(design)&lt;-c("A","B","control")
+ 
+ # fit a linear model
+ fit&lt;-lmFit(y,design)
+ contrasts&lt;-makeContrasts(A-control,B-control,levels=design)
+ fit2&lt;-contrasts.fit(fit,contrasts)
+ fit2&lt;-eBayes(fit2)
+ 
+ # calculate biological correlation between the gene expression profiles of (A vs control) and (B vs control)
+ genas(fit2)
+ </pre>
+ 
+ 
+ </body></html>

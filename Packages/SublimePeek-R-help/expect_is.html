@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Expectation: does the object inherit from a class?</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for is_a"><tr><td>is_a</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Expectation: does the object inherit from a class?</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Tests whether or not an object inherits from any of a
+ list of classes.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   is_a(class)
+ 
+   expect_is(object, class, info = NULL, label = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>class</code></td>
+ <td>
+ <p>character vector of class names</p>
+ </td></tr>
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>object to test</p>
+ </td></tr>
+ <tr valign="top"><td><code>info</code></td>
+ <td>
+ <p>extra information to be included in the
+ message (useful when writing tests in loops).</p>
+ </td></tr>
+ <tr valign="top"><td><code>label</code></td>
+ <td>
+ <p>object label. When <code>NULL</code>, computed
+ from deparsed object.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>inherits</code>
+ </p>
+ <p>Other expectations: <code>equals</code>,
+ <code>expect_equal</code>,
+ <code>expect_equivalent</code>,
+ <code>expect_error</code>, <code>expect_false</code>,
+ <code>expect_identical</code>,
+ <code>expect_match</code>, <code>expect_message</code>,
+ <code>expect_output</code>, <code>expect_true</code>,
+ <code>expect_warning</code>,
+ <code>gives_warning</code>,
+ <code>is_equivalent_to</code>, <code>is_false</code>,
+ <code>is_identical_to</code>, <code>is_true</code>,
+ <code>matches</code>, <code>prints_text</code>,
+ <code>shows_message</code>,
+ <code>takes_less_than</code>, <code>throws_error</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ expect_that(1, is_a("numeric"))
+ a &lt;- matrix(1:10, nrow = 5)
+ expect_that(a, is_a("matrix"))
+ 
+ expect_that(mtcars, is_a("data.frame"))
+ expect_is(mtcars, "data.frame")
+ # alternatively for classes that have an is method
+ expect_that(is.data.frame(mtcars), is_true())
+ # doesn't read quite as nicely
+ </pre>
+ 
+ 
+ </body></html>

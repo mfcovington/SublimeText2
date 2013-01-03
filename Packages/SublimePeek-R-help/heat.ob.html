@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Color Ramps on Perceptually Linear Scales</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for ColorRamps"><tr><td>ColorRamps</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Color Ramps on Perceptually Linear Scales</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Functions for returning colors on perceptually linear scales,
+ where steps correspond to &lsquo;just detectable differences&rsquo;.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ LinGray (n, beg=1, end=92)
+ BTC     (n, beg=1, end=256)
+ LinOCS  (n, beg=1, end=256)
+ heat.ob (n, beg=1, end=256)
+ magent  (n, beg=1, end=256)
+ plinrain(n, beg=1, end=256)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p>number of colors to return from the ramp</p>
+ </td></tr>
+ <tr valign="top"><td><code>beg</code></td>
+ <td>
+ <p>begining of ramp, integer from 1-255</p>
+ </td></tr>
+ <tr valign="top"><td><code>end</code></td>
+ <td>
+ <p>end of ramp, integer from 1-255</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Several precalulated color ramps, that are on a perceptually linear
+ color scale.  A perceptually linear color scale is a scale where each
+ jump corresponds to a &ldquo;just detectable difference&rdquo; in color and the
+ scale is percieved as linear by the human eye (emprically determined).
+ </p>
+ <p>When using the ramps, if <code>beg</code> is less than <code>end</code> the ramp
+ will be reversed.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>returns an array of colors
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Nicholas Lewin-Koh</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Haim Levkowitz (1997)
+ <EM>Color Theory and Modeling for Computer Graphics,
+ Visualization, and Multimedia Applications</EM>.
+ Kluwer Academic Publishers, Boston/London/Dordrecht.
+ <a href="http://www.cs.uml.edu/~haim/ColorCenter/">http://www.cs.uml.edu/~haim/ColorCenter/</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>rainbow</code>,
+ <code>terrain.colors</code>,
+ <code>rgb</code>,  
+ <code>hsv</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ h &lt;- hexbin(rnorm(10000),rnorm(10000))
+ plot(h, colramp= BTY)
+ ## looks better if you shave the tails:
+ plot(h, colramp= function(n){LinOCS(n,beg=15,end=225)})
+ </pre>
+ 
+ 
+ </body></html>

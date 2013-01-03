@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Metadata for a Data Frame</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for contents"><tr><td>contents</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Metadata for a Data Frame
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>contents</code> is a generic method for which <code>contents.data.frame</code>
+ is currently the only method.  <code>contents.data.frame</code> creates an
+ object containing the following attributes of the variables 
+ from a data frame: names, labels (if any), units (if any), number of
+ factor levels (if any), factor levels,
+ class, storage mode, and number of NAs.  <code>print.contents.data.frame</code>
+ will print the results, with options for sorting the variables.
+ <code>html.contents.data.frame</code> creates HTML code for displaying the
+ results.  This code has hyperlinks so that if the user clicks on the
+ number of levels the browser jumps to the correct part of a table of
+ factor levels for all the <code>factor</code> variables.  If long labels are
+ present (<code>"longlabel"</code> attributes on variables), these are printed
+ at the bottom and the <code>html</code> method links to them through the
+ regular labels.  Variables having the same <code>levels</code> in the same
+ order have the levels factored out for brevity.
+ </p>
+ <p><code>contents.list</code> prints a directory of datasets when
+ <code>sasxport.get</code> imported more than one SAS dataset.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ contents(object, ...)
+ ## S3 method for class 'data.frame'
+ contents(object, ...)
+ ## S3 method for class 'contents.data.frame'
+ print(x,
+     sort=c('none','names','labels','NAs'), prlevels=TRUE, number=FALSE, ...) 
+ ## S3 method for class 'contents.data.frame'
+ html(object,
+            sort=c('none','names','labels','NAs'), prlevels=TRUE,
+            file=paste('contents',object$dfname,'html',sep='.'),
+            levelType=c('list','table'),
+            append=FALSE, number=FALSE, ...)
+ ## S3 method for class 'list'
+ contents(object, dslabels, ...)
+ ## S3 method for class 'contents.list'
+ print(x,
+     sort=c('none','names','labels','NAs','vars'), ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ 
+ <p>a data frame.  For <code>html</code> is an object created by
+ <code>contents</code>.  For <code>contents.list</code> is a list of data frames.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>an object created by <code>contents</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>sort</code></td>
+ <td>
+ 
+ <p>Default is to print the variables in their original order in the
+ data frame.  Specify one of 
+ <code>"names"</code>, <code>"labels"</code>, or <code>"NAs"</code> to sort the variables by,
+ respectively, alphabetically by names, alphabetically by labels, or by
+ increaseing order of number of missing values.  For
+ <code>contents.list</code>, <code>sort</code> may also be the value
+ <code>"vars"</code> to cause sorting by the number of variables in the dataset.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>prlevels</code></td>
+ <td>
+ 
+ <p>set to <code>FALSE</code> to not print all levels of <code>factor</code> variables
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>number</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to have the <code>print</code> and <code>latex</code> methods
+ number the variables by their order in the data frame
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ 
+ <p>file to which to write the html code.  Default is
+ <code>"conents.dfname.html"</code> where <code>dfname</code> is the name of the data
+ frame processed by <code>contents</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>levelType</code></td>
+ <td>
+ 
+ <p>By default, bullet lists of category levels are
+ constructed in html.  Set <code>levelType='table'</code> to put levels in
+ html table format.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>append</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to add html code to an existing file
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>arguments passed from <code>html</code> to <code>format.df</code>,
+ unused otherwise
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>dslabels</code></td>
+ <td>
+ 
+ <p>named vector of SAS dataset labels, created for
+ example by <code>sasdsLabels</code>
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>an object of class <code>"contents.data.frame"</code> or
+ <code>"contents.list"</code>
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Frank Harrell
+ <br>
+ Vanderbilt University
+ <br>
+ <a href="mailto:f.harrell@vanderbilt.edu">f.harrell@vanderbilt.edu</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>describe</code>, <code>html</code>, <code>upData</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ set.seed(1)
+ dfr &lt;- data.frame(x=rnorm(400),y=sample(c('male','female'),400,TRUE))
+ contents(dfr)
+ dfr &lt;- upData(dfr, labels=c(x='Label for x', y='Label for y'))
+ attr(dfr$x, 'longlabel') &lt;-
+  'A very long label for x that can continue onto multiple long lines of text'
+ 
+ k &lt;- contents(dfr)
+ print(k, sort='names', prlevels=FALSE)
+ ## Not run: 
+ html(k)
+ html(contents(dfr))            # same result
+ w &lt;- html(k, file='my.html')   # create my.html, don't display
+ latex(k$contents)              # latex.default just the main information
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

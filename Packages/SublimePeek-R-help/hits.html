@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Mapping of ranges to another sequence</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for RangesMapping-class"><tr><td>RangesMapping-class</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Mapping of ranges to another sequence</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>The <code>map</code> generic converts a set of ranges to the
+ equivalent ranges on another sequence, through some sort of alignment
+ between sequences, and outputs an <code>RangesMapping</code> object. There
+ are three primary components of that object: the transformed <code>ranges</code>,
+ the <code>space</code> (destination sequence) for the ranges, and
+ the <code>hits</code>, a <code>Hits</code> object of the same length
+ that matches each input range to a destination sequence (useful when
+ the alignment is one/many to many).</p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>map(from, to, ...)</pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>from</code></td>
+ <td>
+ <p>Typically an object containing ranges to map.</p>
+ </td></tr>
+ <tr valign="top"><td><code>to</code></td>
+ <td>
+ <p>Typically an object representing an alignment.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Arguments to pass to methods</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A <code>RangesMapping</code> object, as documented here.
+ </p>
+ 
+ 
+ <h3><code>RangesMapping</code> Accessors</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>ranges(x)</code>: Gets the mapped ranges.</p>
+ </dd>
+ <dt></dt><dd><p><code>space(x)</code>: Gets the destination spaces (sequence
+ names).</p>
+ </dd>
+ <dt></dt><dd><p><code>hits(x)</code>: Gets the matching between the input ranges
+ and the destination sequences (of which there may be more than
+ one).</p>
+ </dd>
+ <dt></dt><dd><p><code>dim(x)</code>: Same as <code>dim(hits(x))</code>.</p>
+ </dd>
+ <dt></dt><dd><p><code>length(x)</code>: Same as <code>length(hits(x))</code>.</p>
+ </dd>
+ <dt></dt><dd><p><code>subjectHits(x)</code>: Same as <code>subjectHits(hits(x))</code>.</p>
+ </dd>
+ <dt></dt><dd><p><code>queryHits(x)</code>: Same as <code>queryHits(hits(x))</code>.</p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3><code>RangesMapping</code> Coercion</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>as(from, "RangedData")</code>: Converts
+ a <code>RangesMapping</code> into
+ a <code>RangedData</code>. The <code>ranges</code>/<code>space</code>
+ in the <code>RangedData</code> are the <code>ranges</code>/<code>space</code>
+ of <code>from</code>, and the <code>values</code> result from the coercion of
+ the <code>hits</code> to a <code>DataFrame</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p> Michael Lawrence </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Methods on the generic <code>map</code>, which generates an instance of
+ this class, are defined in other packages, like GenomicRanges.
+ </p>
+ 
+ 
+ </body></html>

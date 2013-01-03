@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Simple and Compressed List Classes</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for SimpleList-class"><tr><td>SimpleList-class</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Simple and Compressed List Classes</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>The (non-virtual) SimpleList and (virtual) CompressedList classes
+ extend the List virtual class.</p>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The SimpleList and CompressedList classes provide an implementation that
+ subclasses can easily extend. The underlying storage in a SimpleList
+ subclass is a list object. The underlying storage in a CompressedList
+ object is a virtually partitioned vector-like object. For more information
+ on the available methods, see the List man page.
+ </p>
+ 
+ 
+ <h3>Constructor</h3>
+ 
+ 
+ <p>The SimpleList class constructor is used to create SimpleList objects:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>SimpleList(...)</code>: takes possibly named objects as elements
+ for the new SimpleList object.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ <p>In the following code snippets, <code>x</code> is a SimpleList or CompressedList
+ object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>as.list(x)</code>: Copies the elements of <code>x</code> into a new R
+ list object.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>unlist(x, recursive = TRUE, use.names = TRUE)</code>: Concatenates
+ the elements of <code>x</code> into a single <code>elementType(x)</code> object.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Subsetting</h3>
+ 
+ 
+ <p>In the following code snippets, <code>x</code> is a SimpleList or CompressedList
+ object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>x[i]</code>:
+ In addition to normal usage, the <code>i</code> parameter can be a
+ <code>RangesList</code>, logical <code>RleList</code>, <code>LogicalList</code>, or
+ <code>IntegerList</code> object to perform subsetting within the list
+ elements rather than across them.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>x[i] &lt;- value</code>:
+ In addition to normal usage, the <code>i</code> parameter can be a
+ <code>RangesList</code>, logical <code>RleList</code>, <code>LogicalList</code>, or
+ <code>IntegerList</code> object to perform subsetting within the list
+ elements rather than across them.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>seqselect(x, start=NULL, end=NULL, width=NULL)</code>:
+ In addition to normal usage, the <code>start</code> parameter can be a
+ <code>RangesList</code>, logical <code>RleList</code>, <code>LogicalList</code>, or
+ <code>IntegerList</code> object to perform sequence extraction within the
+ list elements rather than across them.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>seqselect(x, start=NULL, end=NULL, width=NULL) &lt;- value</code>:
+ In addition to normal usage, the <code>start</code> parameter can be a
+ <code>RangesList</code>, logical <code>RleList</code>, <code>LogicalList</code>, or
+ <code>IntegerList</code> object to perform sequence replacement within the
+ list elements rather than across them.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Looping</h3>
+ 
+ 
+ <p>In the following code snippets, <code>x</code> is a SimpleList or CompressedList
+ object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>aggregate(x, by, FUN, start = NULL, end = NULL, width = NULL,
+                       frequency = NULL, delta = NULL, ..., simplify = TRUE))</code>:
+ In addition to normal usage, the <code>by</code> parameter can be a
+ <code>RangesList</code> to aggregate within the list elements rather
+ than across them. When <code>by</code> is a <code>RangesList</code>, the output is
+ either a <code>SimpleAtomicList</code> object, if possible, or a
+ <code>SimpleList</code> object, if not.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>P. Aboyoun</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p>List,
+ AtomicList and
+ RangesList for example implementations</p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ SimpleList(a = letters, ranges = IRanges(1:10, 1:10))
+ </pre>
+ 
+ 
+ </body></html>

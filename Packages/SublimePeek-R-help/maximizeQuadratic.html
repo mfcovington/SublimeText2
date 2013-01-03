@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Maximize a function given a table of values by quadratic...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for maximizeQuadratic"><tr><td>maximizeQuadratic</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Maximize a function given a table of values by quadratic interpolation.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Maximize a function given a table of values by quadratic interpolation.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ maximizeQuadratic(y, x=1:ncol(y))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+  
+ <table summary="R argblock">
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>numeric matrix of response values.</p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>numeric matrix of inputs of the function of same dimension as <code>y</code>.  If a vector, must be a row vector of length equal to <code>ncol(y)</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>For each row of <code>y</code>, finds the three <code>x</code> values bracketing the maximum of <code>y</code>, interpolates a quadatric
+ polyonomial through these <code>y</code> for these three values and solves for the location of the maximum of the polynomial.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>numeric vector of length equal to <code>nrow(y)</code> giving the x-value at which <code>y</code> is maximized.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Yunshun Chen and Gordon Smyth</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>maximizeInterpolant</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ y &lt;- matrix(rnorm(5*9),5,9)
+ maximizeQuadratic(y)
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: List of RleViews</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for RleViewsList-class"><tr><td>RleViewsList-class</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>List of RleViews</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>An extension of ViewsList that holds only
+ RleViews objects. Useful for storing coverage vectors
+ over a set of spaces (e.g. chromosomes), each of which requires a separate
+ RleViews object.
+ </p>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>For more information on methods available for RleViewsList objects consult
+ the man pages for ViewsList-class and Views-utils.
+ </p>
+ 
+ 
+ <h3>Constructor</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>RleViewsList(..., rleList, rangesList, universe = NULL)</code>:
+ Either <code>...</code> or the <code>rleList</code>/<code>rangesList</code> couplet
+ provide the RleViews for the list. If <code>...</code> is provided, each
+ of these arguments must be RleViews objects. Alternatively,
+ <code>rleList</code> and <code>rangesList</code> accept Rle and Ranges objects
+ respectively that are meshed together for form the RleViewsList.
+ The universe is specified by the <code>universe</code> parameter, which
+ should be a single string or NULL, to leave unspecified. 
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>Views(subject, start=NULL, end=NULL, width=NULL, names=NULL)</code>:
+ Same as <code>RleViewsList(rleList = subject, rangesList = start)</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ <p>In the code snippets below, <code>from</code> is an RleViewsList object:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>as(from, "IRangesList")</code>: Creates a <code>CompressedIRangesList</code>
+ object containing the view locations in <code>from</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "CompressedIRangesList")</code>: Creates a
+ <code>CompressedIRangesList</code> object containing the view locations in
+ <code>from</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "SimpleIRangesList")</code>: Creates a <code>SimpleIRangesList</code>
+ object containing the view locations in <code>from</code>.
+ </p>
+ </dd>
+ <dt></dt><dd>
+ <p><code>as(from, "RangedData")</code>: Creates a <code>RangedData</code> using
+ the ranges given by the runs of <code>subject(from)</code> in each of
+ the windows, with a value column <code>score</code> taken as the
+ corresponding subject values.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>P. Aboyoun</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>ViewsList-class,
+ Views-utils
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   ## Rle objects
+   subject1 &lt;- Rle(c(3L,2L,18L,0L), c(3,2,1,5))
+   set.seed(0)
+   subject2 &lt;- Rle(c(0L,5L,2L,0L,3L), c(8,5,2,7,4))
+ 
+   ## Views
+   rleViews1 &lt;- Views(subject1, 3:0, 5:8)
+   rleViews2 &lt;- Views(subject2, subject2 &gt; 0) 
+ 
+   ## RleList and RangesList objects
+   rleList &lt;- RleList(subject1, subject2)
+   rangesList &lt;- IRangesList(IRanges(3:0, 5:8), IRanges(subject2 &gt; 0))
+ 
+   ## methods for construction
+   method1 &lt;- RleViewsList(rleViews1, rleViews2)
+   method2 &lt;- RleViewsList(rleList = rleList, rangesList = rangesList)
+   identical(method1, method2)
+ 
+   ## calculation over the views
+   viewSums(method1)
+ </pre>
+ 
+ 
+ </body></html>

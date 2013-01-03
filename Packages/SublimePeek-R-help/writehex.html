@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Write Hexadecimal Color Descriptions</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for writehex"><tr><td>writehex</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Write Hexadecimal Color Descriptions</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Given a color object, this function writes a file
+ containing the hexadecimal representation of the
+ colors in the object.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ writehex(x, file = "")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a color object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p>the name of the file to be written.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function converts the given color object to RGB and
+ then writes hexadecimal strings (of the form <code>#RRGGBB</code>)
+ representing the colors to the specified file.  
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>The name of the file is returned as the value of the function.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Ross Ihaka</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>readhex</code>,
+ <code>readRGB</code>,
+ <code>hex2RGB</code>,
+ <code>RGB</code>,
+ <code>HSV</code>,
+ <code>XYZ</code>,
+ <code>LAB</code>,
+ <code>polarLAB</code>,
+ <code>LUV</code>,
+ <code>polarLUV</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ x = RGB(runif(10), runif(10), runif(10))
+ writehex(x, "random.txt")
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Box-Percentile Panel Function for Trellis</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for panel.bpplot"><tr><td>panel.bpplot</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Box-Percentile Panel Function for Trellis
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>For all their good points, box plots have a high ink/information ratio
+ in that they mainly display 3 quartiles.  Many practitioners have
+ found that the &quot;outer values&quot; are difficult to explain to
+ non-statisticians and many feel that the notion of &quot;outliers&quot; is too
+ dependent on (false) expectations that data distributions should be Gaussian.
+ </p>
+ <p><code>panel.bpplot</code> is a <code>panel</code> function for use with <code>trellis</code>, especially for
+ <code>bwplot</code>.  It draws box plots (without the whiskers) with any number
+ of user-specified &quot;corners&quot; (corresponding to different quantiles),
+ but it also draws box-percentile plots similar to those drawn by
+ Jeffrey Banfield's (<a href="mailto:umsfjban@bill.oscs.montana.edu">umsfjban@bill.oscs.montana.edu</a>) <code>bpplot</code> function.
+ To quote from Banfield, &quot;box-percentile plots supply more
+ information about the univariate distributions.  At any height the
+ width of the irregular 'box' is proportional to the percentile of that
+ height, up to the 50th percentile, and above the 50th percentile the
+ width is proportional to 100 minus the percentile.  Thus, the width at
+ any given height is proportional to the percent of observations that
+ are more extreme in that direction.  As in boxplots, the median, 25th
+ and 75th percentiles are marked with line segments across the box.&quot;
+ </p>
+ <p><code>panel.bpplot</code> is a generalization of <code>bpplot</code> and
+ <code>panel.bwplot</code> in 
+ that it works with <code>trellis</code> (making the plots horizontal so that
+ category labels are more visable), it allows the user to specify the
+ quantiles to connect and those for which to draw reference lines, 
+ and it displays means (by default using dots).
+ </p>
+ <p><code>bpplt</code> draws horizontal box-percentile plot much like those drawn
+ by <code>panel.bpplot</code> but taking as the starting point a matrix
+ containing quantiles summarizing the data.  <code>bpplt</code> is primarily
+ intended to be used internally by <code>plot.summary.formula.reverse</code>
+ but when used with no arguments has a general purpose: to draw an
+ annotated example box-percentile plot with the default quantiles used
+ and with the mean drawn with a solid dot.  This schematic plot is
+ rendered nicely in postscript with an image height of 3.5 inches.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ panel.bpplot(x, y, box.ratio=1, means=TRUE, qref=c(.5,.25,.75),
+              probs=c(.05,.125,.25,.375), nout=0,
+              datadensity=FALSE, scat1d.opts=NULL,
+              font=box.dot$font, pch=box.dot$pch, 
+              cex =box.dot$cex,  col=box.dot$col, ...)
+ 
+ # E.g. bwplot(formula, panel=panel.bpplot, panel.bpplot.parameters)
+ 
+ bpplt(stats, xlim, xlab='', box.ratio = 1, means=TRUE,
+       qref=c(.5,.25,.75), qomit=c(.025,.975),
+       pch=16, cex.labels=par('cex'), cex.points=if(prototype)1 else 0.5,
+       grid=FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>continuous variable whose distribution is to be examined
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ 
+ <p>grouping variable
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>box.ratio</code></td>
+ <td>
+ 
+ <p>see <code>panel.bwplot</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>means</code></td>
+ <td>
+ 
+ <p>set to <code>FALSE</code> to suppress drawing a character at the mean value
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>qref</code></td>
+ <td>
+ 
+ <p>vector of quantiles for which to draw reference lines.  These do not
+ need to be included in <code>probs</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>probs</code></td>
+ <td>
+ 
+ <p>vector of quantiles to display in the box plot.  These should all be
+ less than 0.5; the mirror-image quantiles are added automatically.  By
+ default, <code>probs</code> is set to <code>c(.05,.125,.25,.375)</code> so that intervals
+ contain 0.9, 0.75, 0.5, and 0.25 of the data.
+ To draw all 99 percentiles, i.e., to draw a box-percentile plot,
+ set <code>probs=seq(.01,.49,by=.01)</code>.
+ To make a more traditional box plot, use <code>probs=.25</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>nout</code></td>
+ <td>
+ 
+ <p>tells the function to use <code>scat1d</code> to draw tick marks showing the
+ <code>nout</code> smallest and <code>nout</code> largest values if <code>nout &gt;= 1</code>, or to
+ show all values less than the <code>nout</code> quantile or greater than the
+ <code>1-nout</code> quantile if <code>0 &lt; nout &lt;= 0.5</code>.  If <code>nout</code> is a whole number,
+ only the first <code>n/2</code> observations are shown on either side of the
+ median, where <code>n</code> is the total number of observations. 
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>datadensity</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to invoke <code>scat1d</code> to draw a data density
+ (one-dimensional scatter diagram or rug plot) inside each box plot.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>scat1d.opts</code></td>
+ <td>
+ 
+ <p>a list containing named arguments (without abbreviations) to pass to
+ <code>scat1d</code> when <code>datadensity=TRUE</code> or <code>nout &gt; 0</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>font,pch,cex,col</code></td>
+ <td>
+ <p>see <code>panel.bwplot</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>arguments passed to <code>points</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>stats,xlim,xlab,qomit,cex.labels,cex.points,grid</code></td>
+ <td>
+ 
+ <p>undocumented arguments to <code>bpplt</code>
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Frank Harrell
+ <br>
+ Department of Biostatistics
+ <br>
+ Vanderbilt University School of Medicine
+ <br>
+ <a href="mailto:f.harrell@vanderbilt.edu">f.harrell@vanderbilt.edu</a>
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Esty WW, Banfield J: The box-percentile plot.  J Statistical
+ Software 8 No. 17, 2003.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>bpplot</code>, <code>panel.bwplot</code>, <code>scat1d</code>, <code>quantile</code>, <code>Ecdf</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ set.seed(13)
+ x &lt;- rnorm(1000)
+ g &lt;- sample(1:6, 1000, replace=TRUE)
+ x[g==1][1:20] &lt;- rnorm(20)+3   # contaminate 20 x's for group 1
+ 
+ 
+ # default trellis box plot
+ require(lattice)
+ bwplot(g ~ x)
+ 
+ 
+ # box-percentile plot with data density (rug plot)
+ bwplot(g ~ x, panel=panel.bpplot, probs=seq(.01,.49,by=.01), datadensity=TRUE)
+ # add ,scat1d.opts=list(tfrac=1) to make all tick marks the same size
+ # when a group has &gt; 125 observations
+ 
+ 
+ # small dot for means, show only .05,.125,.25,.375,.625,.75,.875,.95 quantiles
+ bwplot(g ~ x, panel=panel.bpplot, cex=.3)
+ 
+ 
+ # suppress means and reference lines for lower and upper quartiles
+ bwplot(g ~ x, panel=panel.bpplot, probs=c(.025,.1,.25), means=FALSE, qref=FALSE)
+ 
+ 
+ # continuous plot up until quartiles ("Tootsie Roll plot")
+ bwplot(g ~ x, panel=panel.bpplot, probs=seq(.01,.25,by=.01))
+ 
+ 
+ # start at quartiles then make it continuous ("coffin plot")
+ bwplot(g ~ x, panel=panel.bpplot, probs=seq(.25,.49,by=.01))
+ 
+ 
+ # same as previous but add a spike to give 0.95 interval
+ bwplot(g ~ x, panel=panel.bpplot, probs=c(.025,seq(.25,.49,by=.01)))
+ 
+ 
+ # decile plot with reference lines at outer quintiles and median
+ bwplot(g ~ x, panel=panel.bpplot, probs=c(.1,.2,.3,.4), qref=c(.5,.2,.8))
+ 
+ 
+ # default plot with tick marks showing all observations outside the outer
+ # box (.05 and .95 quantiles), with very small ticks
+ bwplot(g ~ x, panel=panel.bpplot, nout=.05, scat1d.opts=list(frac=.01))
+ 
+ 
+ # show 5 smallest and 5 largest observations
+ bwplot(g ~ x, panel=panel.bpplot, nout=5)
+ 
+ 
+ # Use a scat1d option (preserve=TRUE) to ensure that the right peak extends 
+ # to the same position as the extreme scat1d
+ bwplot(~x , panel=panel.bpplot, probs=seq(.00,.5,by=.001), 
+        datadensity=TRUE, scat1d.opt=list(preserve=TRUE))
+ 
+ # Draw a prototype showing how to interpret the plots
+ bpplt()
+ 
+ # make a local copy of bwplot that always uses panel.bpplot (S-Plus only)
+ # bwplot$panel &lt;- panel.bpplot
+ # bwplot(g ~ x, nout=.05)
+ </pre>
+ 
+ 
+ </body></html>

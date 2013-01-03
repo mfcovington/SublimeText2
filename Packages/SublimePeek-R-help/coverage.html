@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Coverage across a set of ranges</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for coverage"><tr><td>coverage</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Coverage across a set of ranges</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Counts the number of times a position is represented in a set of ranges. 
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ coverage(x, shift=0L, width=NULL, weight=1L, ...)
+ ## S4 method for signature 'RangesList'
+ coverage(x,
+        shift = structure(rep(list(0L), length(x)), names = names(x)),
+        width = structure(rep(list(NULL), length(x)), names = names(x)),
+        weight = structure(rep(list(1L), length(x)), names = names(x)),
+        method = c("sort", "hash"))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>An IRanges, Views, MaskCollection, 
+ RangesList, RangedData object, or any object for which a
+ <code>coverage</code> method is defined.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>shift</code></td>
+ <td>
+ 
+ <p>For most methods, an integer vector (recycled to the length of
+ <code>x</code>) specifying how each element in <code>x</code> should be
+ (horizontally) shifted before the coverage is computed. Only shifted
+ indices in the range [1, <code>width</code>] will be included in the coverage
+ calculation.
+ For RangesList and RangedData objects, a list or vector
+ of the same length as <code>x</code> to be used for the corresponding element
+ in <code>x</code>. In addition for RangedData objects, can also be
+ a character vector of length 1 denoting the column to use in
+ <code>values(x)</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>width</code></td>
+ <td>
+ 
+ <p>For most methods, the length of the returned coverage vector. For
+ RangesList and RangedData objects, a list or vector of
+ the same length as <code>x</code> to be used for the corresponding element
+ in <code>x</code>. In addition for RangedData objects, can also be
+ a character vector of length 1 denoting the column to use in
+ <code>values(x)</code>.
+ </p>
+ <p>If <code>width=NULL</code> (the default), then the specific <code>coverage</code>
+ method that is actually selected will choose the length of the returned
+ vector &quot;in a way that makes sense&quot;.
+ </p>
+ <p>For example, when <code>width=NULL</code>, the method for IRanges objects
+ returns a vector that has just enough elements to have its last
+ element aligned with the rightmost end of all the ranges in <code>x</code> after
+ those ranges have been shifted (see the <code>shift</code> argument above).
+ This ensures that any longer coverage vector would be a &quot;padded with zeros&quot;
+ version of the vector returned when <code>width=NULL</code>.
+ </p>
+ <p>When <code>width=NULL</code>, the method for Views objects
+ returns a vector with <code>length(subject(x))</code> elements.
+ </p>
+ <p>When <code>width=NULL</code>, the method for MaskCollection objects
+ returns a vector with <code>width(x)</code> elements.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>weight</code></td>
+ <td>
+ 
+ <p>For most methods, an integer vector specifying how much each element
+ in <code>x</code> counts. For RangesList and RangedData
+ objects, a list or vector of the same length as <code>x</code> to be used
+ for the corresponding element in <code>x</code>.
+ For IRanges, Views, MaskCollection and
+ RangedData objects, this can also be a single string naming
+ a column in <code>elementMetadata(x)</code> (or in <code>x</code> for
+ RangedData) to be used as the weights.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ 
+ <p>Settings <code>method</code> to <code>hash</code> is intended only for large
+ <code>x</code> objects. If <code>method</code> is set to the <code>sort</code>
+ default, then <code>x</code> is sorted during the calculation of the
+ coverage Rle. If <code>method</code> is set to <code>hash</code>, then
+ <code>x</code> is hashed to a vector of size <code>width</code>. Note that
+ setting <code>method</code> to <code>hash</code> saves time on large <code>x</code>
+ vectors, but at the expense of additional memory usage.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Further arguments to be passed to or from other methods.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>For most methods, an Rle object representing the coverage of
+ <code>x</code>. For RangesList and RangedData objects, a
+ SimpleRleList object representing a list of coverage vectors.
+ </p>
+ <p>An integer value called the &quot;coverage&quot; can be associated to each position
+ in <code>x</code>, indicating how many times this position is covered by the
+ elements contained in <code>x</code>.
+ For example, if <code>x</code> is a Views object, the coverage of
+ a given position in <code>subject(x)</code> is the number of views it belongs to.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>H. Pages and P. Aboyoun</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>IRanges-class,
+ Views-class,
+ Rle-class,
+ MaskCollection-class
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   x &lt;- IRanges(start=c(-2L, 6L, 9L, -4L, 1L, 0L, -6L, 10L),
+                width=c( 5L, 0L, 6L,  1L, 4L, 3L,  2L,  3L))
+   coverage(x)
+   coverage(x, shift=7)
+   coverage(x, shift=7, width=27)
+   coverage(restrict(x, 1, 10))
+   coverage(reduce(x), shift=7)
+   coverage(gaps(shift(x, 7), start=1, end=27))
+ 
+   mask1 &lt;- Mask(mask.width=29, start=c(11, 25, 28), width=c(5, 2, 2))
+   mask2 &lt;- Mask(mask.width=29, start=c(3, 10, 27), width=c(5, 8, 1))
+   mask3 &lt;- Mask(mask.width=29, start=c(7, 12), width=c(2, 4))
+   mymasks &lt;- append(append(mask1, mask2), mask3)
+   coverage(mymasks)
+ </pre>
+ 
+ 
+ </body></html>

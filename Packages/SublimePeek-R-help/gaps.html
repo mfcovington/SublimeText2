@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Set operations on IRanges objects</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for IRanges-setops"><tr><td>IRanges-setops</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Set operations on IRanges objects</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Performs set operations on IRanges objects.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ## Vector-wise operations:
+ gaps(x, start=NA, end=NA)
+ ## S4 method for signature 'IRanges,IRanges'
+ union(x, y,...)
+ ## S4 method for signature 'IRanges,IRanges'
+ intersect(x, y,...)
+ ## S4 method for signature 'IRanges,IRanges'
+ setdiff(x, y,...)
+ 
+ ## Element-wise (aka "parallel") operations:
+ ## S4 method for signature 'IRanges,IRanges'
+ punion(x, y, fill.gap=FALSE, ...)
+ ## S4 method for signature 'IRanges,IRanges'
+ pintersect(x, y, resolve.empty=c("none", "max.start", "start.x"), ...)
+ ## S4 method for signature 'IRanges,IRanges'
+ psetdiff(x, y, ...)
+ ## S4 method for signature 'IRanges,IRanges'
+ pgap(x, y, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x, y</code></td>
+ <td>
+ 
+ <p>IRanges objects.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>start, end</code></td>
+ <td>
+ 
+ <p>A single integer or <code>NA</code>. Use these arguments to specify the
+ interval of reference i.e. which interval the returned gaps
+ should be relative to.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>fill.gap</code></td>
+ <td>
+ 
+ <p>Logical indicating whether or not to force a union by using the rule
+ <code>start = min(start(x), start(y)), end = max(end(x), end(y))</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>resolve.empty</code></td>
+ <td>
+ 
+ <p>One of <code>"none"</code>, <code>"max.start"</code>, or <code>"start.x"</code> denoting
+ how to handle ambiguous empty ranges formed by intersections.
+ <code>"none"</code> - throw an error if an ambiguous empty range is formed,
+ <code>"max.start"</code> - associate the maximum start value with any
+ ambiguous empty range, and <code>"start.x"</code> - associate the start value
+ of <code>x</code> with any ambiguous empty range. (See Details section
+ below for the definition of an ambiguous range.)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Further arguments to be passed to or from other methods.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>gaps</code> returns the &quot;normal&quot; IRanges object (of the same
+ class as <code>x</code>) representing the set of integers that remain
+ after the set of integers represented by <code>x</code> has been removed
+ from the interval specified by the <code>start</code> and <code>end</code> arguments.
+ </p>
+ <p>The <code>union</code>, <code>intersect</code> and <code>setdiff</code> methods
+ for IRanges objects return a &quot;normal&quot; IRanges
+ object (of the same class as <code>x</code>) representing the union,
+ intersection and (asymmetric!) difference of the sets of integers
+ represented by <code>x</code> and <code>y</code>.
+ </p>
+ <p><code>punion</code>, <code>pintersect</code>, <code>psetdiff</code> and <code>pgap</code>
+ are generic functions that compute the element-wise (aka &quot;parallel&quot;)
+ union, intersection, (asymmetric!) difference and gap between
+ each element in <code>x</code> and its corresponding element in <code>y</code>.
+ Methods for IRanges objects are defined. For these methods,
+ <code>x</code> and <code>y</code> must have the same length (i.e. same number
+ of ranges) and they return an IRanges instance of the
+ same length as <code>x</code> and <code>y</code> where each range represents
+ the union/intersection/difference/gap of/between the corresponding
+ ranges in <code>x</code> and <code>y</code>.
+ </p>
+ <p>By default, <code>pintersect</code> will throw an error when an &quot;ambiguous
+ empty range&quot; is formed. An ambiguous empty range can occur three
+ different ways:  1) when corresponding non-empty ranges elements <code>x</code>
+ and <code>y</code> have an empty intersection, 2) if the position of an empty
+ range element does not fall within the corresponding limits of a non-empty
+ range element, or 3) if two corresponding empty range elements do not have
+ the same position. For example if empty range element [22,21] is intersected
+ with non-empty range element [1,10], an error will be produced; but if
+ it is intersected with the range [22,28], it will produce [22,21].
+ As mentioned in the Arguments section above, this behavior can be
+ changed using the <code>resolve.empty</code> argument.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>H. Pages and M. Lawrence</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>pintersect</code> is similar to <code>narrow</code>, except the
+ end points are absolute, not relative. <code>pintersect</code> is also
+ similar to <code>restrict</code>, except ranges outside of the
+ restriction become empty and are not discarded.
+ </p>
+ <p>union,
+ </p>
+ <p>Ranges-class,
+ Ranges-utils,
+ IRanges-class,
+ IRanges-utils
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   x0 &lt;- IRanges(start=c(-2, 6, 9, -4, 1, 0, -6, 10),
+                 width=c( 5, 0, 6,  1, 4, 3,  2,  3))
+   gaps(x0)
+   gaps(x0, start=-6, end=20)  # Regions of the -6:20 range that are not masked by 'x0'.
+ 
+   x &lt;- IRanges(c(1, 5, -2, 0, 14), c(10, 9, 3, 11, 17))
+   y &lt;- Views(as(4:-17, "XInteger"), start=c(14, 0, -5, 6, 18), end=c(20, 2, 2, 8, 20))
+ 
+   ## Vector-wise operations:
+   union(x, ranges(y))
+   union(ranges(y), x)
+ 
+   intersect(x, ranges(y))
+   intersect(ranges(y), x)
+ 
+   setdiff(x, ranges(y))
+   setdiff(ranges(y), x)
+ 
+   ## Element-wise (aka "parallel") operations:
+   try(punion(x, ranges(y)))
+   punion(x[3:5], ranges(y)[3:5])
+   punion(x, ranges(y), fill.gap=TRUE)
+   try(pintersect(x, ranges(y)))
+   pintersect(x[3:4], ranges(y)[3:4])
+   pintersect(x, ranges(y), resolve.empty="max.start")
+   psetdiff(ranges(y), x)
+   try(psetdiff(x, ranges(y)))
+   start(x)[4] &lt;- -99
+   end(y)[4] &lt;- 99
+   psetdiff(x, ranges(y))
+   pgap(x, ranges(y))
+ </pre>
+ 
+ 
+ </body></html>

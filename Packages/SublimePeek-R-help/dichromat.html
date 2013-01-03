@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Remove red-green distinctions from colours</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for dichromat"><tr><td>dichromat</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Remove red-green distinctions from colours</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Collapses red-green color distinctions to approximate the effect of
+ the two common forms of red-green colour blindness, protanopia and
+ deuteranopia. 
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ dichromat(colours, type = c("deutan", "protan"))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>colours</code></td>
+ <td>
+ <p>A vector of R colors, either color names or color hex strings</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p>Type of color-blindness to simulate</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Someone with the specified form of red-green colour blindness will
+ find that the transformation has little effect on the appearance of
+ colours.  Colours that are indistinguishable after transformation were
+ likely indistinguishable to them before transformation.  About 10% of
+ men (and almost no women) have some degree of red-green colour blindness.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A vector of R colors
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Thomas Lumley</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>T. Lumley (2006) Color-coding and color blindness in statistical
+ graphics. Statistical Computing and Graphics Newsletter.
+ <a href="http://www.amstat-online.org/sections/graphics/newsletter/Volumes/v172.pdf">http://www.amstat-online.org/sections/graphics/newsletter/Volumes/v172.pdf</a>
+ </p>
+ <p>F. Vienot, H. Brettel and J. D. Mollon (1999) Digital video colourmaps
+ for checking the legibility of displays by dichromats. Color Research
+ and Application 24, 243-252.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## from example(pie)
+  par(mfrow=c(2,2))
+  pie.sales &lt;- c(0.12, 0.3, 0.26, 0.16, 0.04, 0.12)
+  names(pie.sales) &lt;- c("Blueberry", "Cherry",
+          "Apple", "Boston Cream", "Other", "Vanilla Cream")
+  pie(pie.sales) # default colours
+  pie(pie.sales,
+        col = c("purple", "violetred1", "green3", "cornsilk", "cyan", "white"))
+  pie(pie.sales,col=dichromat( c("white", "lightblue", "mistyrose", "lightcyan", 
+                 "lavender", "cornsilk"))) # default colours
+  pie(pie.sales,
+        col =dichromat(c("purple", "violetred1", "green3", "cornsilk", "cyan", "white")))
+ 
+ 
+ ## standard color schemes
+ pie(rep(1,10),col=heat.colors(10))
+ pie(rep(1,10),col=dichromat(heat.colors(10)))
+ pie(rep(1,8),col=palette())
+ pie(rep(1,8),col=dichromat(palette()))
+ 
+ pie(rep(1,15),col=topo.colors(15))
+ pie(rep(1,15),col=dichromat(topo.colors(15)))
+ pie(rep(1,15),col=terrain.colors(15))
+ pie(rep(1,15),col=dichromat(terrain.colors(15)))
+ 
+ pie(rep(1,15),col=cm.colors(15))
+ pie(rep(1,15),col=dichromat(cm.colors(15)))
+ bluescale&lt;-colorRampPalette(c("#FFFFCC","#C7E9B4","#7FCDBB","#40B6C4","#2C7FB8" ,"#253494"))
+ pie(rep(1,15),col=bluescale(15))
+ pie(rep(1,15),col=dichromat(bluescale(15)))
+ 
+ par(mfrow=c(2,3))
+ x&lt;-matrix(rnorm(10*10),10)
+ redgreen&lt;-colorRampPalette(c("red","green3"))
+ image(1:10,1:10,x, col=bluescale(10),
+ main="blue-yellow scale")
+ image(1:10,1:10,x, col=dichromat(bluescale(10)), main="deutan")
+ image(1:10,1:10,x,col=dichromat(bluescale(10),"protan"), main="protan")
+ 
+ image(1:10,1:10,x, col=redgreen(10),
+ main="red-green scale")
+ image(1:10,1:10,x, col=dichromat(redgreen(10)), main="deutan")
+ image(1:10,1:10,x, col=dichromat(redgreen(10),"protan"), main="protan")
+ 
+ </pre>
+ 
+ 
+ </body></html>

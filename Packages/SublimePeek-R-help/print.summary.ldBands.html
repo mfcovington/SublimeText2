@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Group Sequential Boundaries using the Lan-DeMets Approach</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for ldBands"><tr><td>ldBands</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Group Sequential Boundaries using the Lan-DeMets Approach</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This function computes and plots group sequential stopping boundaries
+ from the Lan-DeMets method with a variety of <i>&alpha;</i>-spending
+ functions using the <code>ld98</code> program from the Department of
+ Biostatistics, University of Wisconsin written by DM Reboussin, DL
+ DeMets, KM Kim, and KKG Lan.  Such stopping boundaries are
+ useful for early termination of clinical trials for safety problems or
+ for efficacy.  Simple <code>plot</code> and <code>print</code> methods are
+ implemented.  Simple sample size and minimally detectable effect sizes
+ given sample sizes may be obtained with a <code>summary</code> method if
+ <code>power</code> was specified to <code>ldBands</code>.  Alternatively,
+ <code>summary</code> computes, for each look, the difference in means that
+ must be achieved to cross a boundary if <code>n</code> and <code>sd</code> are
+ specified, or the minimum difference in proportions and the odds ratios
+ that must be achieved to cross a boundary if <code>n</code> and <code>pbar</code>
+ are specified.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ldBands(n = length(times), times = NULL, alpha = 0.05, sided = 2,
+         alphaLower=alpha/2, alphaUpper=alpha/2,
+         information = NULL,
+         spending=c('OBrien-Fleming','Pocock','alpha*t^phi',
+                    'Hwang-Shih-DeCani'),
+         phi=1,
+         spending2=c('OBrien-Fleming','Pocock','alpha*t^phi',
+                     'Hwang-Shih-DeCani'),
+         phi2=phi,
+         truncate = Inf, power = NULL, pr = TRUE)
+ ## S3 method for class 'ldBands'
+ print(x, ...)
+ ## S3 method for class 'ldBands'
+ plot(x, xlab='Time', ylab='Z', actual=NULL,
+         type='b', labels=NULL, ...)
+ 
+ ## S3 method for class 'ldBands'
+ summary(object, stdiff=NULL, n=NULL,
+         p1=NULL, p2=NULL,  hr=NULL, events=NULL,
+         pbar=NULL, sd=NULL, ...)
+ ## S3 method for class 'summary.ldBands'
+ print(x, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p>number of interim analyses.  If <code>times</code> is given, is
+ automatically taken as the length of <code>times</code>.
+ For <code>summary.ldBands</code>, <code>n</code> is the sample size, to obtain
+ detectable standardized difference.</p>
+ </td></tr>
+ <tr valign="top"><td><code>times</code></td>
+ <td>
+ <p>times at which interim analyses are done</p>
+ </td></tr>
+ <tr valign="top"><td><code>alpha</code></td>
+ <td>
+ <p>overall <i>&alpha;</i> level for the multiple tests.
+ Default is <code>0.05</code>.  If <code>sided=3</code> is the <i>&alpha;</i>-level
+ for the lower bounds, otherwise is the total <i>&alpha;</i>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>sided</code></td>
+ <td>
+ <p>set to <code>1</code> to use a one-sided test, <code>3</code> for
+ asymmetric two-sided bounds</p>
+ </td></tr>
+ <tr valign="top"><td><code>alphaLower</code></td>
+ <td>
+ <i>&alpha;</i><p>-level for lower bound if
+ <code>sided=3</code>.  Defaults to <i>&alpha;/2</i>.  When <code>sided=3</code>
+ <code>alpha</code> is recalculated from <code>alphaLower+alphaUpper</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>alphaUpper</code></td>
+ <td>
+ <i>&alpha;</i><p>-level for upper bound if
+ <code>sided=3</code>.  Defaults to <i>&alpha;/2</i>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>information</code></td>
+ <td>
+ <p>a vector of information times if different from
+ <code>times</code>.  Used for computing covariances of test statistics.</p>
+ </td></tr>
+ <tr valign="top"><td><code>spending</code></td>
+ <td>
+ <p>an <i>&alpha;</i> spending function.  Default is
+ O'Brien-Fleming function.  If <code>sided=3</code> is the spending
+ function for the lower bounds.</p>
+ </td></tr>
+ <tr valign="top"><td><code>phi</code></td>
+ <td>
+ <p>parameter for the third and fourth types of spending
+ functions (exponent of time for the third, default is <code>1</code>)</p>
+ </td></tr>
+ <tr valign="top"><td><code>spending2</code></td>
+ <td>
+ <p>spending function for the upper bounds if
+ <code>sided=3</code>.  Defaults to same spending function for lower
+ bounds.</p>
+ </td></tr>
+ <tr valign="top"><td><code>phi2</code></td>
+ <td>
+ <p>parameter for third and fourth spending functions if
+ <code>sided=3</code>.  Default is <code>phi</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>truncate</code></td>
+ <td>
+ <p>a value at which to truncate <i>Z</i> critical values
+ so that early looks will have some power without really affecting
+ the overall <i>&alpha;</i> level.  Default is no truncation.</p>
+ </td></tr>
+ <tr valign="top"><td><code>power</code></td>
+ <td>
+ <p>A power for which to compute a drift parameter; useful in
+ sample size calculations</p>
+ </td></tr>
+ <tr valign="top"><td><code>pr</code></td>
+ <td>
+ <p>set to <code>FALSE</code> to supress the actual output of the
+ <code>ld98</code> program</p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>an object created by <code>ldBands</code> or <code>summary.ldBands</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>xlab</code></td>
+ <td>
+ <i>x</i><p>-axis label</p>
+ </td></tr>
+ <tr valign="top"><td><code>ylab</code></td>
+ <td>
+ <i>y</i><p>-axis label</p>
+ </td></tr>
+ <tr valign="top"><td><code>actual</code></td>
+ <td>
+ <p>an optional list with two components: times and <i>z</i>
+ values to add as points to the first plot</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p>default is <code>"b"</code> causing both points and lines to be
+ drawn for boundaries.  Use <code>type="l"</code> for example to suppress
+ drawing circles at points.</p>
+ </td></tr>
+ <tr valign="top"><td><code>labels</code></td>
+ <td>
+ <p>an optional character vector to be used to label time
+ points corresponding to those generated by <code>ldBands</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>an object created by <code>ldBands</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>stdiff</code></td>
+ <td>
+ <p>standardized difference to detect</p>
+ </td></tr>
+ <tr valign="top"><td><code>p1</code></td>
+ <td>
+ <p>probability of event in group 1</p>
+ </td></tr>
+ <tr valign="top"><td><code>p2</code></td>
+ <td>
+ <p>probability of event in group 2, to compare with <code>p1</code>
+ in order to obtain sample size for two-sample binomial</p>
+ </td></tr>
+ <tr valign="top"><td><code>hr</code></td>
+ <td>
+ <p>hazard ratio to detect, to obtain needed number of events at
+ end of study for either treatment arm using the logrank test</p>
+ </td></tr>
+ <tr valign="top"><td><code>events</code></td>
+ <td>
+ <p>number of events per treatment arm at end of study, to
+ obtain detectable hazard ratio</p>
+ </td></tr>
+ <tr valign="top"><td><code>pbar</code></td>
+ <td>
+ <p>mean of actual probabilities of events in two treatment
+ arms</p>
+ </td></tr>
+ <tr valign="top"><td><code>sd</code></td>
+ <td>
+ <p>standard deviation of an observation</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>unused</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function assumes that you have stored the <code>ld98</code> executable
+ in a subdirectory that is in your system path.  Obtain <code>ld98</code>
+ program from the URL given in the reference below.
+ </p>
+ <p>The <code>plot</code> method makes two plots if <code>power</code> is specified, the
+ second containing exit and cumulative exit probabilities as a function
+ of time.  If <code>par(mfrow=c())</code> is not already set to something besides
+ <code>c(1,1)</code>, <code>par(mfrow=c(2,1))</code> is set temporarily.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A list of class <code>"ldBands"</code> with the following components.  When
+ <code>summary</code> is used and <code>n</code> and either <code>pbar</code> or
+ <code>sd</code> are given, <code>summary</code> returns the same object returned
+ by <code>ldBands</code> but with possible components
+ <code>diff.lower,diff.lower</code> (needed difference means or proportions) and
+ <code>or.lower,or.upper</code> (needed odds ratios).
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>a data frame containing the main calculations</p>
+ </td></tr>
+ <tr valign="top"><td><code>power</code></td>
+ <td>
+ <p>power specified, if any</p>
+ </td></tr>
+ <tr valign="top"><td><code>drift</code></td>
+ <td>
+ <p>drift calculated, if <code>power</code> specified</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p><code>"boundaries"</code> if <code>power</code> not specified,
+ <code>"power"</code> otherwise</p>
+ </td></tr>
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p>number of interim analyses, for <code>ldBands</code>.  For
+ <code>summary</code> is the number of observations per arm, and it must be
+ a vector with length equal to the number of looks if <code>pbar</code> or
+ <code>sd</code> are given.</p>
+ </td></tr>
+ <tr valign="top"><td><code>alpha</code></td>
+ <td>
+ <p>input value of <code>alpha</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>sided</code></td>
+ <td>
+ <p><code>1-3</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>alphaLower</code></td>
+ <td>
+ <p>lower <i>&alpha;</i></p>
+ </td></tr>
+ <tr valign="top"><td><code>alphaUpper</code></td>
+ <td>
+ <p>upper <i>&alpha;</i></p>
+ </td></tr>
+ <tr valign="top"><td><code>spending</code></td>
+ <td>
+ <p>name of <i>&alpha;</i> spending function used</p>
+ </td></tr>
+ <tr valign="top"><td><code>phi</code></td>
+ <td>
+ <p>parameter for spending function</p>
+ </td></tr>
+ <tr valign="top"><td><code>spending2</code></td>
+ <td>
+ <p>name of spending function for upper boundary.
+ Defaults to <code>spending</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>phi2</code></td>
+ <td>
+ <p>parameter for second spending function.  Defaults to
+ <code>phi</code> but is ignored if <code>spending2</code> is the first or second
+ type of spending function.</p>
+ </td></tr>
+ <tr valign="top"><td><code>truncate</code></td>
+ <td>
+ <p>value at which <i>Z</i> statistics truncated (default
+ is <code>Inf</code>)</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Frank E Harrell Jr</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Reboussin DM, DeMets DL, Kim K-M, Lan KKG (1996): Programs
+ for computing group sequential boundaries using the Lan-DeMets
+ method.  <a href="http://www.biostat.wisc.edu/landemets/">http://www.biostat.wisc.edu/landemets/</a>
+ </p>
+ <p>Reboussin DM, DeMets DL, Kim K, Lan KKG (2000): Computations for group
+ sequential boundaries using the Lan-DeMets spending function method.
+ Controlled Clinical Trials 21:190-207.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>gbayes</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ # Get boundaries for O'Brien-Fleming spending function, 5 looks, alpha=.05
+ b &lt;- ldBands(5, pr=FALSE)
+ plot(b)
+ # Same but times are irregular, and information times are different than
+ # test times.  Use Pocock spending function.
+ b &lt;- ldBands(times=      c(.4, .6, .8, .9, .95),
+              information=c(.42,.65,.83,.89,.94), spending='Pocock')
+ 
+ # Get power calculations
+ u &lt;- ldBands(times=c(.4, .6, .8, .9, .95),  power=.9)
+ u$drift                  # standardize difference * sqrt(n per arm)
+                          # needed to provide power=.9
+ summary(u, n=50)         # obtain detectable standardized difference
+ summary(u, p1=.4, p2=.5) # get sample size per arm, two-sample binomial
+ summary(u, hr=1.5)       # get number of events per arm needed
+                          # to detect a hazard ratio of 1.5
+ 
+ # Asymmetric boundaries with different spending functions, truncate
+ b &lt;- ldBands(5, sided=3, spending='alpha*t^phi', phi=1, phi2=1.5,
+              alphaLower=.01, alphaUpper=.04, truncate=4)
+ b
+ plot(b)
+ # Compute differences in proportions and odds ratios needed to cross
+ # the boundaries, given a mean probability in two treatment arms of 0.1
+ # and given a vector of sample sizes per arm corresponding to the looks
+ s &lt;- summary(b, n=seq(200,1000,by=200), pbar=.1)
+ s
+ d &lt;- s$data
+ plot(d$n, d$or.lower, xlab='N Per Arm',
+      ylab='Critical Odds Ratio', type='b',
+      ylim=range(d$or.lower, d$or.upper), log='y')
+ lines(d$n, d$or.upper, type='b')
+ abline(h=1, lty=2)
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

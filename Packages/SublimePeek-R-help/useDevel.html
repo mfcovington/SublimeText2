@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Get the 'devel' version of the BiocInstaller package.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for useDevel"><tr><td>useDevel</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Get the 'devel' version of the BiocInstaller package.
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Downloads the 'devel' version of the BiocInstaller package
+ so that all subsequent invocations of <code>biocLite</code>
+ and <code>biocinstallRepos</code> use the devel repositories.
+ </p>
+ <p>Displays the URLs of the repositories used by <code>biocLite</code>
+ to install Bioconductor and CRAN packages.
+ </p>
+ <p>Should only be used with a release (or patched) version of R,
+ freshly installed.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ useDevel(devel=TRUE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>devel</code></td>
+ <td>
+ <p>Whether to look in the devel (TRUE) or release
+ (FALSE) repositories in subsequent invocations of
+ <code>biocLite</code> and <code>biocinstallRepos</code>.</p>
+ </td></tr>  
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>With R going to a yearly release schedule and Bioconductor keeping its
+ twice-yearly release schedule, the same version of R (2.15) can be used
+ with two different versions of Bioconductor (2.10, release, and 2.11, devel).
+ The version number of the BiocInstaller package is what is used to determine
+ whether to download packages from the BioC 2.10 or 2.11 repositories.
+ In keeping with Bioconductor versioning conventions, if the middle number
+ (y in x.y.z) is even, the package is part of a release version; if odd, it's
+ part of a devel version.
+ </p>
+ <p>By default, when BiocInstaller is first installed on R-2.15, it will be
+ set up to download BioC 2.10 packages. 
+ </p>
+ <p>If you want to change this, you can run the <code>useDevel</code>
+ function. With argument <code>TRUE</code> (the default), it will download
+ the devel version of BiocInstaller and subsequently all packages
+ downloaded with <code>biocLite</code> will be from the BioC 2.11
+ (devel) repository. You should run <code>useDevel</code> only once.
+ </p>
+ <p>It is possible to keep BioC 2.10 and 2.11 libraries separate, within
+ the same installation of R.
+ </p>
+ <p>The trick is to use the <code>R_LIBS_USER</code> environment variable.
+ First, create two separate directories for your BioC release
+ and devel packages. Suggested directory names are as follows:
+ </p>
+ <p>Linux:
+ </p>
+ <p>~/R/x86_64-unknown-linux-gnu-library/2.15-bioc-release
+ </p>
+ <p>~/R/x86_64-unknown-linux-gnu-library/2.15-bioc-devel
+ </p>
+ <p>Mac OS:
+ </p>
+ <p>~/Library/R/2.15-bioc-release/library
+ </p>
+ <p>~/Library/R/2.15-bioc-devel/library
+ </p>
+ <p>Windows:
+ </p>
+ <p>C:\Users\YOUR_USER_NAME\Documents\R\win-library\2.15-bioc-release
+ </p>
+ <p>C:\Users\YOUR_USER_NAME\Documents\R\win-library\2.15-bioc-devel
+ </p>
+ <p>(change YOUR_USER_NAME to your user name)
+ </p>
+ <p>You can then invoke &quot;R for bioc-devel&quot; or &quot;R for bioc-release&quot; from
+ the command line as follows:
+ </p>
+ <p>Linux:
+ </p>
+ <p>R_LIBS_USER=~/R/x86_64-unknown-linux-gnu-library/2.15-bioc-release R
+ </p>
+ <p>R_LIBS_USER=~/R/x86_64-unknown-linux-gnu-library/2.15-bioc-devel R
+ </p>
+ <p>Mac OS X:
+ </p>
+ <p>R_LIBS_USER=~~/Library/R/2.15-bioc-release/library R
+ R_LIBS_USER=~~/Library/R/2.15-bioc-devel/library R
+ </p>
+ <p>Windows:
+ </p>
+ <p>cmd /C &quot;set R_LIBS_USER=C:\Users\YOUR_USER_NAME\Documents\R\win-library\2.15-bioc-release &amp;&amp;  R&quot;
+ </p>
+ <p>cmd /C &quot;set R_LIBS_USER=C:\Users\YOUR_USER_NAME\Documents\R\win-library\2.15-bioc-devel &amp;&amp;  R&quot;
+ </p>
+ <p>(Note: this assumes that R.exe is in your PATH.)
+ </p>
+ <p>If you launch R in this way and then invoke <code>.libPaths</code>,
+ you'll see that the first item is your special release or
+ devel directory. Packages will be installed to that directory and that
+ is the first place that <code>library</code> will look for them. 
+ <code>biocLite</code>, <code>install.packages</code>,
+ <code>update.packages</code> and friends all respect this
+ setting.
+ </p>
+ <p>On Linux and Mac OS X, you can create a bash alias to save typing. Add the
+ following to your ~/bash_profile:
+ </p>
+ <p>Linux
+ </p>
+ <p>alias Rdevel='R_LIBS_USER=~/R/x86_64-unknown-linux-gnu-library/2.15-bioc-devel R'
+ </p>
+ <p>alias Rrelease='R_LIBS_USER=~/R/x86_64-unknown-linux-gnu-library/2.15-bioc-release R'
+ </p>
+ <p>Mac OS X
+ </p>
+ <p>alias Rdevel='R_LIBS_USER=~/Library/R/2.15-bioc-devel/library R'
+ alias Rrelease='R_LIBS_USER=~/Library/R/2.15-bioc-release/library R'
+ </p>
+ <p>You can then invoke these from the command line as
+ </p>
+ <p>Rdevel
+ </p>
+ <p>...and...
+ </p>
+ <p>Rrelease
+ </p>
+ <p>On Windows, you can create two shortcuts, one for devel and one for
+ release. Go to My Computer and navigate to a directory that is in your
+ PATH. Then right-click and choose New-&gt;Shortcut.
+ </p>
+ <p>in the &quot;type the location of the item&quot; box, put:
+ </p>
+ <p>cmd /C &quot;set R_LIBS_USER=C:\Users\YOUR_USER_NAME\Documents\R\win-library\2.15-bioc-release &amp;&amp;  R&quot;
+ </p>
+ <p>...for release and
+ </p>
+ <p>cmd /C &quot;set R_LIBS_USER=C:\Users\YOUR_USER_NAME\Documents<font face="Courier New,Courier" color="#666666"><b>R</b></font>\win-library\2.15-bioc-devel &amp;&amp;  R&quot;
+ </p>
+ <p>...for devel.
+ </p>
+ <p>(again, it's assumed R.exe is in your PATH)
+ </p>
+ <p>Click &quot;Next&quot;.
+ </p>
+ <p>In the &quot;Type a name for this shortcut&quot; box, type
+ </p>
+ <p>Rdevel
+ </p>
+ <p>or
+ </p>
+ <p>Rrelease
+ </p>
+ <p>You can invoke these from the command line as
+ </p>
+ <p>Rdevel.lnk
+ </p>
+ <p>...and...
+ </p>
+ <p>Rrelease.lnk
+ </p>
+ <p>(You must type in the .lnk extension.)
+ </p>
+ <p>Because <code>R_LIBS_USER</code> is an environment variable, its value should be
+ inherited by any subprocesses started by R, so they should do the
+ right thing as well.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Invisible NULL.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>biocinstallRepos</code> returns the Bioconductor and CRAN
+ repositories used by <code>biocLite</code>.
+ </p>
+ <p><code>biocLite</code> Installs/updates Bioconductor/CRAN packages.
+ </p>
+ <p><code>install.packages</code> installs the packages themselves.
+ </p>
+ <p><code>chooseBioCmirror</code> lets you choose from a list of all
+ public Bioconductor mirror URLs.
+ </p>
+ <p><code>chooseCRANmirror</code> lets you choose from a list of all
+ public CRAN mirror URLs.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ useDevel()
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

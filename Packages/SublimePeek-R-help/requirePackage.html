@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: require a packge and error if package is not installed</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for requirePackage"><tr><td>requirePackage</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ require a packge and error if package is not installed
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>require a package.  If package doesn't exist then throw an error.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ requirePackage(package, character.only = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>package</code></td>
+ <td>
+ 
+ <p>character vector containing the names of packages to load.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>character.only</code></td>
+ <td>
+ 
+ <p>a logical indicating whether 'package' can be
+ assumed to be character string.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>arguments to be passed to require.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p> Charles Dupont </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>library</code>, <code>require</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ requirePackage(methods)
+ 
+ ## End(Not run)
+ 
+ </pre>
+ 
+ 
+ </body></html>

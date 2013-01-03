@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Plot Precision of Estimate of Pearson Correlation Coefficient</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for plotCorrPrecision"><tr><td>plotCorrPrecision</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Plot Precision of Estimate of Pearson Correlation Coefficient</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This function plots the precision (margin of error) of the
+ product-moment linear 
+ correlation coefficient r vs. sample size, for a given vector of
+ correlation coefficients <code>rho</code>.  Precision is defined as the larger
+ of the upper confidence limit minus rho and rho minus the lower confidence
+ limit.  <code>labcurve</code> is used to automatically label the curves.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ plotCorrPrecision(rho = c(0, 0.5), n = seq(10, 400, length = 100),
+                   conf.int = 0.95, offset=0.025, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>rho</code></td>
+ <td>
+ <p>single or vector of true correlations.  A worst-case
+ precision graph results from rho=0</p>
+ </td></tr>
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p>vector of sample sizes to use on the x-axis</p>
+ </td></tr>
+ <tr valign="top"><td><code>conf.int</code></td>
+ <td>
+ <p>confidence coefficient; default uses 0.95 confidence
+ limits</p>
+ </td></tr>
+ <tr valign="top"><td><code>offset</code></td>
+ <td>
+ <p>see <code>labcurve</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments to <code>labcurve</code></p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Xing Wang and Frank Harrell</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>rcorr</code>,<code>cor</code>,<code>cor.test</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ plotCorrPrecision()
+ plotCorrPrecision(rho=0)
+ </pre>
+ 
+ 
+ </body></html>

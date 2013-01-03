@@ -1,0 +1,35 @@
+{
+	"auto_upgrade_last_run": null,
+	"installed_packages":
+	[
+		"4GL",
+		"Alignment",
+		"BracketHighlighter",
+		"CSS Snippets",
+		"Csslisible",
+		"FileDiffs",
+		"Gist",
+		"Git",
+		"LaTeXTools",
+		"lispindent",
+		"Markdown Preview",
+		"MarkdownEditing",
+		"Mojolicious",
+		"Package Control",
+		"perldoc",
+		"Python Pep8 Lint",
+		"PythonTidy",
+		"R Tools",
+		"SideBarEnhancements",
+		"SmartMarkdown",
+		"SublimeBlockCursor",
+		"SublimeLinter",
+		"SublimePeek",
+		"SublimePeek-R-help",
+		"WordCount"
+	],
+	"repositories":
+	[
+		"https://github.com/axiomabsolute/sublime-text-surround.git"
+	]
+}

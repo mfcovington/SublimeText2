@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: List of Ranges</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for RangesList-class"><tr><td>RangesList-class</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>List of Ranges</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>An extension of List that holds only
+ Ranges objects. Useful for storing ranges over a set
+ of spaces (e.g. chromosomes), each of which requires a separate
+ <code>Ranges</code> object. As a <code>Vector</code>, <code>RangesList</code> may be
+ annotated with its universe identifier (e.g. a genome) in which all of its
+ spaces exist.
+ </p>
+ 
+ 
+ <h3>Accessors</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a <code>RangesList</code>
+ object. 
+ </p>
+ <p>All of these accessors collapse over the spaces:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>start(x), start(x) &lt;- value</code>: Get or set the starts of the
+ ranges. When setting the starts, <code>value</code> can be an integer vector
+ of <code>length(sum(elementLengths(x)))</code> or an IntegerList object of
+ length <code>length(x)</code> and names <code>names(x)</code>.</p>
+ </dd>
+ <dt></dt><dd><p><code>end(x), end(x) &lt;- value</code>: Get or set the ends of the
+ ranges. When setting the starts, <code>value</code> can be an integer vector
+ of <code>length(sum(elementLengths(x)))</code> or an IntegerList object of
+ length <code>length(x)</code> and names <code>names(x)</code>.</p>
+ </dd>
+ <dt></dt><dd><p><code>width(x), width(x) &lt;- value</code>: Get or set the widths of the
+ ranges. When setting the starts, <code>value</code> can be an integer vector
+ of <code>length(sum(elementLengths(x)))</code> or an IntegerList object of
+ length <code>length(x)</code> and names <code>names(x)</code>.</p>
+ </dd>
+ <dt></dt><dd><p><code>space(x)</code>: Gets the spaces of the ranges as a
+ character vector. This is equivalent to <code>names(x)</code>, except each
+ name is repeated according to the length of its element.
+ </p>
+ </dd>
+ </dl>
+ 
+ <p>These accessors are for the <code>universe</code> identifier:
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>universe(x)</code>: gets the name of the universe as a
+ single string, if one has been specified, <code>NULL</code> otherwise.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>universe(x) &lt;- value</code>: sets the name of the universe
+ to <code>value</code>, a single string or <code>NULL</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Constructor</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>RangesList(..., universe = NULL)</code>:
+ Each <code>Ranges</code> in <code>...</code>
+ becomes an element in the new <code>RangesList</code>, in the same
+ order. This is analogous to the <code>list</code> constructor,
+ except every argument in <code>...</code> must be derived from
+ <code>Ranges</code>. The universe is specified by the <code>universe</code>
+ parameter, which should be a single string or NULL, to leave unspecified. 
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Subsetting</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> is a <code>RangesList</code> object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd>
+ <p><code>x[i]</code>: Subset <code>x</code> by index <code>i</code>, with the
+ same semantics as a basic <code>Vector</code>,
+ except <code>i</code> may itself be a <code>RangesList</code>, in which case
+ only the ranges in <code>x</code> that overlap with those in <code>i</code>
+ are kept. See the
+ <code>findOverlaps</code>
+ method for more details.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Coercion</h3>
+ 
+ 
+ <p>In the code snippets below, <code>x</code> and <code>from</code> are a
+ <code>RangesList</code> object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>as.data.frame(x, row.names = NULL, optional = FALSE)</code>:
+ Coerces <code>x</code> to a <code>data.frame</code>. Essentially the same as
+ calling
+ <code>data.frame(space=rep(names(x), elementLengths(x)),
+                        as.data.frame(unlist(x, use.names=FALSE)))</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>as(from, "RangedData")</code>: Coerces <code>from</code> to a
+ <code>RangedData</code> with zero columns and the same
+ ranges as in <code>from</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>as(from, "SimpleIRangesList")</code>: Coerces <code>from</code>,
+ to a <code>SimpleIRangesList</code>, requiring
+ that all <code>Ranges</code> elements are coerced to internal
+ <code>IRanges</code> elements. This is a convenient way to ensure that all
+ <code>Ranges</code> have been imported into R (and that there is no
+ unwanted overhead when accessing them).
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>as(from, "CompressedIRangesList")</code>: Coerces <code>from</code>,
+ to a <code>CompressedIRangesList</code>, requiring
+ that all <code>Ranges</code> elements are coerced to internal
+ <code>IRanges</code> elements. This is a convenient way to ensure that all
+ <code>Ranges</code> have been imported into R (and that there is no
+ unwanted overhead when accessing them).
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>as(from, "SimpleNormalIRangesList")</code>: Coerces <code>from</code>,
+ to a <code>SimpleNormalIRangesList</code>, requiring
+ that all <code>Ranges</code> elements are coerced to internal
+ <code>NormalIRanges</code> elements.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>as(from, "CompressedNormalIRangesList")</code>: Coerces
+ <code>from</code>, to a <code>CompressedNormalIRangesList</code>,
+ requiring that all <code>Ranges</code> elements are coerced to internal
+ <code>NormalIRanges</code> elements.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Arithmetic Operations</h3>
+ 
+ 
+ <p>Any arithmetic operation, such as <code>x + y</code>, <code>x * y</code>, etc,
+ where <code>x</code> is a <code>RangesList</code>, is performed identically on each
+ element. Currently, <code>Ranges</code> supports only the <code>*</code> operator,
+ which zooms the ranges by a numeric factor.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p> Michael Lawrence </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   range1 &lt;- IRanges(start=c(1,2,3), end=c(5,2,8))
+   range2 &lt;- IRanges(start=c(15,45,20,1), end=c(15,100,80,5))
+   named &lt;- RangesList(one = range1, two = range2)
+   length(named) # 2
+   start(named) # same as start(c(range1, range2))
+   names(named) # "one" and "two"
+   named[[1]] # range1
+   unnamed &lt;- RangesList(range1, range2)
+   names(unnamed) # NULL
+ 
+   # edit the width of the ranges in the list
+   edited &lt;- named
+   width(edited) &lt;- rep(c(3,2), elementLengths(named))
+   edited
+ 
+   # same as list(range1, range2)
+   as.list(RangesList(range1, range2))
+ 
+   # coerce to data.frame
+   as.data.frame(named)
+ 
+   # set the universe
+   universe(named) &lt;- "hg18"
+   universe(named)
+   RangesList(range1, range2, universe = "hg18")
+ 
+   ## zoom in 2X
+   collection &lt;- RangesList(one = range1, range2)
+   collection * 2
+ </pre>
+ 
+ 
+ </body></html>

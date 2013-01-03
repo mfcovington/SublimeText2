@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: spatial overlay for points, grids and polygons</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for overlay"><tr><td>overlay</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2> spatial overlay for points, grids and polygons </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>overlay combines points (or grids) and polygons by performing point-in-polygon
+ operation on all point-polygons combinations (deprecated; see note).
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ overlay(x, y, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>first layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>second layer, put on top of x</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p> optional arguments; see example below </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+  
+ <p>a numerical array of indices of <code>x</code> on locations of <code>y</code>, or
+ a data.frame with (possibly aggregate) properties of <code>x</code> in units
+ of <code>y</code>.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ <p>points on a polygon boundary and points corresponding to a polygon vertex are
+ considered to be inside the polygon. This function is deprecated, as it has some
+ inconsistences. A better implementation is found in the over method. </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p>overlay-methods, point.in.polygon</p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ r1 = cbind(c(180114, 180553, 181127, 181477, 181294, 181007, 180409, 
+ 180162, 180114), c(332349, 332057, 332342, 333250, 333558, 333676, 
+ 332618, 332413, 332349))
+ r2 = cbind(c(180042, 180545, 180553, 180314, 179955, 179142, 179437, 
+ 179524, 179979, 180042), c(332373, 332026, 331426, 330889, 330683, 
+ 331133, 331623, 332152, 332357, 332373))
+ r3 = cbind(c(179110, 179907, 180433, 180712, 180752, 180329, 179875, 
+ 179668, 179572, 179269, 178879, 178600, 178544, 179046, 179110),
+ c(331086, 330620, 330494, 330265, 330075, 330233, 330336, 330004, 
+ 329783, 329665, 329720, 329933, 330478, 331062, 331086))
+ 
+ sr1=Polygons(list(Polygon(r1)),"r1")
+ sr2=Polygons(list(Polygon(r2)),"r2")
+ sr3=Polygons(list(Polygon(r3)),"r3")
+ sr=SpatialPolygons(list(sr1,sr2,sr3))
+ srdf=SpatialPolygonsDataFrame(sr, data.frame(cbind(1:3,5:3), row.names=c("r1","r2","r3")))
+ 
+ data(meuse)
+ coordinates(meuse) = ~x+y
+ data(meuse.grid)
+ coordinates(meuse.grid) = ~x+y
+ gridded(meuse.grid) = TRUE
+ 
+ plot(meuse)
+ polygon(r1)
+ polygon(r2)
+ polygon(r3)
+ 
+ overlay(srdf, meuse)
+ overlay(sr, meuse)
+ 
+ overlay(meuse, srdf, fn = mean)
+ overlay(meuse, srdf)
+ overlay(as(meuse, "SpatialPoints"), srdf)
+ overlay(as(meuse, "SpatialPoints"), sr)
+ 
+ # same thing, with grid:
+ overlay(srdf, meuse.grid)
+ overlay(sr, meuse.grid)
+ 
+ overlay(meuse.grid, srdf, fn = mean)
+ overlay(meuse.grid, srdf)
+ overlay(as(meuse.grid, "SpatialPoints"), srdf)
+ overlay(as(meuse.grid, "SpatialPoints"), sr)
+ </pre>
+ 
+ 
+ </body></html>

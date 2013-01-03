@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Label Attribute of an Object</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for label"><tr><td>label</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Label Attribute of an Object
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>label(x)</code> retrieves the <code>label</code> attribute of <code>x</code>.
+ <code>label(x) &lt;- "a label"</code> stores the label attribute, and also puts
+ the class <code>labelled</code> as the first class of <code>x</code> (for S-Plus
+ this class is not used and methods for handling this class are
+ not defined so the <code>"label"</code> and <code>"units"</code> attributes are lost
+ upon subsetting).  The reason for having this class is so that the
+ subscripting method for <code>labelled</code>, <code>[.labelled</code>, can preserve
+ the <code>label</code> attribute in S.  Also, the <code>print</code>
+ method for <code>labelled</code> objects prefaces the print with the object's
+ <code>label</code> (and <code>units</code> if there).  If the variable is also given
+ a <code>"units"</code> attribute using the <code>units</code> function, subsetting
+ the variable (using <code>[.labelled</code>) will also retain the
+ <code>"units"</code> attribute.
+ </p>
+ <p><code>label</code> can optionally append a <code>"units"</code> attribute to the
+ string, and it can optionally return a string or expression (for <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s
+ <code>plotmath</code> facility) suitable for plotting.  <code>labelPlotmath</code>
+ is a function that also has this function, when the input arguments are
+ the <code>'label'</code> and <code>'units'</code> rather than a vector having those
+ attributes.  When <code>plotmath</code> mode is used to construct labels, the
+ <code>'label'</code> or <code>'units'</code> may contain math expressions but they
+ are typed verbatim if they contain percent signs, blanks, or underscores.
+ </p>
+ <p><code>Label</code> (actually <code>Label.data.frame</code>) is a function which generates
+ S source code that makes the labels in all the variables in a data
+ frame easy to edit. 
+ </p>
+ <p><code>llist</code> is like <code>list</code> except that it preserves the names or
+ labels of the component variables in the variables <code>label</code>
+ attribute.  This can be useful when looping over variables or using
+ <code>sapply</code> or <code>lapply</code>. By using <code>llist</code> instead of
+ <code>list</code> one can annotate the output with the current variable's name
+ or label.  <code>llist</code> also defines a <code>names</code> attribute for the
+ list and pulls the <code>names</code> from the arguments' expressions for
+ non-named arguments.
+ </p>
+ <p><code>plotmathTranslate</code> is a simple function that translates certain
+ character strings to character strings that can be used as part of <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ <code>plotmath</code> expressions.  If the input string has a space or percent
+ inside, the string is surrounded by a call to <code>plotmath</code>'s
+ <code>paste</code> function.
+ </p>
+ <p><code>as.data.frame.labelled</code> is a utility function that is called by
+ <code>[.data.frame</code>.  It is just a copy of <code>as.data.frame.vector</code>.
+ <code>data.frame.labelled</code> is another utility function, that adds a
+ class <code>"labelled"</code> to every variable in a data frame that has a
+ <code>"label"</code> attribute but not a <code>"labelled"</code> class.
+ </p>
+ <p><code>reLabelled</code> is used to add a <code>'labelled'</code> class back to
+ variables in data frame that have a 'label' attribute but no 'labelled'
+ oldClass.  Useful for changing <code>cleanup.import()</code>'d S-Plus data
+ frames back to general form for <font face="Courier New,Courier" color="#666666"><b>R</b></font> and old versions of S-Plus.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ label(x, default=NULL, ...)
+ 
+ ## Default S3 method:
+ label(x, default=NULL, units=FALSE, plot=FALSE,
+       grid=FALSE, ...)
+ 
+ ## S3 method for class 'data.frame'
+ label(x, default=NULL, self=FALSE, ...)
+ 
+ label(x, ...) &lt;- value
+ 
+ ## Default S3 replacement method:
+ label(x, ...) &lt;- value
+ 
+ ## S3 replacement method for class 'data.frame'
+ label(x, self=TRUE, ...) &lt;- value
+ 
+ labelPlotmath(label, units=NULL, plotmath=.R., grid=FALSE)
+ 
+ ## S3 method for class 'labelled'
+ print(x, ...)   ## or x - calls print.labelled
+ 
+ Label(object, ...)
+ 
+ ## S3 method for class 'data.frame'
+ Label(object, file='', append=FALSE, ...)
+ 
+ llist(..., labels=TRUE)
+ 
+ plotmathTranslate(x)
+ 
+ data.frame.labelled(object)
+ 
+ reLabelled(object)
+ 
+ combineLabels(...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>any object (for <code>plotmathTranslate</code> is a character string)
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>self</code></td>
+ <td>
+ <p>lgoical, where to interact with the object or its components</p>
+ </td></tr>
+ <tr valign="top"><td><code>units</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to append the <code>'units'</code> attribute (if present)
+ to the returned label.  The <code>'units'</code> are surrounded
+ by brackets.  For <code>labelPlotmath</code> is a character string
+ containing the units of measurement.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>plot</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to return a label suitable for <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s <code>plotmath</code>
+ facility (returns an expression instead of a character string) if R is
+ in effect.  If <code>units</code> is also <code>TRUE</code>, and if both
+ <code>'label'</code> and <code>'units'</code> attributes are present, the
+ <code>'units'</code> will appear after the label but in smaller type and
+ will not be surrounded by brackets.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>default</code></td>
+ <td>
+ 
+ <p>if <code>x</code> does not have a <code>'label'</code> attribute and
+ <code>default</code> (a character string) is specified, the label will be
+ taken as <code>default</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>grid</code></td>
+ <td>
+ 
+ <p>Currently <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s <code>lattice</code> and <code>grid</code> functions do not support
+ <code>plotmath</code> expressions for <code>xlab</code> and <code>ylab</code>
+ arguments.  When using <code>lattice</code> functions in <font face="Courier New,Courier" color="#666666"><b>R</b></font>, set the
+ argument <code>grid</code> to <code>TRUE</code> so that <code>labelPlotmath</code> can
+ return an ordinary character string instead of an expression.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>label</code></td>
+ <td>
+ <p>a character string containing a variable's label</p>
+ </td></tr>
+ <tr valign="top"><td><code>plotmath</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to have <code>labelMathplot</code> return an expression
+ for plotting using <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s <code>plotmath</code> facility.  If <font face="Courier New,Courier" color="#666666"><b>R</b></font> is not in
+ effect, an ordinary character string is returned.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>value</code></td>
+ <td>
+ 
+ <p>the label of the object, or &quot;&quot;.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ 
+ <p>a data frame
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>a list of variables or expressions to be formed into a <code>list</code>.
+ Ignored for <code>print.labelled</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ 
+ <p>the name of a file to which to write S source code.  Default is
+ <code>""</code>, meaning standard output.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>append</code></td>
+ <td>
+ 
+ <p>set to <code>TRUE</code> to append code generated by <code>Label</code> to file <code>file</code>
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>labels</code></td>
+ <td>
+ 
+ <p>set to <code>FALSE</code> to make <code>llist</code> ignore the variables' <code>label</code> attribute and
+ use the variables' names.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>label</code> returns the label attribute of x, if any; otherwise, &quot;&quot;.  
+ <code>label</code> is used
+ most often for the individual variables in data frames.  The function
+ <code>sas.get</code> copies labels over from SAS if they exist.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>sas.get</code>, <code>describe</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ age &lt;- c(21,65,43)
+ y   &lt;- 1:3
+ label(age) &lt;- "Age in Years"
+ plot(age, y, xlab=label(age))
+ 
+ data &lt;- data.frame(age=age, y=y)
+ label(data)
+ 
+ label(data, self=TRUE) &lt;- "A data frame"
+ label(data, self=TRUE)
+ 
+ x1 &lt;- 1:10
+ x2 &lt;- 10:1
+ label(x2) &lt;- 'Label for x2'
+ units(x2) &lt;- 'mmHg'
+ x2
+ x2[1:5]
+ dframe &lt;- data.frame(x1, x2)
+ Label(dframe)
+ 
+ 
+ ##In these examples of llist, note that labels are printed after
+ ##variable names, because of print.labelled
+ a &lt;- 1:3
+ b &lt;- 4:6
+ label(b) &lt;- 'B Label'
+ llist(a,b)
+ llist(a,b,d=0)
+ llist(a,b,0)
+ 
+ 
+ w &lt;- llist(a, b&gt;5, d=101:103)
+ sapply(w, function(x){
+   hist(as.numeric(x), xlab=label(x))
+   # locator(1)   ## wait for mouse click
+ })
+ 
+ # Or: for(u in w) {hist(u); title(label(u))}
+ </pre>
+ 
+ 
+ </body></html>

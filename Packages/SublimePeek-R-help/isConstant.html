@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Test if an atomic vector or array is constant</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for isConstant"><tr><td>isConstant</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Test if an atomic vector or array is constant</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Generic function to test if an atomic vector or array is constant or not.
+ Currently only methods for vectors or arrays of type integer or double
+ are implemented.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ isConstant(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ 
+ <p>An atomic vector or array.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Vectors of length 0 or 1 are always considered to be constant.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A single logical i.e. <code>TRUE</code>, <code>FALSE</code> or <code>NA</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>H. Pages</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>duplicated</code>,
+ <code>unique</code>,
+ <code>all.equal</code>,
+ <code>NA</code>,
+ <code>is.finite</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   ## ---------------------------------------------------------------------
+   ## A. METHOD FOR integer VECTORS
+   ## ---------------------------------------------------------------------
+ 
+   ## On a vector with no NAs:
+   stopifnot(isConstant(rep(-29L, 10000)))
+ 
+   ## On a vector with NAs:
+   stopifnot(!isConstant(c(0L, NA, -29L)))
+   stopifnot(is.na(isConstant(c(-29L, -29L, NA))))
+  
+   ## On a vector of length &lt;= 1:
+   stopifnot(isConstant(NA_integer_))
+ 
+ 
+   ## ---------------------------------------------------------------------
+   ## B. METHOD FOR numeric VECTORS
+   ## ---------------------------------------------------------------------
+   ## This method does its best to handle rounding errors and special
+   ## values NA, NaN, Inf and -Inf in a way that "makes sense".
+   ## Below we only illustrate handling of rounding errors.
+ 
+   ## Here values in 'x' are "conceptually" the same:
+   x &lt;- c(11/3,
+          2/3 + 4/3 + 5/3,
+          50 + 11/3 - 50,
+          7.00001 - 1000003/300000)
+   ## However, due to machine rounding errors, they are not *strictly*
+   ## equal:
+   duplicated(x)
+   unique(x)
+   ## only *nearly* equal:
+   all.equal(x, rep(11/3, 4))  # TRUE
+ 
+   ## 'isConstant(x)' uses 'all.equal()' internally to decide whether
+   ## the values in 'x' are all the same or not:
+   stopifnot(isConstant(x))
+ 
+   ## This is not perfect though:
+   isConstant((x - 11/3) * 1e8)  # FALSE on Intel Pentium paltforms
+                                 # (but this is highly machine dependent!)
+ </pre>
+ 
+ 
+ </body></html>

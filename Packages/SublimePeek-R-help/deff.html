@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Design Effect and Intra-cluster Correlation</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for deff"><tr><td>deff</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Design Effect and Intra-cluster Correlation
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Computes the Kish design effect and corresponding intra-cluster correlation
+ for a single cluster-sampled variable
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ deff(y, cluster)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ 
+ <p>variable to analyze
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>cluster</code></td>
+ <td>
+ 
+ <p>a variable whose unique values indicate cluster membership.  Any
+ type of variable is allowed.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a vector with named elements <code>n</code> (total number of non-missing
+ observations), <code>clusters</code> (number of clusters after deleting
+ missing data), <code>rho</code>(intra-cluster correlation), and <code>deff</code>
+ (design effect).
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Frank Harrell
+ <br>
+ Department of Biostatistics
+ <br>
+ Vanderbilt University
+ <br>
+ <a href="mailto:f.harrell@vanderbilt.edu">f.harrell@vanderbilt.edu</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>bootcov</code>, <code>robcov</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ set.seed(1)
+ blood.pressure &lt;- rnorm(1000, 120, 15)
+ clinic &lt;- sample(letters, 1000, replace=TRUE)
+ deff(blood.pressure, clinic)
+ </pre>
+ 
+ 
+ </body></html>

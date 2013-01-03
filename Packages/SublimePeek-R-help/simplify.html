@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Applying over spaces</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for rdapply"><tr><td>rdapply</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Applying over spaces</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>The <code>rdapply</code> function applies a user function over
+ the spaces of a <code>RangedData</code>. The parameters to
+ <code>rdapply</code> are collected into an instance of <code>RDApplyParams</code>,
+ which is passed as the sole parameter to <code>rdapply</code>.</p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ rdapply(x, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>The <code>RDApplyParams</code> instance, see below for how to
+ make one.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Additional arguments for methods</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The <code>rdapply</code> function is an attempt to facilitate the common
+ operation of performing the same operation over each space
+ (e.g. chromosome) in a <code>RangedData</code>. To facilitate a wide array
+ of such tasks, the function takes a large number of options. The
+ <code>RDApplyParams</code> class is meant to help manage this
+ complexity. In particular, it facilitates experimentation through its
+ support for incremental changes to parameter settings.
+ </p>
+ <p>There are two <code>RangedData</code> settings that are required: the
+ user <code>function</code> object and the <code>RangedData</code> over which it is
+ applied. The rest of the settings determine what is actually passed to
+ the user function and how the return value is processed before
+ relaying it to the user. The following is the description and
+ rationale for each setting.
+ </p>
+ 
+ <dl>
+ <dt><code>rangedData</code></dt><dd><p><STRONG>REQUIRED</STRONG>.
+ The <code>RangedData</code> instance over which <code>applyFun</code> is
+ applied. 
+ </p>
+ </dd>
+ <dt><code>applyFun</code></dt><dd><p><STRONG>REQUIRED</STRONG>.
+ The user <code>function</code> to be applied to each space in the
+ <code>RangedData</code>. The function must expect the <code>RangedData</code> as its
+ first parameter and also accept the parameters specified in
+ <code>applyParams</code>.
+ </p>
+ </dd>
+ <dt><code>applyParams</code></dt><dd>
+ <p>The <code>list</code> of additional parameters to pass to
+ <code>applyFun</code>. Usually empty.
+ </p>
+ </dd>
+ <dt><code>filterRules</code></dt><dd>
+ <p>The instance of <code>FilterRules</code> that is used to
+ filter each subset of the <code>RangedData</code> passed to the user
+ function. This is an efficient and convenient means for performing
+ the same operation over different subsets of the data on a
+ space-by-space basis. In particular, this avoids the need to store
+ subsets of the entire <code>RangedData</code>. A common workflow is to
+ invoke <code>rdapply</code> with one set of active filters, enable
+ different filters, reinvoke <code>rdapply</code>, and compare the
+ results.
+ </p>
+ </dd>
+ <dt><code>simplify</code></dt><dd>
+ <p>A scalar logical (<code>TRUE</code> or <code>FALSE</code>) indicating whether
+ the <code>list</code> to be returned from <code>rdapply</code> should be
+ simplified as by <code>sapply</code>. Defaults to <code>FALSE</code>.
+ </p>
+ </dd>
+ <dt><code>reducerFun</code></dt><dd>
+ <p>The <code>function</code> that is used to convert the <code>list</code> that
+ would otherwise be returned from <code>rdapply</code> to something more
+ convenient. The function should take the list as its first
+ parameter and also accept the parameters specified in
+ <code>reducerParams</code>. This is an alternative to the
+ primitive behavior of the <code>simplify</code> option (so
+ <code>simplify</code> must be <code>FALSE</code> if this option is set). The
+ aim is to orthogonalize the <code>applyFun</code> operation (i.e. the
+ statistics) from the data structure of the result.
+ </p>
+ </dd>
+ <dt><code>reducerParams</code></dt><dd>
+ <p>A <code>list</code> of additional parameters to pass to <code>reducerFun</code>.
+ Can only be set if <code>reducerFun</code> is set. Usually empty.
+ </p>
+ </dd>
+ <dt><code>iteratorFun</code></dt><dd>
+ <p>The function used for applying over the <code>RangedData</code>. By
+ default, this is <code>lapply</code>, but it could also be a specialized
+ function, like <code>mclapply</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>By default a <code>list</code> holding the result of each invocation of the
+ user function, but see details.
+ </p>
+ 
+ 
+ <h3>Constructing an RDApplyParams object</h3>
+ 
+ 
+ 
+ <dl>
+ <dt></dt><dd><p><code>RDApplyParams(rangedData, applyFun, applyParams,
+         filterRules, simplify, reducerFun, reducerParams)</code>:
+ Constructs a <code>RDApplyParams</code> object with each setting
+ specified by the argument of the same name. See the Details section
+ for more information.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Accessors</h3>
+ 
+ 
+ <p>In the following code snippets, <code>x</code> is an <code>RDApplyParams</code>
+ object.
+ </p>
+ 
+ <dl>
+ <dt></dt><dd><p><code>rangedData(x)</code>, <code>rangedData(x) &lt;- value</code>: Get or set the
+ <code>RangedData</code> instance over which <code>applyFun</code> is applied.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>applyFun(x)</code>, <code>applyFun(x) &lt;- value</code>: Get or set the user
+ <code>function</code> to be applied to each space in the <code>RangedData</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>applyParams(x)</code>, <code>applyParams(x) &lt;- value</code>: Get
+ or set the <code>list</code> of additional parameters to pass to
+ <code>applyFun</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>filterRules(x)</code>, <code>filterRules(x) &lt;- value</code>: Get
+ or set the instance of <code>FilterRules</code> that is used to
+ filter each subset of the <code>RangedData</code> passed to the user
+ function. 
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>simplify(x)</code>, <code>simplify(x) &lt;- value</code>: Get or set a
+ a scalar logical (<code>TRUE</code> or <code>FALSE</code>) indicating whether
+ the <code>list</code> to be returned from <code>rdapply</code> should be
+ simplified as by <code>sapply</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>reducerFun(x)</code>, <code>reducerFun(x) &lt;- value</code>: Get or set the
+ <code>function</code> that is used to convert the <code>list</code> that would
+ otherwise be returned from <code>rdapply</code> to something more convenient.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>reducerParams(x)</code>, <code>reducerParams(x) &lt;- value</code>:
+ Get or set a <code>list</code> of additional parameters to pass to
+ <code>reducerFun</code>.
+ </p>
+ </dd>
+ <dt></dt><dd><p><code>iteratorFun(x)</code>, <code>iteratorFun(x) &lt;- value</code>:
+ Get or set the function used for applying over the <code>RangedData</code>.
+ </p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Michael Lawrence</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>RangedData</code>, <code>FilterRules</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+   ranges &lt;- IRanges(c(1,2,3),c(4,5,6))
+   score &lt;- c(2L, 0L, 1L)
+   rd &lt;- RangedData(ranges, score, space = c("chr1","chr2","chr1"))
+   
+   ## a single function
+   countrows &lt;- function(rd) nrow(rd)
+   params &lt;- RDApplyParams(rd, countrows)
+   rdapply(params) # list(chr1 = 2L, chr2 = 1L)
+ 
+   ## with a parameter
+   params &lt;- RDApplyParams(rd, function(rd, x) nrow(rd)*x, list(x = 2))
+   rdapply(params) # list(chr1 = 4L, chr2 = 2L)
+ 
+   ## add a filter
+   cutoff &lt;- 0
+   rules &lt;- FilterRules(filter = score &gt; cutoff)
+   params &lt;- RDApplyParams(rd, countrows, filterRules = rules)
+   rdapply(params) # list(chr1 = 2L, chr2 = 0L)
+   rules &lt;- FilterRules(list(fun = function(rd) rd[["score"]] &lt; 2),
+                        filter = score &gt; cutoff)
+   params &lt;- RDApplyParams(rd, countrows, filterRules = rules)
+   rdapply(params) # list(chr1 = 1L, chr2 = 0L)
+   active(filterRules(params))["filter"] &lt;- FALSE
+   rdapply(params) # list(chr1 = 1L, chr2 = 1L)
+ 
+   ## simplify
+   params &lt;- RDApplyParams(rd, countrows, simplify = TRUE)
+   rdapply(params) # c(chr1 = 2L, chr2 = 1L)
+ 
+   ## reducing
+   params &lt;- RDApplyParams(rd, countrows, reducerFun = unlist,
+                           reducerParams = list(use.names = FALSE))
+   rdapply(params) ## c(2L, 1L)
+ </pre>
+ 
+ 
+ </body></html>
